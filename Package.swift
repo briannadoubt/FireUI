@@ -74,32 +74,7 @@ let package = Package(
                     )
                 ),
                 .product(
-                    name: "FirebaseDatabaseSwift-Beta",
-                    package: "Firebase"
-                ),
-                .product(
-                    name: "FirebaseDynamicLinks",
-                    package: "Firebase",
-                    condition: .when(
-                        platforms: [.iOS, .macOS]
-                    )
-                ),
-                .product(
                     name: "FirebaseFirestoreSwift-Beta",
-                    package: "Firebase",
-                    condition: .when(
-                        platforms: [.iOS, .macOS]
-                    )
-                ),
-                .product(
-                    name: "FirebaseFunctions",
-                    package: "Firebase",
-                    condition: .when(
-                        platforms: [.iOS, .macOS]
-                    )
-                ),
-                .product(
-                    name: "FirebaseInAppMessagingSwift-Beta",
                     package: "Firebase",
                     condition: .when(
                         platforms: [.iOS, .macOS]
@@ -113,47 +88,26 @@ let package = Package(
                     )
                 ),
                 .product(
-                    name: "FirebaseMessaging",
-                    package: "Firebase",
-                    condition: .when(
-                        platforms: [.iOS, .macOS]
-                    )
-                ),
-                .product(
                     name: "FirebasePerformance",
-                    package: "Firebase",
-                    condition: .when(
-                        platforms: [.iOS, .macOS]
-                    )
-                ),
-                .product(
-                    name: "FirebaseRemoteConfig",
-                    package: "Firebase",
-                    condition: .when(
-                        platforms: [.iOS, .macOS]
-                    )
-                ),
-                .product(
-                    name: "FirebaseStorageSwift-Beta",
                     package: "Firebase",
                     condition: .when(
                         platforms: [.iOS, .macOS]
                     )
                 )
             ]
-        )//,
-//        .testTarget(
-//            name: "FireUITests",
-//            dependencies: [
-//                "FireUI",
-//                .product(
-//                    name: "FirebaseAuth",
-//                    package: "Firebase",
-//                    condition: .when(
-//                        platforms: [.iOS, .macOS]
-//                    )
-//                ),
-//            ]
-//        ),
+        ),
+        .testTarget(
+            name: "FireUITests",
+            dependencies: [
+                "FireUI",
+                .product(
+                    name: "FirebaseAuth",
+                    package: "Firebase",
+                    condition: .when(
+                        platforms: [.iOS, .macOS]
+                    )
+                ),
+            ]
+        ),
     ]
 )
