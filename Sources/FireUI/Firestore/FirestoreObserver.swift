@@ -1,6 +1,6 @@
 //
 //  FirestoreObserver.swift
-//  Affirmate
+//  FireUI
 //
 //  Created by Brianna Lee on 4/27/21.
 //
@@ -8,7 +8,6 @@
 import SwiftUI
 import Firebase
 
-@available(iOS 13.0, *)
 public struct FirestoreObserver: ViewModifier {
 
     private var observers: [FirestoreObservable]?

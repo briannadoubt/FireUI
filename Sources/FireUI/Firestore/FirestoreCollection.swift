@@ -1,6 +1,6 @@
 //
 //  FirestoreCollection.swift
-//  Phi
+//  FireUI
 //
 //  Created by Brianna Lee on 10/15/20.
 //
@@ -11,7 +11,6 @@ import FirebaseFirestoreSwift
 
 typealias CollectionPath = String
 
-@available(iOS 13.0, *)
 class FirestoreCollection<T: FirestoreCodable>: ObservableObject, FirestoreObservable {
 
     @Published var collection: [T] = []

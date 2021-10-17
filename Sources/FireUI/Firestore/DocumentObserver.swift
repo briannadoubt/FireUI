@@ -1,13 +1,12 @@
 //
 //  DocumentObserver.swift
-//  Twerking Girl
+//  FireUI
 //
-//  Created by Brianna Zamora on 10/11/21.
+//  Created by Brianna Doubt on 10/11/21.
 //
 
 import SwiftUI
 
-@available(iOS 13.0, *)
 struct DocumentObserver<Document: FirestoreCodable>: ViewModifier {
     
     @ObservedObject private var document: FirestoreDocument<Document>
@@ -23,7 +22,6 @@ struct DocumentObserver<Document: FirestoreCodable>: ViewModifier {
     }
 }
 
-@available(iOS 13.0, *)
 extension View {
     func observe<Document: FirestoreCodable>(collection: String, id: String, newValue: @escaping (_ newValue: Document) -> ()) -> some View {
         modifier(DocumentObserver<Document>(collection: collection, id: id, newValue: newValue))

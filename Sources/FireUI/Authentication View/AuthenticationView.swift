@@ -8,7 +8,6 @@
 import SwiftUI
 import Firebase
 
-@available(iOS 13.0, *)
 public struct AuthenticationView<Human: Person>: View  {
     
     public init(

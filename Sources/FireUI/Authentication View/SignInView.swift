@@ -1,6 +1,6 @@
 //
 //  LoginView.swift
-//  iOS
+//  FireUI
 //
 //  Created by Brianna Lee on 8/29/20.
 //
@@ -9,7 +9,6 @@ import SwiftUI
 import AuthenticationServices
 import Firebase
 
-@available(iOS 14.0, *)
 struct SignInView: View {
 
     var namespace: Namespace.ID

@@ -1,6 +1,6 @@
 //
 //  AuthenticationViewState.swift
-//  Phi
+//  FireUI
 //
 //  Created by Brianna Lee on 10/27/20.
 //

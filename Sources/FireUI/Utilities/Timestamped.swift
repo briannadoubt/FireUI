@@ -1,8 +1,8 @@
 //
 //  Timestamped.swift
-//  Twerking Girl
+//  FireUI
 //
-//  Created by Brianna Zamora on 10/10/21.
+//  Created by Brianna Doubt on 10/10/21.
 //
 
 import Foundation

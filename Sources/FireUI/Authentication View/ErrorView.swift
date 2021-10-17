@@ -1,6 +1,6 @@
 //
 //  ErrorView.swift
-//  meditationlife
+//  FireUI
 //
 //  Created by Brianna Lee on 10/9/20.
 //
@@ -13,7 +13,6 @@ enum ErrorType {
     case warning
 }
 
-@available(iOS 13.0, *)
 struct ErrorView: View {
 
     @Binding var error: Error?

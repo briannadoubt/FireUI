@@ -1,6 +1,6 @@
 //
 //  SignUpView.swift
-//  iOS
+//  FireUI
 //
 //  Created by Brianna Lee on 8/29/20.
 //

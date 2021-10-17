@@ -1,6 +1,6 @@
 //
 //  FirestoreDocument.swift
-//  Phi
+//  FireUI
 //
 //  Created by Brianna Lee on 10/15/20.
 //
@@ -13,10 +13,9 @@ import SwiftUI
 public typealias DocumentPath = String
 
 /// A generic 
-@available(iOS 15.0.0, *)
 public class FirestoreDocument<T: FirestoreCodable>: ObservableObject, FirestoreObservable {
     
-    var lazyDocument: T {
+    public var lazyDocument: T {
         get async throws {
             print(id ?? "No ID")
             let reference = id == nil ? database.collection(collection).document() : database.collection(collection).document(id!)
@@ -26,7 +25,7 @@ public class FirestoreDocument<T: FirestoreCodable>: ObservableObject, Firestore
             return document
         }
     }
-    @Published var publishedDocument: T? = nil
+    @Published public var publishedDocument: T? = nil
 
     private var collection: String
     private var id: String?
@@ -43,13 +42,13 @@ public class FirestoreDocument<T: FirestoreCodable>: ObservableObject, Firestore
         listener?.remove()
     }
 
-    internal func removeListener() {
+    public func removeListener() {
         if let listener = listener {
             listener.remove()
         }
     }
 
-    internal func setListener() async throws {
+    public func setListener() async throws {
         let document = id == nil ? database.collection(collection).document() : database.collection(collection).document(id!)
         return try await withCheckedThrowingContinuation { continuation in
             listener = document.addSnapshotListener { snapshot, error in

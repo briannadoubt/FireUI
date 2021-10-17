@@ -1,6 +1,6 @@
 //
 //  ConfirmationButton.swift
-//  meditationlife
+//  FireUI
 //
 //  Created by Brianna Lee on 10/9/20.
 //

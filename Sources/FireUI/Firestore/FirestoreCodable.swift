@@ -2,18 +2,16 @@
 //  FirebaseObservable.swift
 //  Pods
 //
-//  Created by Brianna Zamora on 9/7/20.
+//  Created by Brianna Doubt on 9/7/20.
 //
 
 import Firebase
 
-@available(iOS 13, *)
 public protocol FirestoreCodable: Identifiable, Codable, Hashable, Timestamped {
     var id: String? { get set }
     func basePath() -> String
 }
 
-@available(iOS 15.0.0, *)
 extension FirestoreCodable {
     
     /// Save the current state of `self` to Firestore with the path `self.basePath() + "/" + self.id`
@@ -43,7 +41,6 @@ extension FirestoreCodable {
     }
 }
 
-@available(iOS 13, *)
 extension FirestoreCodable {
     
     private func defaultPath() -> String? {
