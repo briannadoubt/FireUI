@@ -1,6 +1,6 @@
 //
 //  FireUIError.swift
-//  FirebaseUI
+//  FireUI
 //
 //  Created by Brianna Lee on 10/15/20.
 //
