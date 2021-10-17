@@ -1,12 +1,47 @@
 //
 //  DemoPerson.swift
-//  FireUIDemo
+//  FireUI
 //
-//  Created by Bri on 10/16/21.
+//  Created by Brianna Doubt on 10/16/21.
 //
 
 import SwiftUI
 import FirebaseFirestoreSwift
+
+struct DemoFireUIApp: App {
+    
+    func newPerson(uid: String, email: String, nickname: String) -> DemoPerson {
+        // Add your other initial custom models as needed here
+        return DemoPerson(
+            id: uid,
+            nickname: nickname,
+            role: DemoRole.test,
+            email: email,
+            created: Date(),
+            updated: Date()
+        )
+    }
+    
+    var body: some Scene {
+        WindowGroup {
+            Client(personBasePath: "users") {
+                AuthenticationView(
+                    image: { Image(systemName: "sparkles") },
+                    newPerson: newPerson,
+                    footer: { Text("FireUI Demo") })
+            } content: {
+                DemoContentView()
+            }
+        }
+    }
+}
+
+struct DemoContentView: View {
+    var body: some View {
+        Text("Hello, World!")
+            .padding()
+    }
+}
 
 struct DemoPerson: Person {
     
@@ -36,11 +71,4 @@ enum DemoRole: String, PersonRole {
     case test
     var id: String { rawValue }
     var title: String { rawValue.localizedCapitalized }
-}
-
-struct DemoContentView: View {
-    var body: some View {
-        Text("Hello, World!")
-            .padding()
-    }
 }
