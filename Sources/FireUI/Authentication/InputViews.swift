@@ -1,13 +1,12 @@
 //
 //  InputViews.swift
-//  Twerking Girl
+//  FireUI
 //
-//  Created by Brianna Zamora on 10/11/21.
+//  Created by Brianna Doubt on 10/11/21.
 //
 
 import SwiftUI
 
-@available(iOS 15.0.0, *)
 struct SignOutButton: View {
     
     @EnvironmentObject var user: FirebaseUser
@@ -28,7 +27,6 @@ struct SignOutButton: View {
     }
 }
 
-@available(iOS 15.0.0, *)
 struct DeleteUserButton<Human: Person>: View {
     
     @EnvironmentObject var user: FirebaseUser
@@ -52,7 +50,6 @@ struct DeleteUserButton<Human: Person>: View {
     }
 }
 
-@available(iOS 15.0.0, *)
 struct SignInButton: View {
     
     var label: String
@@ -73,7 +70,6 @@ struct SignInButton: View {
     }
 }
 
-@available(iOS 15.0.0, *)
 struct SignUpButton<Human: Person>: View {
     
     var label: String
@@ -95,7 +91,6 @@ struct SignUpButton<Human: Person>: View {
     }
 }
 
-@available(iOS 15.0.0, *)
 struct PasswordInput: View {
 
     @Binding var password: String
@@ -124,7 +119,6 @@ struct VerifyPasswordInput: View {
     }
 }
 
-@available(iOS 15.0.0, *)
 struct EmailInput: View {
 
     @Binding var email: String
@@ -147,7 +141,6 @@ struct EmailInput: View {
     }
 }
 
-@available(iOS 15.0.0, *)
 struct NicknameInput: View {
 
     @Binding var nickname: String
