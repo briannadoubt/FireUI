@@ -17,7 +17,7 @@ When observing the auth state it is a common pattern to create a collection for 
 
 There are two models that are necessary for you to create:
  1. A struct that conforms to `Person`
- ```
+ ```swift
 struct DemoPerson: Person {
     
     @DocumentID var id: PersonID?
@@ -43,7 +43,7 @@ struct DemoPerson: Person {
 }
 ```
  2. An enumeration that conforms to `PersonRole` 
-```
+```swift
 enum DemoRole: String, PersonRole {
     case test
     var id: String { rawValue }
@@ -63,13 +63,14 @@ FireUI will handle instantiating Firebase (by calling `FirebaseApp.configure()`)
 
 The `FirebaseUser` instance is managed automatically when `.onFire(personType:)` is called:
 
-```
-ContentView().onFire(DemoPerson.self)
+```swift
+ContentView()
+    .onFire(DemoPerson.self)
 ```
 
 or when the `Client` class is instantiated (it's the same thing, really):
 
-```
+```swift
 Client<DemoPerson> {
     ContentView()
 }
@@ -77,7 +78,7 @@ Client<DemoPerson> {
 
 The `FirebaseUser` class also has an optional initializer parameter that allows for you to handle configuring Firebase manually. (Especially handy for Unit tests).
 
-```
+```swift
 final class FireUITests: XCTestCase {
     
     var user: FirebaseUser!
@@ -104,7 +105,7 @@ If you do not specify the Authentication view when instantiating your `Client` c
 
 If you would like to customize these components you can instantiate `Client` like the following:
 
-```
+```swift
 Client(personBasePath: "users") {
     AuthenticationView(
         image: { Image(systemName: "sparkles") },
@@ -132,7 +133,7 @@ Client(personBasePath: "users") {
 
 In order to read and write to Firestore you will need to create structs that reflect the data model. FireUI provides a `FirestoreCodable` protocol that, when conformed to, enables your `Codable` struct to be easily saved to Firestore.
 
-```
+```swift
 import SwiftUI
 import FireUI
 import FirebaseFirestoreSwift
@@ -158,7 +159,7 @@ As you design your app, you will inevitably want to download data to display to 
 
 Listen for real time updates on a collection using `FirestoreCollection`:
 
-```
+```swift
 struct ObjectsView: View {
     
 //    @StateObject var objects: FirestoreCollection<Object>
@@ -178,7 +179,7 @@ struct ObjectsView: View {
 
 Listen for real time updates on a document using `FirestoreDocument`:
 
-```
+```swift
 struct ObjectView: View {
  
 //    @StateObject var object: FirestoreDocument<Object>
@@ -202,7 +203,7 @@ struct ObjectView: View {
 
 Firestore Security Rules are incredibly flexible, but they can also be combersome to manage. Here is a template set of functions and parameters that can be used:
 
-```
+```javascript
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
