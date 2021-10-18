@@ -22,9 +22,9 @@ let package = Package(
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
         .package(
-            name: "Tokamak",
-            url: "https://github.com/TokamakUI/Tokamak.git",
-            .upToNextMajor(from: "0.0.0")
+            name: "SwiftWebUI",
+            url: "https://github.com/SwiftWebUI/SwiftWebUI.git",
+            .upToNextMajor(from: "0.3.0")
         ),
         .package(
             name: "Firebase",

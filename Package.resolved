@@ -74,15 +74,6 @@
         }
       },
       {
-        "package": "JavaScriptKit",
-        "repositoryURL": "https://github.com/swiftwasm/JavaScriptKit.git",
-        "state": {
-          "branch": null,
-          "revision": "b19e7c8b10a2750ed47753e31ed13613171f3294",
-          "version": "0.10.1"
-        }
-      },
-      {
         "package": "leveldb",
         "repositoryURL": "https://github.com/firebase/leveldb.git",
         "state": {
@@ -101,24 +92,6 @@
         }
       },
       {
-        "package": "OpenCombine",
-        "repositoryURL": "https://github.com/OpenCombine/OpenCombine.git",
-        "state": {
-          "branch": null,
-          "revision": "28993ae57de5a4ea7e164787636cafad442d568c",
-          "version": "0.12.0"
-        }
-      },
-      {
-        "package": "OpenCombineJS",
-        "repositoryURL": "https://github.com/swiftwasm/OpenCombineJS.git",
-        "state": {
-          "branch": null,
-          "revision": "eaf324ce78710f53b52fb82e9a8de4693633e33a",
-          "version": "0.1.1"
-        }
-      },
-      {
         "package": "Promises",
         "repositoryURL": "https://github.com/google/promises.git",
         "state": {
@@ -128,21 +101,30 @@
         }
       },
       {
-        "package": "swift-argument-parser",
-        "repositoryURL": "https://github.com/apple/swift-argument-parser",
+        "package": "Runtime",
+        "repositoryURL": "https://github.com/wickwirew/Runtime.git",
         "state": {
           "branch": null,
-          "revision": "6b2aa2748a7881eebb9f84fb10c01293e15b52ca",
-          "version": "0.5.0"
+          "revision": "a848b81e1a0100801f572e5273ffe4352fd54088",
+          "version": "2.2.2"
         }
       },
       {
-        "package": "Benchmark",
-        "repositoryURL": "https://github.com/google/swift-benchmark",
+        "package": "SemanticUI",
+        "repositoryURL": "https://github.com/SwiftWebResources/SemanticUI-Swift.git",
         "state": {
           "branch": null,
-          "revision": "a0564bf88df5f94eec81348a2f089494c6b28d80",
-          "version": "0.1.1"
+          "revision": "7397d062aeeb5ecce64389fecaca3b1e0fc9cacf",
+          "version": "2.4.2"
+        }
+      },
+      {
+        "package": "swift-nio",
+        "repositoryURL": "https://github.com/apple/swift-nio.git",
+        "state": {
+          "branch": null,
+          "revision": "6aa9347d9bc5bbfe6a84983aec955c17ffea96ef",
+          "version": "2.33.0"
         }
       },
       {
@@ -155,12 +137,12 @@
         }
       },
       {
-        "package": "Tokamak",
-        "repositoryURL": "https://github.com/TokamakUI/Tokamak.git",
+        "package": "SwiftWebUI",
+        "repositoryURL": "https://github.com/SwiftWebUI/SwiftWebUI.git",
         "state": {
           "branch": null,
-          "revision": "c2ed28ca40445b1b63bfdfe45de2507e5eb24a21",
-          "version": "0.8.0"
+          "revision": "18cbd100d360432cbc38142f8571176776953450",
+          "version": "0.3.0"
         }
       }
     ]
