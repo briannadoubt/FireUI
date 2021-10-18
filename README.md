@@ -16,7 +16,7 @@ A Firebase wrapper for SwiftUI
 When observing the auth state it is a common pattern to create a collection for the user's record, keyed by the the user id returned when Firebase successfully creates a new user. FireUI will handle creating, updating, and deleting a custom user model alongside the lifecycle of their associated Firebase User.
 
 There are two models that are necessary for you to create:
- * A struct that conforms to `Person`
+ 1. A struct that conforms to `Person`
  ```
 struct DemoPerson: Person {
     
@@ -42,7 +42,7 @@ struct DemoPerson: Person {
     }
 }
 ```
- * An enumeration that conforms to `PersonRole` 
+ 2. An enumeration that conforms to `PersonRole` 
 ```
 enum DemoRole: String, PersonRole {
     case test
