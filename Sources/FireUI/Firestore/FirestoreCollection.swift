@@ -9,25 +9,25 @@ import Foundation
 import Firebase
 import FirebaseFirestoreSwift
 
-typealias CollectionPath = String
+public typealias CollectionPath = String
 
-class FirestoreCollection<T: FirestoreCodable>: ObservableObject, FirestoreObservable {
+public class FirestoreCollection<T: FirestoreCodable>: ObservableObject, FirestoreObservable {
 
-    @Published var collection: [T] = []
-    @Published var error: Error?
+    @Published public var collection: [T] = []
+    @Published public var error: Error?
     
-    var listener: ListenerRegistration?
+    internal var listener: ListenerRegistration?
     
     private var path: String
     private var whereField: String?
     private var isEqualTo: Any?
     private var database = Firestore.firestore()
 
-    init(_ path: String) {
+    public init(_ path: String) {
         self.path = path
     }
     
-    init(_ path: String, whereField: String, isEqualTo: Any) {
+    public init(_ path: String, whereField: String, isEqualTo: Any) {
         self.path = path
         self.whereField = whereField
         self.isEqualTo = isEqualTo
@@ -52,7 +52,7 @@ class FirestoreCollection<T: FirestoreCodable>: ObservableObject, FirestoreObser
         }
     }
 
-    func setListener() {
+    public func setListener() {
         var query: Query
         let collection = database.collection(path)
         if let field = whereField, let value = isEqualTo {

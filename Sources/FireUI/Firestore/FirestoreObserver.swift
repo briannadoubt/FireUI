@@ -8,16 +8,30 @@
 import SwiftUI
 import Firebase
 
+protocol FirestoreObservable {
+    public var listener: ListenerRegistration? { get set }
+    public func setListener() async throws
+}
+
+extension View {
+    public func observe(_ observers: [FirestoreObservable]) -> Self {
+        modifier(FirestoreObserver(observers: observers))
+    }
+    public func observe(_ observer: FirestoreObservable) -> Self {
+        modifier(FirestoreObserver(observer: observer))
+    }
+}
+
 public struct FirestoreObserver: ViewModifier {
 
     private var observers: [FirestoreObservable]?
     private var observer: FirestoreObservable?
     
-    init(observers: [FirestoreObservable]) {
+    public init(observers: [FirestoreObservable]) {
         self.observers = observers
     }
     
-    init(observer: FirestoreObservable) {
+    public init(observer: FirestoreObservable) {
         self.observer = observer
     }
     
@@ -49,19 +63,5 @@ public struct FirestoreObserver: ViewModifier {
             return
         }
         try await observer.setListener()
-    }
-}
-
-protocol FirestoreObservable {
-    var listener: ListenerRegistration? { get set }
-    func setListener() async throws
-}
-
-extension View {
-    func observe(_ observers: [FirestoreObservable]) -> some View {
-        modifier(FirestoreObserver(observers: observers))
-    }
-    func observe(_ observer: FirestoreObservable) -> some View {
-        modifier(FirestoreObserver(observer: observer))
     }
 }
