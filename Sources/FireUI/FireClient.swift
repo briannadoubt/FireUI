@@ -10,11 +10,7 @@ import FirebaseFirestoreSwift
 #if os(WASI)
 import SwiftWebUI
 #else
-#if os(WASI)
-import SwiftWebUI
-#else
 import SwiftUI
-#endif
 #endif
 
 public struct FireClient<Human: Person>: ViewModifier {
