@@ -11,7 +11,7 @@ import SwiftUI
 
 public class FirebaseUser: ObservableObject, FirestoreObservable {
 
-    @Published public var isAuthenticated: Bool = false
+    @Published public var isAuthenticated: Bool = true
     @Published public var uid: String?
     
     @Published public var nickname = ""
