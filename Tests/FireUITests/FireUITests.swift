@@ -26,7 +26,9 @@ final class FireUITests: XCTestCase {
         firestoreSettings.isSSLEnabled = false
         Firestore.firestore().settings = firestoreSettings
         
-        user = FirebaseUser(basePath: "users")
+        Auth.auth().useEmulator(withHost: "localhost", port: 9099)
+        
+        user =  FirebaseUser(basePath: "users", initialize: false)
     }
 
     func testSetUp() throws { }
