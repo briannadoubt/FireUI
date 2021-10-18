@@ -27,8 +27,8 @@ public struct Client<Human: Person, Content: View>: View {
 
     @StateObject public var user: FirebaseUser
     
-    let contentView: (_ uid: String) -> FireContentView<Human, Content>
-    let authenticationView: AuthenticationView<Human>
+    private let contentView: (_ uid: String) -> FireContentView<Human, Content>
+    private let authenticationView: AuthenticationView<Human>
     
     public init(
         personBasePath: String = "users",
@@ -59,12 +59,14 @@ public struct Client<Human: Person, Content: View>: View {
             }
         }
         .accentColor(Color("AccentColor"))
+        #if os(iOS)
         .tint(Color("AccentColor"))
+        #endif
     }
 }
 
 extension Bundle {
-    var displayName: String? {
+    public var displayName: String? {
         return object(forInfoDictionaryKey: "CFBundleDisplayName") as? String
     }
 }
