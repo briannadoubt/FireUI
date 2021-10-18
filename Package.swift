@@ -1,4 +1,4 @@
-//  swift-tools-version:5.4
+//  swift-tools-version:5.5
 //
 //  Package.swift
 //  FireUI
@@ -20,12 +20,6 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        // .package(url: /* package url */, from: "1.0.0"),
-        .package(
-            name: "SwiftWebUI",
-            url: "https://github.com/SwiftWebUI/SwiftWebUI.git",
-            .upToNextMajor(from: "0.3.0")
-        ),
         .package(
             name: "Firebase",
             url: "https://github.com/firebase/firebase-ios-sdk.git",

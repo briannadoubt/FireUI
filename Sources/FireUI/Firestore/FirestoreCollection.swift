@@ -16,7 +16,7 @@ public class FirestoreCollection<T: FirestoreCodable>: ObservableObject, Firesto
     @Published public var collection: [T] = []
     @Published public var error: Error?
     
-    internal var listener: ListenerRegistration?
+    public var listener: ListenerRegistration?
     
     private var path: String
     private var whereField: String?

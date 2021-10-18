@@ -10,9 +10,20 @@ import Firebase
 
 public struct AuthenticationView<Human: Person>: View  {
     
+//    @available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *)
+//    public init(
+//        @ViewBuilder image: @escaping () -> Image = { Image(systemName: "circle") },
+//        asyncNewPerson: @escaping Human.AsyncNew = Human.new,
+//        @ViewBuilder footer: @escaping () -> Text = { Text("♥️") }
+//    ) {
+//        self.image = image
+//        self.asyncNewPerson = asyncNewPerson
+//        self.footer = footer
+//    }
+    
     public init(
         @ViewBuilder image: @escaping () -> Image = { Image(systemName: "circle") },
-        newPerson: @escaping (_ uid: String, _ email: String, _ nickname: String) async throws -> Human = Human.new,
+        newPerson: @escaping Human.New = Human.new,
         @ViewBuilder footer: @escaping () -> Text = { Text("♥️") }
     ) {
         self.image = image
@@ -21,7 +32,12 @@ public struct AuthenticationView<Human: Person>: View  {
     }
     
     @ViewBuilder private var image: () -> Image
-    private var newPerson: (_ uid: String, _ email: String, _ nickname: String) async throws -> Human
+    
+    
+//    private var asyncNewPerson: (_ uid: String, _ email: String, _ nickname: String) async throws -> Human = Human.new
+    
+    private var newPerson: (_ uid: String, _ email: String, _ nickname: String) -> Human = Human.new
+    
     @ViewBuilder private var footer: () -> Text
     
     @State private var viewState: AuthenticationViewState = .signIn
@@ -68,6 +84,7 @@ public struct AuthenticationView<Human: Person>: View  {
                                         verifyPassword: $user.verifyPassword,
                                         error: $error,
                                         authViewState: $viewState,
+//                                        asyncNewPerson: asyncNewPerson,
                                         newPerson: newPerson,
                                         changeAuthMethod: changeAuthMethod
                                     )
@@ -123,7 +140,7 @@ public struct AuthenticationView<Human: Person>: View  {
                     }
                 }
                 .accentColor(Color("AccentColor"))
-                .tint(Color("AccentColor"))
+//                .tint(Color("AccentColor"))
             }
             .onAppear {
                 withAnimation(Animation.linear.delay(0.5)) {

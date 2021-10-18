@@ -9,7 +9,7 @@ import SwiftUI
 
 public struct FirestoreDocumentView<Content: View, Document: FirestoreCodable>: View {
  
-    @ObservableObject public var document: FirestoreDocument<Document>
+    @ObservedObject public var document: FirestoreDocument<Document>
     
     let content: Content
     
@@ -25,26 +25,19 @@ public struct FirestoreDocumentView<Content: View, Document: FirestoreCodable>: 
     }
 }
 
-public struct LazyFirestoreDocumentView: View {
+public struct LazyFirestoreDocumentView<Content: View, Document: FirestoreCodable>: View {
     
-    @StateObject public var object: FirestoreDocument<Object>
+    @StateObject public var document: FirestoreDocument<Document>
     
-    public init(_ collection: String, _ id: String) {
-        object = StateObject(wrappedValue: FirestoreDocument(collection: collection, id: id))
+    let content: Content
+    
+    public init(_ collection: String, _ id: String, @ViewBuilder content: @escaping () -> Content) {
+        _document = StateObject(wrappedValue: FirestoreDocument(collection: collection, id: id))
+        self.content = content()
     }
     
     public var body: some View {
-        NavigationView {
-            Text(object.document?.text ?? "")
-                .observe(object) { newValue in
-                    
-                }
-        }
-    }
-}
-
-struct FirestoreDocumentView_Previews: PreviewProvider {
-    static var previews: some View {
-        FirestoreDocumentView()
+        content
+            .observe(document)
     }
 }

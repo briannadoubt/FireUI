@@ -21,6 +21,13 @@ public protocol Person: FirestoreCodable {
     static func new(uid: PersonID, email: String, nickname: String) -> Self
 }
 
+public extension Person {
+    
+    typealias New = (_ uid: String, _ email: String, _ nickname: String) -> Self
+//    typealias AsyncNew = (_ uid: String, _ email: String, _ nickname: String) async throws -> Self
+    
+}
+
 /// The role of the person
 public protocol PersonRole: Hashable, Identifiable, CaseIterable, Codable {
     var id: String { get }

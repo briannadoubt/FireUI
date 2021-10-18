@@ -22,7 +22,9 @@ struct SignUpView<Human: Person>: View {
     
     @EnvironmentObject var user: FirebaseUser
 
-    var newPerson: (_ uid: String, _ email: String, _ nickname: String) async throws -> Human
+//    var asyncNewPerson: (_ uid: String, _ email: String, _ nickname: String) async throws -> Human
+    var newPerson: (_ uid: String, _ email: String, _ nickname: String) -> Human
+    
     var changeAuthMethod: (_ viewState: AuthenticationViewState) -> ()
 
     var body: some View {
@@ -31,7 +33,7 @@ struct SignUpView<Human: Person>: View {
             EmailInput(email: $email)
             PasswordInput(password: $password, namespace: namespace)
             VerifyPasswordInput(password: $verifyPassword, namespace: namespace)
-            SignUpButton<Human>(label: "Sign Up", error: $error, newPerson: newPerson)
+            SignUpButton<Human>(label: "Sign Up", error: $error)
         }
         .padding()
     }

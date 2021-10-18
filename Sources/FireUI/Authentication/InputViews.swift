@@ -14,7 +14,7 @@ struct SignOutButton: View {
     @Binding var error: Error?
     
     var body: some View {
-        Button(role: .destructive) {
+        Button {
             do {
                 try user.signOut()
             } catch {
@@ -35,15 +35,27 @@ struct DeleteUserButton<Human: Person>: View {
     @Binding var error: Error?
     
     var body: some View {
-        Button(role: .destructive) {
-            Task {
+        Button {
+//            if #available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *) {
+//                Task {
+//                    do {
+//                        try await user.delete(person: person.lazyDocument)
+//                    } catch {
+//                        print(error)
+//                        self.error = error
+//                    }
+//                }
+//            } else {
                 do {
-                    try await user.delete(person: person.lazyDocument)
+                    guard let personDocument = person.document else {
+                        throw FireUIError.userNotFound
+                    }
+                    try user.delete(person: personDocument)
                 } catch {
                     print(error)
                     self.error = error
                 }
-            }
+//            }
         } label: {
             Label("Delete Account", systemImage: "person.fill.xmark")
         }
@@ -59,13 +71,21 @@ struct SignInButton: View {
     
     var body: some View {
         ConfirmationButton(label: label) {
-            Task {
+//            if #available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *) {
+//                Task {
+//                    do {
+//                        try await user.signIn()
+//                    } catch {
+//                        self.error = error
+//                    }
+//                }
+//            } else {
                 do {
-                    try await user.signIn()
+                    try user.signIn()
                 } catch {
                     self.error = error
                 }
-            }
+//            }
         }
     }
 }
@@ -74,19 +94,35 @@ struct SignUpButton<Human: Person>: View {
     
     var label: String
     @Binding var error: Error?
-    var newPerson: (_ uid: PersonID, _ email: String, _ nickname: String) async throws -> Human
+    
+    
+//    var asyncNewPerson: (_ uid: PersonID, _ email: String, _ nickname: String) async throws -> Human {
+//        Human.new(uid:email:nickname:)
+//    }
+    
+    var newPerson: (_ uid: PersonID, _ email: String, _ nickname: String) -> Human {
+        Human.new(uid:email:nickname:)
+    }
     
     @EnvironmentObject var user: FirebaseUser
     
     var body: some View {
         ConfirmationButton(label: label) {
-            Task {
+//            if #available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *) {
+//                Task {
+//                    do {
+//                        try await user.signUp(newPerson: asyncNewPerson)
+//                    } catch {
+//                        self.error = error
+//                    }
+//                }
+//            } else {
                 do {
-                    try await user.signUp(newPerson: newPerson)
+                    try user.signUp(newPerson: newPerson)
                 } catch {
                     self.error = error
                 }
-            }
+//            }
         }
     }
 }
@@ -130,7 +166,7 @@ struct EmailInput: View {
     var body: some View {
         TextField(label, text: $email)
             .padding(8)
-            .autocapitalization(.none)
+//            .autocapitalization(.none)
 #if os(iOS)
             .keyboardType(.emailAddress)
             .textContentType(.emailAddress)
@@ -152,7 +188,7 @@ struct NicknameInput: View {
     var body: some View {
         TextField(label, text: $nickname)
             .padding(8)
-            .autocapitalization(.none)
+//            .autocapitalization(.none)
 #if os(iOS)
             .keyboardType(.emailAddress)
             .textContentType(.emailAddress)

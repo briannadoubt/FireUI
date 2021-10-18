@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-public struct FirestoreCollectionView<Content: View>: View {
+public struct FirestoreCollectionView<Content: View, Object: FirestoreCodable>: View {
  
-    @ObservableObject public var objects: FirestoreCollection<Object>
+    @ObservedObject public var objects: FirestoreCollection<Object>
     
     private let content: Content
     
@@ -23,24 +23,8 @@ public struct FirestoreCollectionView<Content: View>: View {
     }
 }
 
-public struct StaticFirestoreCollectionView: View {
-    
-    @StateObject public var objects: FirestoreCollection<Object>
-    
-    private let content: Content
-    
-    public init(_ path: String, @ViewBuilder content: @escaping () -> Content) {
-        objects = StateObject(wrappedValue: FirestoreCollection(path))
-        self.content = content()
-    }
-    
-    public var body: some View {
-        content
-    }
-}
-
-struct SwiftUIView_Previews: PreviewProvider {
-    static var previews: some View {
-        SwiftUIView()
-    }
-}
+//struct FirestoreCollectionView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FirestoreCollectionView()
+//    }
+//}

@@ -6,18 +6,23 @@
 //
 
 import SwiftUI
+import Combine
 import Firebase
 
-protocol FirestoreObservable {
-    public var listener: ListenerRegistration? { get set }
-    public func setListener() async throws
+public protocol FirestoreObservable {
+    var listener: ListenerRegistration? { get set }
+    
+//    @available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *)
+//    func setListener() async throws
+    
+    func setListener() throws
 }
 
 extension View {
-    public func observe(_ observers: [FirestoreObservable]) -> Self {
+    public func observe(_ observers: [FirestoreObservable]) -> some View {
         modifier(FirestoreObserver(observers: observers))
     }
-    public func observe(_ observer: FirestoreObservable) -> Self {
+    public func observe(_ observer: FirestoreObservable) -> some View {
         modifier(FirestoreObserver(observer: observer))
     }
 }
@@ -37,31 +42,56 @@ public struct FirestoreObserver: ViewModifier {
     
     public func body(content: Content) -> some View {
         content.onAppear {
-            Task {
+//            if #available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *) {
+//                Task {
+//                    do {
+//                        try await setObservers()
+//                    } catch {
+//                        print(error)
+//                    }
+//                }
+//            } else {
                 do {
-                    try await setObservers()
+                    try setObservers()
                 } catch {
                     print(error)
                 }
-            }
+//            }
         }
     }
     
-    private func setObservers() async throws {
+//    @available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *)
+//    private func setObservers() async throws {
+//        if let observers = observers {
+//            for observer in observers {
+//                try await setListener(on: observer)
+//            }
+//        }
+//        if let observer = observer {
+//            try await setListener(on: observer)
+//        }
+//    }
+    
+    private func setObservers() throws {
         if let observers = observers {
             for observer in observers {
-                try await setListener(on: observer)
+                try setListener(on: observer)
             }
-        }
-        if let observer = observer {
-            try await setListener(on: observer)
         }
     }
     
-    private func setListener(on observer: FirestoreObservable) async throws {
+//    @available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *)
+//    private func setListener(on observer: FirestoreObservable) async throws {
+//        guard observer.listener == nil else {
+//            return
+//        }
+//        try await observer.setListener()
+//    }
+    
+    private func setListener(on observer: FirestoreObservable) throws {
         guard observer.listener == nil else {
             return
         }
-        try await observer.setListener()
+        try observer.setListener()
     }
 }
