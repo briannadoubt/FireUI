@@ -1,4 +1,5 @@
 # FireUI
+[![Swift](https://github.com/briannadoubt/FireUI/actions/workflows/swift.yml/badge.svg)](https://github.com/briannadoubt/FireUI/actions/workflows/swift.yml)
 
 A Firebase wrapper for SwiftUI
 
