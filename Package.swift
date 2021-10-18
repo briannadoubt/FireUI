@@ -16,7 +16,7 @@ let package = Package(
         .library(
             name: "FireUI",
             targets: ["FireUI"]
-        ),
+        )
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -24,6 +24,11 @@ let package = Package(
             name: "Firebase",
             url: "https://github.com/firebase/firebase-ios-sdk.git",
             .upToNextMajor(from: "8.0.0")
+        ),
+        .package(
+            name: "SwiftWebUI",
+            url: "https://github.com/SwiftWebUI/SwiftWebUI.git",
+            .upToNextMajor(from: "0.3.0")
         )
     ],
     targets: [
@@ -34,18 +39,16 @@ let package = Package(
             dependencies: [
                 .product(
                     name: "FirebaseAuth",
-                    package: "Firebase",
-                    condition: .when(
-                        platforms: [.iOS, .macOS]
-                    )
+                    package: "Firebase"
                 ),
                 .product(
                     name: "FirebaseFirestoreSwift-Beta",
-                    package: "Firebase",
-                    condition: .when(
-                        platforms: [.iOS, .macOS]
-                    )
-                )
+                    package: "Firebase"
+                ),
+                .product(
+                    name: "SwiftWebUI",
+                    package: "SwiftWebUI", condition: TargetDependencyCondition.when(platforms: [.wasi])
+                ),
             ]
         ),
         .testTarget(
@@ -54,10 +57,7 @@ let package = Package(
                 "FireUI",
                 .product(
                     name: "FirebaseAuth",
-                    package: "Firebase",
-                    condition: .when(
-                        platforms: [.iOS, .macOS]
-                    )
+                    package: "Firebase"
                 ),
             ]
         ),
