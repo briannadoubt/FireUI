@@ -39,27 +39,6 @@ let package = Package(
             name: "FireUI",
             dependencies: [
                 .product(
-                    name: "FirebaseAnalyticsSwift-Beta",
-                    package: "Firebase",
-                    condition: .when(
-                        platforms: [.iOS]
-                    )
-                ),
-                .product(
-                    name: "FirebaseAppCheck",
-                    package: "Firebase",
-                    condition: .when(
-                        platforms: [.iOS, .macOS]
-                    )
-                ),
-                .product(
-                    name: "FirebaseAppDistribution-Beta",
-                    package: "Firebase",
-                    condition: .when(
-                        platforms: [.iOS, .macOS]
-                    )
-                ),
-                .product(
                     name: "FirebaseAuth",
                     package: "Firebase",
                     condition: .when(
@@ -68,20 +47,6 @@ let package = Package(
                 ),
                 .product(
                     name: "FirebaseFirestoreSwift-Beta",
-                    package: "Firebase",
-                    condition: .when(
-                        platforms: [.iOS, .macOS]
-                    )
-                ),
-                .product(
-                    name: "FirebaseInstallations",
-                    package: "Firebase",
-                    condition: .when(
-                        platforms: [.iOS, .macOS]
-                    )
-                ),
-                .product(
-                    name: "FirebasePerformance",
                     package: "Firebase",
                     condition: .when(
                         platforms: [.iOS, .macOS]
