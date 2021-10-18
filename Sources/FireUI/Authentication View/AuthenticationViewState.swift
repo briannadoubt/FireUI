@@ -6,7 +6,11 @@
 //
 
 import Foundation
+#if os(WASI)
+import SwiftWebUI
+#else
 import SwiftUI
+#endif
 
 enum AuthenticationViewState: String, CaseIterable, Identifiable {
 

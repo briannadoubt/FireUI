@@ -1,5 +1,9 @@
 import XCTest
+#if os(WASI)
+import SwiftWebUI
+#else
 import SwiftUI
+#endif
 import Firebase
 import FirebaseFirestoreSwift
 

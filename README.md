@@ -135,7 +135,11 @@ Client(personBasePath: "users") {
 In order to read and write to Firestore you will need to create structs that reflect the data model. FireUI provides a `FirestoreCodable` protocol that, when conformed to, enables your `Codable` struct to be easily saved to Firestore.
 
 ```swift
+#if os(WASI)
+import SwiftWebUI
+#else
 import SwiftUI
+#endif
 import FireUI
 import FirebaseFirestoreSwift
 

@@ -5,7 +5,11 @@
 //  Created by Brianna Lee on 8/29/20.
 //
 
+#if os(WASI)
+import SwiftWebUI
+#else
 import SwiftUI
+#endif
 import AuthenticationServices
 import Firebase
 

@@ -7,7 +7,11 @@
 
 import Foundation
 import Firebase
+#if os(WASI)
+import SwiftWebUI
+#else
 import SwiftUI
+#endif
 
 public class FirebaseUser: ObservableObject, FirestoreObservable {
 

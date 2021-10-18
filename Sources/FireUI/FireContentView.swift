@@ -5,7 +5,11 @@
 //  Created by Brianna Doubt on 10/15/21.
 //
 
+#if os(WASI)
+import SwiftWebUI
+#else
 import SwiftUI
+#endif
 
 public struct FireContentView<Human: Person, Content: View>: View {
     

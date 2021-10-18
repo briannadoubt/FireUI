@@ -5,7 +5,11 @@
 //  Created by Brianna Lee on 10/9/20.
 //
 
+#if os(WASI)
+import SwiftWebUI
+#else
 import SwiftUI
+#endif
 import Firebase
 
 enum ErrorType {

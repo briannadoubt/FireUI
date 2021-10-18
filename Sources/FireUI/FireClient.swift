@@ -5,9 +5,17 @@
 //  Created by Brianna Doubt on 10/9/21.
 //
 
-import SwiftUI
 import Firebase
 import FirebaseFirestoreSwift
+#if os(WASI)
+import SwiftWebUI
+#else
+#if os(WASI)
+import SwiftWebUI
+#else
+import SwiftUI
+#endif
+#endif
 
 public struct FireClient<Human: Person>: ViewModifier {
     public func body(content: Content) -> some View {

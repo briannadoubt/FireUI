@@ -5,7 +5,11 @@
 //  Created by Brianna Doubt on 10/16/21.
 //
 
+#if os(WASI)
+import SwiftWebUI
+#else
 import SwiftUI
+#endif
 import FirebaseFirestoreSwift
 
 struct DemoFireUIApp: App {

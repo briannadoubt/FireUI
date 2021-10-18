@@ -8,7 +8,11 @@
 import Foundation
 import Firebase
 import FirebaseFirestoreSwift   
+#if os(WASI)
+import SwiftWebUI
+#else
 import SwiftUI
+#endif
 
 public typealias DocumentPath = String
 
