@@ -8,8 +8,8 @@
 import Firebase
 
 public protocol FirestoreCodable: Identifiable, Codable, Hashable, Timestamped {
-    var id: String? { get set }
-    func basePath() -> String
+    public var id: String? { get set }
+    public func basePath() -> String
 }
 
 extension FirestoreCodable {
