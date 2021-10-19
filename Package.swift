@@ -29,9 +29,7 @@ let package = Package(
             name: "SwiftWebUI",
             url: "https://github.com/SwiftWebUI/SwiftWebUI.git",
             .upToNextMajor(from: "0.3.0")
-        ),
-        .package(name: "Just", url: "https://github.com/dduan/Just.git",  from: "0.8.0")
-
+        )
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -50,10 +48,6 @@ let package = Package(
                 .product(
                     name: "SwiftWebUI",
                     package: "SwiftWebUI", condition: TargetDependencyCondition.when(platforms: [.wasi])
-                ),
-                .product(
-                    name: "Just",
-                    package: "Just"
                 )
             ]
         ),
