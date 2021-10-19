@@ -30,7 +30,7 @@ let package = Package(
             url: "https://github.com/SwiftWebUI/SwiftWebUI.git",
             .upToNextMajor(from: "0.3.0")
         ),
-        .package(url: "https://github.com/dduan/Just.git",  from: "0.8.0")
+        .package(name: "Just", url: "https://github.com/dduan/Just.git",  from: "0.8.0")
 
     ],
     targets: [
@@ -51,6 +51,10 @@ let package = Package(
                     name: "SwiftWebUI",
                     package: "SwiftWebUI", condition: TargetDependencyCondition.when(platforms: [.wasi])
                 ),
+                .product(
+                    name: "Just",
+                    package: "Just"
+                )
             ]
         ),
         .testTarget(
