@@ -64,7 +64,7 @@ public struct Client<Human: Person, Content: View>: View {
         }
         .accentColor(Color("AccentColor"))
         #if os(iOS)
-        .tint(Color("AccentColor"))
+//        .tint(Color("AccentColor"))
         #endif
     }
 }
