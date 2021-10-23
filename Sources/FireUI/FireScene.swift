@@ -145,6 +145,13 @@ public struct FireScene<Content: View, AppState: FireState>: Scene {
         WindowGroup {
             content
                 .appStyle(selection: $state.selectedViewIdentifier, state: state)
+                .environmentObject(state)
+                #if !AppClip && os(iOS)
+                .environmentObject(store)
+                #endif
+                #if !AppClip && !Web
+                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                #endif
         }
         .onChange(of: scenePhase) { newScenePhase in
             do {
