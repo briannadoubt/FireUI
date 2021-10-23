@@ -13,9 +13,9 @@ import SwiftUI
 
 #if !AppClip
 import Firebase
-#if !os(watchOS)
-import FirebaseAppCheck
-#endif
+    #if !os(watchOS)
+    import FirebaseAppCheck
+    #endif
 #endif
 
 #if !AppClip && os(iOS)

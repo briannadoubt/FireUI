@@ -6,21 +6,10 @@
 //
 
 #if Web
+import Foundation
 import SwiftWebUI
 #else
 import SwiftUI
-#endif
-
-#if !AppClip
-import Firebase
-#if !os(watchOS)
-import FirebaseAppCheck
-#endif
-#endif
-
-#if !AppClip && os(iOS)
-import GoogleMobileAds
-import StoreKit
 #endif
 
 public protocol FireState: ObservableObject {
