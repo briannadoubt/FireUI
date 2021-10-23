@@ -35,7 +35,7 @@ public struct FireClient<Human: Person, Content: View>: View {
     private let authenticationView: AuthenticationView<Human>
     
     public init(
-        _ firebaseEnabled: Bool = true,
+        _ firebaseEnabled: Bool = false,
         personBasePath: String = "users",
         @ViewBuilder authenticationView: @escaping () -> AuthenticationView<Human> = { AuthenticationView<Human>() },
         @ViewBuilder content: @escaping () -> Content
