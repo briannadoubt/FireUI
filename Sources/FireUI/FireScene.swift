@@ -144,7 +144,7 @@ public struct FireScene<Content: View, AppState: FireState, Human: Person>: Scen
     #endif
     
     public var body: some Scene {
-        WindowGroup {
+        StyledScene(selection: $state.selectedViewIdentifier, state: state) {
             Group {
                 if state.firebaseEnabled {
                     FireClient<Human, Content, AppState>(
@@ -172,7 +172,6 @@ public struct FireScene<Content: View, AppState: FireState, Human: Person>: Scen
             #if !AppClip && os(iOS)
             .environmentObject(store)
             #endif
-            .appStyle(selection: $state.selectedViewIdentifier, state: state)
         }
         .onChange(of: scenePhase) { newScenePhase in
             do {

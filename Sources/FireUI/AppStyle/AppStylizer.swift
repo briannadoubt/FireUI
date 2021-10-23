@@ -77,26 +77,27 @@ public struct NavigationViewWrapper: ViewModifier {
     }
 }
 
-public extension View {
-    func appStyle<SelectionValue: Hashable, AppState: FireState>(selection: Binding<SelectionValue?>, appStyle: FireAppStyle = FireAppStyle.default, state: AppState) -> some View {
-        modifier(AppStylizer(selection: selection, state: state))
-    }
-}
-
-public struct AppStylizer<SelectionValue: Hashable, AppState: FireState>: ViewModifier {
+public struct StyledScene<SelectionValue: Hashable, Content: View, AppState: FireState>: Scene {
     
     @Binding public var selection: SelectionValue?
     @ObservedObject public var state: AppState
+    @ViewBuilder public var content: Content
     
-    public func body(content: Content) -> some View {
-        let tabView = TabView(selection: $selection) {
-            content
-        }
-        let list = List(selection: $selection) {
-            content
-        }
-        #if os(iOS)
-        Group {
+    public var body: some Scene {
+        WindowGroup {
+            let tabView = TabView(selection: $selection) {
+                content
+            }
+            let paged = tabView.tabViewStyle(PageTabViewStyle())
+            let list = List(selection: $selection) {
+                content
+            }
+            let navigation = NavigationView {
+                list.navigationTitle(state.appName)
+            }
+            let sidebar = navigation.listStyle(SidebarListStyle())
+            let stacked = sidebar.navigationViewStyle(StackNavigationViewStyle())
+            #if os(iOS)
             switch UIDevice.current.userInterfaceIdiom {
             case .mac:
                 Text("FireUI does not support macOS Catalyst. Run the native app instead.")
@@ -107,25 +108,11 @@ public struct AppStylizer<SelectionValue: Hashable, AppState: FireState>: ViewMo
                 case .tabbed:
                     tabView
                 case .sidebar:
-                    NavigationView {
-                        list
-                            .listStyle(SidebarListStyle())
-                            .navigationTitle("Taro")
-                    }
+                    sidebar
                 case .stacked:
-                    NavigationView {
-                        List(selection: $selection) {
-                            content
-                        }
-                        .listStyle(SidebarListStyle())
-                        .navigationTitle("Taro")
-                    }
-                    .navigationViewStyle(StackNavigationViewStyle())
+                    stacked
                 case .paged:
-                    TabView(selection: $selection) {
-                        content
-                    }
-                    .tabViewStyle(PageTabViewStyle())
+                    paged
                 case .plain:
                     content
                 }
@@ -134,22 +121,11 @@ public struct AppStylizer<SelectionValue: Hashable, AppState: FireState>: ViewMo
             case .phone:
                 switch state.appStyle.iphoneStyle {
                 case .tabbed:
-                    TabView {
-                        content
-                    }
+                    tabView
                 case .navigation:
-                    NavigationView {
-                        List(selection: $selection) {
-                            content
-                        }
-                        .listStyle(SidebarListStyle())
-                        .navigationTitle("Taro")
-                    }
+                    sidebar
                 case .paged:
-                    TabView {
-                        content
-                    }
-                    .tabViewStyle(PageTabViewStyle())
+                    paged
                 case .plain:
                     content
                 }
@@ -158,36 +134,27 @@ public struct AppStylizer<SelectionValue: Hashable, AppState: FireState>: ViewMo
             @unknown default:
                 Text("What is happening??")
             }
-        }
-        #elseif os(macOS)
-        switch state.appStyle.macStyle {
-        case .sidebar:
-            list
-                .listStyle(.sidebar)
-                .asNavigationView(state.appName)
-        case .tabbed:
-            TabView(selection: $selection) {
+            #elseif os(macOS)
+            switch state.appStyle.macStyle {
+            case .sidebar:
+                sidebar
+            case .tabbed:
+                tabView
+            case .plain:
                 content
             }
-        case .plain:
+            #elseif os(watchOS)
+            switch state.appStyle.watchStyle {
+            case .paged:
+                paged
+            case .navigation:
+                navigation
+            }
+            #elseif os(WASI)
             content
+            #else
+            content
+            #endif
         }
-        #elseif os(watchOS)
-        switch state.appStyle.watchStyle {
-        case .paged:
-            TabView {
-                content
-            }
-            .tabViewStyle(PageTabViewStyle())
-        case .navigation:
-            list
-                .listStyle(.plain)
-                .asNavigationView(title)
-        }
-        #elseif os(WASI)
-        content
-        #else
-        content
-        #endif
     }
 }
