@@ -11,6 +11,15 @@
         }
       },
       {
+        "package": "AdMobUI",
+        "repositoryURL": "https://github.com/briannadoubt/AdMobUI.git",
+        "state": {
+          "branch": null,
+          "revision": "4eb6ab341533aba804f489830331ab48c31fb889",
+          "version": "0.1.0"
+        }
+      },
+      {
         "package": "BoringSSL-GRPC",
         "repositoryURL": "https://github.com/firebase/boringssl-SwiftPM.git",
         "state": {
@@ -42,8 +51,26 @@
         "repositoryURL": "https://github.com/google/GoogleDataTransport.git",
         "state": {
           "branch": null,
-          "revision": "7fb27ea49414b9c5483503cd06baa821c8654d1e",
-          "version": "9.1.1"
+          "revision": "15ccdfd25ac55b9239b82809531ff26605e7556e",
+          "version": "9.1.2"
+        }
+      },
+      {
+        "package": "GoogleMobileAds",
+        "repositoryURL": "https://github.com/quanghits/GoogleMobileAds.git",
+        "state": {
+          "branch": null,
+          "revision": "7bddc774dcc3ce064e76ea0dbbd2b181193b542d",
+          "version": "8.12.0"
+        }
+      },
+      {
+        "package": "GoogleUserMessagingPlatform",
+        "repositoryURL": "https://github.com/quanghits/GoogleUserMessagingPlatform.git",
+        "state": {
+          "branch": null,
+          "revision": "f322d91b6b0497b727b228a5fa5b9394e7886d3a",
+          "version": "1.2.0"
         }
       },
       {
@@ -51,8 +78,8 @@
         "repositoryURL": "https://github.com/google/GoogleUtilities.git",
         "state": {
           "branch": null,
-          "revision": "616fac2626b6b2d1424d79a6f786b4e2ed1cfb49",
-          "version": "7.5.2"
+          "revision": "797005ad8a1f0614063933e2fa010a5d13cb09d0",
+          "version": "7.6.0"
         }
       },
       {
@@ -74,12 +101,12 @@
         }
       },
       {
-        "package": "Just",
-        "repositoryURL": "https://github.com/dduan/Just.git",
+        "package": "KeyWindow",
+        "repositoryURL": "https://github.com/briannadoubt/KeyWindow.git",
         "state": {
           "branch": null,
-          "revision": "1824bf84cf52d11d69ae20cfb89f0ce5bffa5650",
-          "version": "0.8.0"
+          "revision": "5fffc176f0d527ba313591dc7e2088e591e4740a",
+          "version": "0.1.1"
         }
       },
       {

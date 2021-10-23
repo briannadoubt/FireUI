@@ -26,40 +26,75 @@ let package = Package(
             .upToNextMajor(from: "8.0.0")
         ),
         .package(
+            name: "AdMobUI",
+            url: "https://github.com/briannadoubt/AdMobUI.git",
+            .upToNextMajor(from: "0.1.0")
+        ),
+        .package(
             name: "SwiftWebUI",
             url: "https://github.com/SwiftWebUI/SwiftWebUI.git",
             .upToNextMajor(from: "0.3.0")
         )
     ],
     targets: [
-        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
-        // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "FireUI",
             dependencies: [
                 .product(
+                    name: "AdMobUI",
+                    package: "AdMobUI"
+                ),
+                .product(
                     name: "FirebaseAuth",
-                    package: "Firebase"
+                    package: "Firebase",
+                    condition: .when(platforms: [.iOS, .macOS, .watchOS, .tvOS])
                 ),
                 .product(
                     name: "FirebaseFirestoreSwift-Beta",
-                    package: "Firebase"
+                    package: "Firebase",
+                    condition: .when(platforms: [.iOS, .macOS, .watchOS, .tvOS])
+                ),
+                .product(
+                    name: "FirebaseAnalytics",
+                    package: "Firebase",
+                    condition: .when(platforms: [.iOS, .macOS, .tvOS])
+                ),
+                .product(
+                    name: "FirebasePerformance",
+                    package: "Firebase",
+                    condition: .when(platforms: [.iOS, .macOS, .watchOS, .tvOS])
+                ),
+                .product(
+                    name: "FirebaseAppCheck",
+                    package: "Firebase",
+                    condition: .when(platforms: [.iOS, .macOS, .tvOS])
+                ),
+                .product(
+                    name: "FirebaseStorage",
+                    package: "Firebase",
+                    condition: .when(platforms: [.iOS, .macOS, .watchOS, .tvOS])
+                ),
+                .product(
+                    name: "FirebaseCrashlytics",
+                    package: "Firebase",
+                    condition: .when(platforms: [.iOS, .macOS, .watchOS, .tvOS])
                 ),
                 .product(
                     name: "SwiftWebUI",
-                    package: "SwiftWebUI", condition: TargetDependencyCondition.when(platforms: [.wasi])
+                    package: "SwiftWebUI",
+                    condition: .when(platforms: [.wasi])
                 )
             ]
-        ),
-        .testTarget(
-            name: "FireUITests",
-            dependencies: [
-                "FireUI",
-                .product(
-                    name: "FirebaseAuth",
-                    package: "Firebase"
-                ),
-            ]
-        ),
+        )
+//        .testTarget(
+//            name: "FireUITests",
+//            dependencies: [
+//                "FireUI",
+//                .product(
+//                    name: "FirebaseAuth",
+//                    package: "Firebase"
+//                ),
+//            ]
+//        ),
     ]
 )

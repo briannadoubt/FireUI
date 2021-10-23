@@ -13,9 +13,9 @@ import SwiftWebUI
 import SwiftUI
 #endif
 
-public struct FireClient<Human: Person>: ViewModifier {
+public struct Client<Human: Person>: ViewModifier {
     public func body(content: Content) -> some View {
-        Client<Human, Content> {
+        FireClient<Human, Content> {
             content
         }
     }
@@ -23,11 +23,11 @@ public struct FireClient<Human: Person>: ViewModifier {
 
 extension View {
     public func onFire<Human: Person>(_ personType: Human.Type) -> some View {
-        modifier(FireClient<Human>())
+        modifier(Client<Human>())
     }
 }
 
-public struct Client<Human: Person, Content: View>: View {
+public struct FireClient<Human: Person, Content: View>: View {
 
     @StateObject public var user: FirebaseUser
     

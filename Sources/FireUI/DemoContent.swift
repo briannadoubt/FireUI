@@ -10,6 +10,7 @@ import SwiftWebUI
 #else
 import SwiftUI
 #endif
+
 import FirebaseFirestoreSwift
 
 struct DemoFireUIApp: App {
@@ -27,17 +28,21 @@ struct DemoFireUIApp: App {
     }
     
     var body: some Scene {
-        WindowGroup {
-            Client(personBasePath: "users") {
-                AuthenticationView(
-                    image: { Image(systemName: "sparkles") },
-                    newPerson: newPerson,
-                    footer: { Text("FireUI Demo") })
-            } content: {
-                DemoContentView()
-            }
+        FireScene<DemoContentView, DemoAppState> {
+            DemoContentView()
         }
     }
+}
+
+class DemoAppState: FireState {
+    
+    var appName: String = "Demo App"
+    
+    @Published var selectedViewIdentifier: String?
+    
+    var appStyle: FireAppStyle = .default
+    
+    required init() { }
 }
 
 struct DemoContentView: View {

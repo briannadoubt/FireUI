@@ -100,9 +100,9 @@ struct SignUpButton<Human: Person>: View {
     @Binding var error: Error?
     
     
-//    var asyncNewPerson: (_ uid: PersonID, _ email: String, _ nickname: String) async throws -> Human {
-//        Human.new(uid:email:nickname:)
-//    }
+    var asyncNewPerson: (_ uid: PersonID, _ email: String, _ nickname: String) async throws -> Human {
+        Human.new(uid:email:nickname:)
+    }
     
     var newPerson: (_ uid: PersonID, _ email: String, _ nickname: String) -> Human {
         Human.new(uid:email:nickname:)
@@ -112,21 +112,19 @@ struct SignUpButton<Human: Person>: View {
     
     var body: some View {
         ConfirmationButton(label: label) {
-//            if #available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *) {
-//                Task {
-//                    do {
-//                        try await user.signUp(newPerson: asyncNewPerson)
-//                    } catch {
-//                        self.error = error
-//                    }
-//                }
-//            } else {
-                do {
-                    try user.signUp(newPerson: newPerson)
-                } catch {
+            if #available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *) {
+                Task {
+                    do {
+                        try await user.signUp(newPerson: asyncNewPerson)
+                    } catch {
+                        self.error = error
+                    }
+                }
+            } else {
+                user.signUp(newPerson: newPerson) { human, error in
                     self.error = error
                 }
-//            }
+            }
         }
     }
 }
@@ -192,7 +190,7 @@ struct NicknameInput: View {
     var body: some View {
         TextField(label, text: $nickname)
             .padding(8)
-//            .autocapitalization(.none)
+            .autocapitalization(.none)
 #if os(iOS)
             .keyboardType(.emailAddress)
             .textContentType(.emailAddress)
