@@ -28,7 +28,7 @@ struct DemoFireUIApp: App {
     }
     
     var body: some Scene {
-        FireScene<DemoContentView, DemoAppState> {
+        FireScene<DemoContentView, DemoAppState, DemoPerson> {
             DemoContentView()
         }
     }

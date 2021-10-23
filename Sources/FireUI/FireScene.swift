@@ -61,22 +61,19 @@ struct SettingsView: View {
     }
 }
 
-public struct FireScene<Content: View, AppState: FireState>: Scene {
+public struct FireScene<Content: View, AppState: FireState, Human: Person>: Scene {
+    
+    public let storeEnabled: Bool
+    public let adsEnabled: Bool
+    public let showsWelcomeScreen: Bool
+    public let firebaseEnabled: Bool
+    @ViewBuilder fileprivate var content: Content
     
     #if !AppClip && os(iOS)
     @StateObject public var store = Store()
-    public let storeEnabled = false
-    public let adsEnabled = false
-    #endif
-    
-    public let showsWelcomeScreen = false
-    
-    #if !AppClip
-    public let firebaseEnabled = true
     #endif
     
     @StateObject fileprivate var state = AppState()
-    @ViewBuilder fileprivate var content: Content
     
     #if !AppClip && !Web
     @StateObject fileprivate var persistenceController = PersistenceController("Model")
@@ -88,32 +85,36 @@ public struct FireScene<Content: View, AppState: FireState>: Scene {
     
     @Environment(\.scenePhase) private var scenePhase
     
-    public init(@ViewBuilder content: @escaping () -> Content) {
+    public init(storeEnabled: Bool = false, adsEnabled: Bool = false, showsWelcomeScreen: Bool = false, firebaseEnabled: Bool = false, @ViewBuilder content: @escaping () -> Content) {
+        self.storeEnabled = storeEnabled
+        self.adsEnabled = adsEnabled
+        self.showsWelcomeScreen = showsWelcomeScreen
+        self.firebaseEnabled = firebaseEnabled
         self.content = content()
         activate()
     }
     
     public func activate() {
-        #if !AppClip && os(iOS)
         if storeEnabled {
+            #if !AppClip && os(iOS)
             store.start()
-        }
-        #endif
-        
-        #if !AppClip
-        if firebaseEnabled {
-            #if os(iOS)
-            createAppCheck()
             #endif
-            startFirebase()
         }
-        #endif
         
-        #if !AppClip && os(iOS)
-        if adsEnabled {
-            startGoogleMobileAds()
+        if firebaseEnabled {
+            #if !AppClip
+                #if os(iOS)
+                createAppCheck()
+                #endif
+            startFirebase()
+            #endif
         }
-        #endif
+        
+        if adsEnabled {
+            #if !AppClip && os(iOS)
+            startGoogleMobileAds()
+            #endif
+        }
     }
     
     #if !AppClip
@@ -151,6 +152,7 @@ public struct FireScene<Content: View, AppState: FireState>: Scene {
                 #if !AppClip && !Web
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
                 #endif
+                .onFire(Human.self)
                 .appStyle(selection: $state.selectedViewIdentifier, state: state)
         }
         .onChange(of: scenePhase) { newScenePhase in
