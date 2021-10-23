@@ -13,8 +13,16 @@ import SwiftUI
 #endif
 
 public protocol FireState: ObservableObject {
+    
     var appName: String { get }
     var selectedViewIdentifier: String? { get set }
     var appStyle: FireAppStyle { get }
+    
+    var storeEnabled: Bool { get }
+    var adsEnabled: Bool { get }
+    var showsWelcomeScreen: Bool { get }
+    var firebaseEnabled: Bool { get }
+    var coreDataEnabled: Bool { get }
+    
     init()
 }

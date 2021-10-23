@@ -40,6 +40,12 @@ class DemoAppState: FireState {
     @Published var selectedViewIdentifier: String?
     var appStyle: FireAppStyle = .default
     
+    var storeEnabled: Bool = false
+    var adsEnabled: Bool = false
+    var showsWelcomeScreen: Bool = false
+    var firebaseEnabled: Bool = false
+    var coreDataEnabled: Bool = false
+    
     required init() { }
 }
 

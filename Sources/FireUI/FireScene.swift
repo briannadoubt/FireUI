@@ -63,10 +63,6 @@ struct SettingsView: View {
 
 public struct FireScene<Content: View, AppState: FireState, Human: Person>: Scene {
     
-    public let storeEnabled: Bool
-    public let adsEnabled: Bool
-    public let showsWelcomeScreen: Bool
-    public let firebaseEnabled: Bool
     @ViewBuilder fileprivate var content: Content
     
     #if !AppClip && os(iOS)
@@ -85,23 +81,19 @@ public struct FireScene<Content: View, AppState: FireState, Human: Person>: Scen
     
     @Environment(\.scenePhase) private var scenePhase
     
-    public init(storeEnabled: Bool = false, adsEnabled: Bool = false, showsWelcomeScreen: Bool = false, firebaseEnabled: Bool = false, @ViewBuilder content: @escaping () -> Content) {
-        self.storeEnabled = storeEnabled
-        self.adsEnabled = adsEnabled
-        self.showsWelcomeScreen = showsWelcomeScreen
-        self.firebaseEnabled = firebaseEnabled
+    public init(@ViewBuilder content: @escaping () -> Content) {
         self.content = content()
         activate()
     }
     
     public func activate() {
-        if storeEnabled {
+        if state.storeEnabled {
             #if !AppClip && os(iOS)
             store.start()
             #endif
         }
         
-        if firebaseEnabled {
+        if state.firebaseEnabled {
             #if !AppClip
                 #if os(iOS)
                 createAppCheck()
@@ -110,7 +102,7 @@ public struct FireScene<Content: View, AppState: FireState, Human: Person>: Scen
             #endif
         }
         
-        if adsEnabled {
+        if state.adsEnabled {
             #if !AppClip && os(iOS)
             startGoogleMobileAds()
             #endif
