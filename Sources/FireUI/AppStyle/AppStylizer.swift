@@ -88,10 +88,6 @@ public struct AppStylizer<SelectionValue: Hashable, AppState: FireState>: ViewMo
     @Binding public var selection: SelectionValue?
     @ObservedObject public var state: AppState
     
-    public let showsWelcomeScreen = false
-    
-    @State private var showingWelcomeScreen = false
-    
     public func body(content: Content) -> some View {
         let tabView = TabView(selection: $selection) {
             content
@@ -163,7 +159,6 @@ public struct AppStylizer<SelectionValue: Hashable, AppState: FireState>: ViewMo
                 Text("What is happening??")
             }
         }
-        .welcomeScreen($showingWelcomeScreen, featureEnabled: showsWelcomeScreen)
         #elseif os(macOS)
         switch state.appStyle.macStyle {
         case .sidebar:

@@ -83,6 +83,8 @@ public struct FireScene<Content: View, AppState: FireState, Human: Person>: Scen
     
     @Environment(\.scenePhase) private var scenePhase
     
+    @State private var showingWelcomeScreen = false
+    
     public init(
         logo: @escaping () -> Image = { Image(systemName: "circle") },
         @ViewBuilder content: @escaping () -> Content,
@@ -162,6 +164,7 @@ public struct FireScene<Content: View, AppState: FireState, Human: Person>: Scen
                     content
                 }
             }
+            .welcomeScreen($showingWelcomeScreen, featureEnabled: state.showsWelcomeScreen)
             #if !AppClip && !Web
             .environment(\.managedObjectContext, persistenceController.container.viewContext)
             #endif
