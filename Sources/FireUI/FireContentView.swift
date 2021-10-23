@@ -14,12 +14,12 @@ import SwiftUI
 public struct FireContentView<Human: Person, Content: View>: View {
     
     @EnvironmentObject private var user: FirebaseUser
-    @ObservedObject private var person: FirestoreDocument<Human>
+    @StateObject private var person: FirestoreDocument<Human>
     
     private let content: Content
     
     public init(personBasePath: String, uid: PersonID, @ViewBuilder content: @escaping () -> Content) {
-        self.person = FirestoreDocument(collection: personBasePath , id: uid)
+        self._person = StateObject(wrappedValue: FirestoreDocument<Human>(collection: personBasePath , id: uid))
         self.content = content()
     }
     

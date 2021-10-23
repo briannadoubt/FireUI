@@ -35,11 +35,12 @@ public struct FireClient<Human: Person, Content: View>: View {
     private let authenticationView: AuthenticationView<Human>
     
     public init(
+        _ firebaseEnabled: Bool = true,
         personBasePath: String = "users",
         @ViewBuilder authenticationView: @escaping () -> AuthenticationView<Human> = { AuthenticationView<Human>() },
         @ViewBuilder content: @escaping () -> Content
     ) {
-        _user = StateObject(wrappedValue: FirebaseUser(basePath: personBasePath))
+        _user = StateObject(wrappedValue: FirebaseUser(firebaseEnabled, basePath: personBasePath))
         self.contentView = { uid in
             FireContentView<Human, Content>(
                 personBasePath: personBasePath,

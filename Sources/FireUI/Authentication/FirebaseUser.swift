@@ -25,14 +25,16 @@ public class FirebaseUser: ObservableObject, FirestoreObservable {
 
     public var listener: ListenerRegistration?
     
-    public init(basePath: String) {
+    public init(_ firebaseEnabled: Bool = true, basePath: String) {
         #if os(iOS)
         UINavigationBar.appearance().barTintColor = UIColor(Color("BackgroundColor"))
         #endif
         
         self.basePath = basePath
         
-        self.isAuthenticated = Auth.auth().currentUser != nil
+        if firebaseEnabled {
+            self.isAuthenticated = Auth.auth().currentUser != nil
+        }
     }
     
     private var basePath: String

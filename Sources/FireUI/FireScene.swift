@@ -116,22 +116,20 @@ public struct FireScene<Content: View, AppState: FireState, Human: Person>: Scen
         #endif
         FirebaseApp.configure()
     }
-    
-    #if !AppClip && os(iOS)
-    fileprivate func startGoogleMobileAds() {
-        GADMobileAds.sharedInstance().start(completionHandler: nil)
-        #if DEBUG
-        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = ["c964cd9acd944b45f04919d99f0301a4"]
-        #endif
-    }
-    #endif
 
-    #if os(iOS)
-    fileprivate func createAppCheck() {
-        let appCheckProviderFactory = FireAppChackProviderFactory()
-        AppCheck.setAppCheckProviderFactory(appCheckProviderFactory)
-    }
-    #endif
+        #if os(iOS)
+        fileprivate func startGoogleMobileAds() {
+            GADMobileAds.sharedInstance().start(completionHandler: nil)
+            #if DEBUG
+            GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = ["c964cd9acd944b45f04919d99f0301a4"]
+            #endif
+        }
+        
+        fileprivate func createAppCheck() {
+            let appCheckProviderFactory = FireAppChackProviderFactory()
+            AppCheck.setAppCheckProviderFactory(appCheckProviderFactory)
+        }
+        #endif
     #endif
     
     public var body: some Scene {
