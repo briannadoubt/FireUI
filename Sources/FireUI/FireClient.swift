@@ -7,28 +7,7 @@
 
 import Firebase
 import FirebaseFirestoreSwift
-#if os(WASI)
-import SwiftWebUI
-#else
 import SwiftUI
-#endif
-
-extension View {
-    public func onFire<Human: Person, AppState: FireState>(_ personType: Human.Type, _ appStateType: AppState.Type) -> some View {
-        modifier(Client<Human, AppState>())
-    }
-}
-
-public struct Client<Human: Person, AppState: FireState>: ViewModifier {
-    
-    @EnvironmentObject private var state: AppState
-    
-    public func body(content: Content) -> some View {
-        FireClient<Human, Content, AppState>(firebaseEnabled: state.firebaseEnabled) {
-            content
-        }
-    }
-}
 
 public struct FireClient<Human: Person, Content: View, AppState: FireState>: View {
 
@@ -81,8 +60,8 @@ extension Bundle {
     }
 }
 
-struct FireClient_Previews: PreviewProvider {
-    static var previews: some View {
-        DemoContentView().onFire(DemoPerson.self, DemoAppState.self)
-    }
-}
+//struct FireClient_Previews: PreviewProvider {
+//    static var previews: some View {
+//        DemoContentView().onFire(DemoPerson.self, DemoAppState.self)
+//    }
+//}

@@ -40,6 +40,8 @@ class DemoAppState: FireState {
     @Published var selectedViewIdentifier: String?
     var appStyle: FireAppStyle = .default
     
+    var personBasePath: String = "users"
+    
     var storeEnabled: Bool = false
     var adsEnabled: Bool = false
     var showsWelcomeScreen: Bool = false

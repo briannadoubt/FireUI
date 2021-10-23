@@ -63,7 +63,9 @@ struct SettingsView: View {
 
 public struct FireScene<Content: View, AppState: FireState, Human: Person>: Scene {
     
-    @ViewBuilder fileprivate var content: Content
+    fileprivate var logo: () -> Image
+    fileprivate var content: Content
+    fileprivate var footer: () -> Text
     
     #if !AppClip && os(iOS)
     @StateObject public var store = Store()
@@ -81,8 +83,14 @@ public struct FireScene<Content: View, AppState: FireState, Human: Person>: Scen
     
     @Environment(\.scenePhase) private var scenePhase
     
-    public init(@ViewBuilder content: @escaping () -> Content) {
+    public init(
+        logo: @escaping () -> Image = { Image(systemName: "circle") },
+        @ViewBuilder content: @escaping () -> Content,
+        footer: @escaping () -> Text = { Text("♥️") }
+    ) {
+        self.logo = logo
         self.content = content()
+        self.footer = footer
         activate()
     }
     
@@ -134,16 +142,27 @@ public struct FireScene<Content: View, AppState: FireState, Human: Person>: Scen
     
     public var body: some Scene {
         WindowGroup {
-            content
-                .environmentObject(state)
-                #if !AppClip && os(iOS)
-                .environmentObject(store)
-                #endif
-                #if !AppClip && !Web
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                #endif
-                .onFire(Human.self, AppState.self)
-                .appStyle(selection: $state.selectedViewIdentifier, state: state)
+            FireClient<Human, Content, AppState>(
+                personBasePath: state.personBasePath,
+                firebaseEnabled: state.firebaseEnabled,
+                authenticationView: {
+                    AuthenticationView(
+                        image: logo,
+                        newPerson: Human.new,
+                        footer: footer
+                    )
+                }, content: {
+                    content
+                }
+            )
+            #if !AppClip && !Web
+            .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            #endif
+            .environmentObject(state)
+            #if !AppClip && os(iOS)
+            .environmentObject(store)
+            #endif
+            .appStyle(selection: $state.selectedViewIdentifier, state: state)
         }
         .onChange(of: scenePhase) { newScenePhase in
             do {

@@ -18,6 +18,8 @@ public protocol FireState: ObservableObject {
     var selectedViewIdentifier: String? { get set }
     var appStyle: FireAppStyle { get }
     
+    var personBasePath: String { get }
+    
     var storeEnabled: Bool { get }
     var adsEnabled: Bool { get }
     var showsWelcomeScreen: Bool { get }
