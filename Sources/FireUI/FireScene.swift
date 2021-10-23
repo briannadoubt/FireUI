@@ -142,7 +142,7 @@ public struct FireScene<Content: View, AppState: FireState, Human: Person>: Scen
                 #if !AppClip && !Web
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
                 #endif
-                .onFire(Human.self)
+                .onFire(Human.self, AppState.self)
                 .appStyle(selection: $state.selectedViewIdentifier, state: state)
         }
         .onChange(of: scenePhase) { newScenePhase in

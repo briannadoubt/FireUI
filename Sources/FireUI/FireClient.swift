@@ -13,30 +13,35 @@ import SwiftWebUI
 import SwiftUI
 #endif
 
-public struct Client<Human: Person>: ViewModifier {
+extension View {
+    public func onFire<Human: Person, AppState: FireState>(_ personType: Human.Type, _ appStateType: AppState.Type) -> some View {
+        modifier(Client<Human, AppState>())
+    }
+}
+
+public struct Client<Human: Person, AppState: FireState>: ViewModifier {
+    
+    @EnvironmentObject private var state: AppState
+    
     public func body(content: Content) -> some View {
-        FireClient<Human, Content> {
+        FireClient<Human, Content, AppState>(firebaseEnabled: state.firebaseEnabled) {
             content
         }
     }
 }
 
-extension View {
-    public func onFire<Human: Person>(_ personType: Human.Type) -> some View {
-        modifier(Client<Human>())
-    }
-}
-
-public struct FireClient<Human: Person, Content: View>: View {
+public struct FireClient<Human: Person, Content: View, AppState: FireState>: View {
 
     @StateObject public var user: FirebaseUser
     
     private let contentView: (_ uid: String) -> FireContentView<Human, Content>
     private let authenticationView: AuthenticationView<Human>
     
+    @EnvironmentObject private var state: AppState
+    
     public init(
-        _ firebaseEnabled: Bool = false,
         personBasePath: String = "users",
+        firebaseEnabled: Bool = false,
         @ViewBuilder authenticationView: @escaping () -> AuthenticationView<Human> = { AuthenticationView<Human>() },
         @ViewBuilder content: @escaping () -> Content
     ) {
@@ -78,6 +83,6 @@ extension Bundle {
 
 struct FireClient_Previews: PreviewProvider {
     static var previews: some View {
-        DemoContentView().onFire(DemoPerson.self)
+        DemoContentView().onFire(DemoPerson.self, DemoAppState.self)
     }
 }
