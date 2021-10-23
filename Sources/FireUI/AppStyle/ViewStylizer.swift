@@ -8,19 +8,18 @@
 import SwiftUI
 
 public extension View {
-    func viewStyle<SelectionValue: Hashable, AppState: FireState>(label: String, systemImage: String, selection: Binding<SelectionValue?>, tag: SelectionValue) -> some View {
-        modifier(ViewStylizer<SelectionValue, AppState>(label: label, systemImage: systemImage, selection: selection, tag: tag))
+    func viewStyle<SelectionValue: Hashable, AppState: FireState>(_ state: AppState, label: String, systemImage: String, selection: Binding<SelectionValue?>, tag: SelectionValue) -> some View {
+        modifier(ViewStylizer<SelectionValue, AppState>(state: state, label: label, systemImage: systemImage, selection: selection, tag: tag))
     }
 }
 
 public struct ViewStylizer<SelectionValue: Hashable, AppState: FireState>: ViewModifier {
     
+    @ObservedObject public var state: AppState
     public let label: String
     public let systemImage: String
     @Binding public var selection: SelectionValue?
     public let tag: SelectionValue
-    
-    @EnvironmentObject fileprivate var state: AppState
     
     public func body(content: Content) -> some View {
         #if os(iOS)

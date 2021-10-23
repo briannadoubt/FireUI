@@ -44,6 +44,8 @@ class DemoAppState: FireState {
 }
 
 public protocol SelectedView: RawRepresentable, Hashable, CaseIterable, Identifiable {
+    associatedtype SelectionValue = Hashable
+    var id: String { get }
     var systemImage: String { get }
 }
 
@@ -55,19 +57,28 @@ struct DemoContentView: View {
     
     @EnvironmentObject private var state: DemoAppState
     
-    enum Tab: String {
+    enum Tab: String, SelectedView {
         case a, b
-        
+        var id: String { rawValue }
+        var systemImage: String {
+            switch self {
+            case .a:
+                return "circle"
+            case .b:
+                return "square"
+            }
+        }
     }
     
     var body: some View {
         Text("Hello, World!")
             .padding()
             .viewStyle(
-                label: "A",
-                systemImage: "circle.fill",
+                state,
+                label: Tab.a.label,
+                systemImage: Tab.a.systemImage,
                 selection: $state.selectedViewIdentifier,
-                tag: "a"
+                tag: Tab.a.id
             )
     }
 }
