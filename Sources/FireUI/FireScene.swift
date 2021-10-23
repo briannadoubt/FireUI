@@ -91,10 +91,9 @@ public struct FireScene<Content: View, AppState: FireState, Human: Person>: Scen
         self.logo = logo
         self.content = content()
         self.footer = footer
-        activate()
     }
     
-    public func activate() {
+    public func activate() -> some Scene {
         if state.storeEnabled {
             #if !AppClip && os(iOS)
             store.start()
@@ -115,6 +114,8 @@ public struct FireScene<Content: View, AppState: FireState, Human: Person>: Scen
             startGoogleMobileAds()
             #endif
         }
+        
+        return self
     }
     
     #if !AppClip

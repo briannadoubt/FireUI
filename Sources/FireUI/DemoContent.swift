@@ -31,6 +31,7 @@ struct DemoFireUIApp: App {
         FireScene<DemoContentView, DemoAppState, DemoPerson> {
             DemoContentView()
         }
+        .activate()
     }
 }
 
