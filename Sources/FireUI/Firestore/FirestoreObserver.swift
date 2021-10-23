@@ -15,10 +15,6 @@ import Firebase
 
 public protocol FirestoreObservable {
     var listener: ListenerRegistration? { get set }
-    
-    @available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *)
-    func setListener() async throws
-    
     func setListener() throws
 }
 
@@ -33,15 +29,19 @@ extension View {
 
 public struct FirestoreObserver: ViewModifier {
 
+    private var firebaseEnabled = false
+    
     private var observers: [FirestoreObservable]?
     private var observer: FirestoreObservable?
     
     public init(observers: [FirestoreObservable], _ firebaseEnabled: Bool = true) {
         self.observers = observers
+        self.firebaseEnabled = firebaseEnabled
     }
     
     public init(observer: FirestoreObservable, _ firebaseEnabled: Bool = true) {
         self.observer = observer
+        self.firebaseEnabled = firebaseEnabled
     }
     
     public func body(content: Content) -> some View {
@@ -49,34 +49,11 @@ public struct FirestoreObserver: ViewModifier {
             guard firebaseEnabled else {
                 return
             }
-            
-            if #available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *) {
-                Task {
-                    do {
-                        try await setObservers()
-                    } catch {
-                        print(error)
-                    }
-                }
-            } else {
-                do {
-                    try setObservers()
-                } catch {
-                    print(error)
-                }
+            do {
+                try setObservers()
+            } catch {
+                print(error)
             }
-        }
-    }
-    
-    @available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *)
-    private func setObservers() async throws {
-        if let observers = observers {
-            for observer in observers {
-                try await setListener(on: observer)
-            }
-        }
-        if let observer = observer {
-            try await setListener(on: observer)
         }
     }
     
@@ -86,14 +63,6 @@ public struct FirestoreObserver: ViewModifier {
                 try setListener(on: observer)
             }
         }
-    }
-    
-    @available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *)
-    private func setListener(on observer: FirestoreObservable) async throws {
-        guard observer.listener == nil else {
-            return
-        }
-        try await observer.setListener()
     }
     
     private func setListener(on observer: FirestoreObservable) throws {

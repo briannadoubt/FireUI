@@ -31,6 +31,7 @@ public class FirestoreDocument<T: FirestoreCodable>: ObservableObject, Firestore
     }
     
     @Published public var document: T? = nil
+    @Published public var error: Error? = nil
 
     private var collection: String
     private var id: String?
@@ -53,50 +54,24 @@ public class FirestoreDocument<T: FirestoreCodable>: ObservableObject, Firestore
         }
     }
     
-    @available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *)
-    public func setListener() async throws {
-        let document = id == nil ? database.collection(collection).document() : database.collection(collection).document(id!)
-        return try await withCheckedThrowingContinuation { continuation in
-            listener = document.addSnapshotListener { snapshot, error in
-                if let error = error {
-                    continuation.resume(throwing: error)
-                    return
-                }
-
-                guard let snapshot = snapshot, snapshot.exists else {
-                    continuation.resume(throwing: FireUIError.documentNotFound)
-                    return
-                }
-
-                do {
-                    self.document = try snapshot.data(as: T.self)
-                } catch {
-                    continuation.resume(throwing: error)
-                }
-            }
-        }
-    }
-    
-    public func setListener() throws {
+    public func setListener() {
         let document = id == nil
             ? database.collection(collection).document()
             : database.collection(collection).document(id!)
         
         listener = document.addSnapshotListener { snapshot, error in
-            if let error = error {
-                print(error)
-                return
-            }
-
-            guard let snapshot = snapshot, snapshot.exists else {
-                print(FireUIError.documentNotFound)
-                return
-            }
-
             do {
+                guard error == nil else {
+                    throw error!
+                }
+                guard let snapshot = snapshot, snapshot.exists else {
+                    throw FireUIError.documentNotFound
+                }
                 self.document = try snapshot.data(as: T.self)
             } catch {
-                print(error)
+                withAnimation {
+                    self.error = error
+                }
             }
         }
     }
