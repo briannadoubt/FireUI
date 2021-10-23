@@ -142,19 +142,25 @@ public struct FireScene<Content: View, AppState: FireState, Human: Person>: Scen
     
     public var body: some Scene {
         WindowGroup {
-            FireClient<Human, Content, AppState>(
-                personBasePath: state.personBasePath,
-                firebaseEnabled: state.firebaseEnabled,
-                authenticationView: {
-                    AuthenticationView(
-                        image: logo,
-                        newPerson: Human.new,
-                        footer: footer
+            Group {
+                if state.firebaseEnabled {
+                    FireClient<Human, Content, AppState>(
+                        personBasePath: state.personBasePath,
+                        firebaseEnabled: state.firebaseEnabled,
+                        authenticationView: {
+                            AuthenticationView(
+                                image: logo,
+                                newPerson: Human.new,
+                                footer: footer
+                            )
+                        }, content: {
+                            content
+                        }
                     )
-                }, content: {
+                } else {
                     content
                 }
-            )
+            }
             #if !AppClip && !Web
             .environment(\.managedObjectContext, persistenceController.container.viewContext)
             #endif
