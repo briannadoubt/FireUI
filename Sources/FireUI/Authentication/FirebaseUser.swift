@@ -25,7 +25,7 @@ public class FirebaseUser: ObservableObject, FirestoreObservable {
 
     public var listener: ListenerRegistration?
     
-    public init(_ firebaseEnabled: Bool = true, basePath: String) {
+    public init(_ firebaseEnabled: Bool, basePath: String) {
         #if os(iOS)
         UINavigationBar.appearance().barTintColor = UIColor(Color("BackgroundColor"))
         #endif
