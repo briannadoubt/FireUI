@@ -5,7 +5,7 @@
 //  Created by Brianna Doubt on 10/16/21.
 //
 
-#if os(WASI)
+#if Web
 import SwiftWebUI
 #else
 import SwiftUI
@@ -37,18 +37,38 @@ struct DemoFireUIApp: App {
 class DemoAppState: FireState {
     
     var appName: String = "Demo App"
-    
     @Published var selectedViewIdentifier: String?
-    
     var appStyle: FireAppStyle = .default
     
     required init() { }
 }
 
+public protocol SelectedView: RawRepresentable, Hashable, CaseIterable, Identifiable {
+    var systemImage: String { get }
+}
+
+public extension SelectedView {
+    var label: String { ((rawValue as? String) ?? "").capitalized }
+}
+
 struct DemoContentView: View {
+    
+    @EnvironmentObject private var state: DemoAppState
+    
+    enum Tab: String {
+        case a, b
+        
+    }
+    
     var body: some View {
         Text("Hello, World!")
             .padding()
+            .viewStyle(
+                label: "A",
+                systemImage: "circle.fill",
+                selection: $state.selectedViewIdentifier,
+                tag: "a"
+            )
     }
 }
 
