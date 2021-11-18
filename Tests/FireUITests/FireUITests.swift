@@ -32,7 +32,7 @@ final class FireUITests: XCTestCase {
         
         Auth.auth().useEmulator(withHost: "localhost", port: 9099)
         
-        user =  FirebaseUser(basePath: "users")
+        user = FirebaseUser(basePath: "users")
     }
 
     func testSetUp() throws { }

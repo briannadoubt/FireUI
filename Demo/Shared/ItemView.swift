@@ -1,33 +1,34 @@
 //
-//  DemoObjectView.swift
+//  ItemView.swift
 //  FireUI Demo
 //
 //  Created by Bri on 11/16/21.
 //
 
 import SwiftUI
+import FireUI
 
-struct DemoObjectView: View {
+struct ItemView: View {
     
-    var object: DemoObject
+    var item: Item
     
     var body: some View {
-        NavigationView {
+        StyledView(state: FireUIAppState.self) {
             List {
-                Text(object.text)
-                Text(object.created.formatted())
+                Text(item.text)
+                Text(item.created.formatted())
             }
-            .navigationTitle(Text(object.text))
+            .navigationTitle(Text(item.text))
         }
     }
 }
 
 struct DemoObjectView_Previews: PreviewProvider {
     static var previews: some View {
-        DemoObjectView(
-            object: DemoObject(
-                id: "test",
-                text: "Demo Object",
+        ItemView(
+            item: Item(
+                id: "preview",
+                text: "Preview Item",
                 created: Date(),
                 updated: Date()
             )

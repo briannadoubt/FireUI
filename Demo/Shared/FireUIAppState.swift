@@ -1,5 +1,5 @@
 //
-//  DemoAppState.swift
+//  FireUIAppState.swift
 //  Demo
 //
 //  Created by Bri on 10/23/21.
@@ -8,19 +8,13 @@
 import FireUI
 import Combine
 
-final class MyAppState: FireState {
+final class FireUIAppState: FireState {
     
     // Set default view
-    @Published var selectedViewIdentifier: String? = "objects"
+    @Published var selectedViewIdentifier: String? = "items"
     
-    static var shared: MyAppState = MyAppState()
+    static var shared: FireUIAppState = FireUIAppState()
     
     var appName: String = "FireUI"
-    
-    var appStyle = AppStyle(
-        iphoneStyle: .tabbed,
-        ipadStyle: .sidebar,
-        macStyle: .sidebar,
-        watchStyle: .paged
-    )
+    var appStyle = AppStyle.default
 }

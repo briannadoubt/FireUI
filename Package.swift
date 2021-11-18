@@ -10,7 +10,7 @@ import PackageDescription
 
 let package = Package(
     name: "FireUI",
-    platforms: [.iOS(.v14), .macOS(.v11)],
+    platforms: [.iOS(.v14), .macOS(.v11), .watchOS(.v7), .tvOS(.v14)],
     products: [
         .library(
             name: "FireUI",
@@ -21,28 +21,13 @@ let package = Package(
         .package(
             name: "Firebase",
             url: "https://github.com/firebase/firebase-ios-sdk.git",
-            .upToNextMajor(from: "8.0.0")
-        ),
-        .package(
-            name: "AdMobUI",
-            url: "https://github.com/briannadoubt/AdMobUI.git",
-            .upToNextMajor(from: "0.1.0")
-        ),
-        .package(
-            name: "SwiftWebUI",
-            url: "https://github.com/SwiftWebUI/SwiftWebUI.git",
-            .upToNextMajor(from: "0.3.0")
+            .upToNextMajor(from: "8.9.1")
         )
     ],
     targets: [
         .target(
             name: "FireUI",
             dependencies: [
-                .product(
-                    name: "AdMobUI",
-                    package: "AdMobUI",
-                    condition: .when(platforms: [.iOS])
-                ),
                 .product(
                     name: "FirebaseAuth",
                     package: "Firebase",
@@ -51,7 +36,7 @@ let package = Package(
                 .product(
                     name: "FirebaseFirestoreSwift-Beta",
                     package: "Firebase",
-                    condition: .when(platforms: [.iOS, .macOS, .watchOS, .tvOS])
+                    condition: .when(platforms: [.iOS, .macOS, .tvOS])
                 ),
                 .product(
                     name: "FirebaseAnalytics",
@@ -66,7 +51,7 @@ let package = Package(
                 .product(
                     name: "FirebaseAppCheck",
                     package: "Firebase",
-                    condition: .when(platforms: [.iOS, .macOS, .tvOS])
+                    condition: .when(platforms: [.iOS, .macOS, .watchOS, .tvOS])
                 ),
                 .product(
                     name: "FirebaseStorage",
@@ -77,29 +62,32 @@ let package = Package(
                     name: "FirebaseCrashlytics",
                     package: "Firebase",
                     condition: .when(platforms: [.iOS, .macOS, .watchOS, .tvOS])
+                )
+            ],
+            linkerSettings: [
+                .linkedFramework(
+                    "SwiftUI",
+                    .when(platforms: [.iOS, .tvOS, .macOS, .watchOS])
                 ),
-                .product(
-                    name: "SwiftWebUI",
-                    package: "SwiftWebUI",
-                    condition: .when(platforms: [.wasi])
+                .linkedFramework(
+                    "Foundation",
+                    .when(platforms: [.iOS, .tvOS, .macOS, .watchOS])
+                ),
+                .linkedFramework(
+                    "Combine",
+                    .when(platforms: [.iOS, .tvOS, .macOS, .watchOS])
                 )
             ]
         ),
-        .target(
-            name: "FireUIDemo",
+        .testTarget(
+            name: "FireUITests",
             dependencies: [
-                .product(name: "FireUI", package: "FireUI")
+                "FireUI",
+                .product(
+                    name: "FirebaseAuth",
+                    package: "Firebase"
+                ),
             ]
-        )//,
-//        .testTarget(
-//            name: "FireUITests",
-//            dependencies: [
-//                "FireUI",
-//                .product(
-//                    name: "FirebaseAuth",
-//                    package: "Firebase"
-//                ),
-//            ]
-//        ),
+        ),
     ]
 )

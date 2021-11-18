@@ -5,22 +5,14 @@
 //  Created by Bri on 10/23/21.
 //
 
-#if os(WASI)
-import SwiftWebUI
-#else
 import SwiftUI
-#endif
 
 public struct StyledView<Content: View, AppState: FireState>: View {
 
-    @ObservedObject private var state: AppState
+    @EnvironmentObject private var state: AppState
     @ViewBuilder public var content: () -> Content
     
-    public init(
-        state: AppState,
-        @ViewBuilder content: @escaping () -> Content
-    ) {
-        self.state = state
+    public init(state: AppState.Type, @ViewBuilder content: @escaping () -> Content) {
         self.content = content
     }
     

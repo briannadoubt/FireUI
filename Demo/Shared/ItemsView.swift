@@ -1,5 +1,5 @@
 //
-//  DemoObjectsView.swift
+//  ItemsView.swift
 //  FireUI Demo
 //
 //  Created by Bri on 11/16/21.
@@ -9,29 +9,29 @@ import SwiftUI
 import FireUI
 import FirebaseFirestoreSwift
 
-struct DemoObjectsView: View {
+struct ItemsView: View {
     
-    @FirestoreQuery(collectionPath: DemoObject.basePath()) fileprivate var objects: [DemoObject]
+    @FirestoreQuery(collectionPath: Item.basePath()) fileprivate var items: [Item]
     
     var body: some View {
         StyledRootView(
-            state: DemoAppState.self,
+            state: FireUIAppState.self,
             label: "Objects",
             systemImage: "1.circle",
             tag: "objects",
             content: {
                 List {
                     Text("Something")
-                    ForEach(objects) { object in
-                        NavigationLink(object.text, destination: DemoObjectView(object: object))
+                    ForEach(items) { item in
+                        NavigationLink(item.text, destination: ItemView(item: item))
                     }
                 }
                 .toolbar {
                     ToolbarItem(placement: .primaryAction) {
                         Button {
-                            try! DemoObject(text: "New Object: \(UUID().uuidString)", created: Date(), updated: Date()).save()
+                            try! Item(text: "New Item: \(UUID().uuidString)", created: Date(), updated: Date()).save()
                         } label: {
-                            Label("New Object", systemImage: "plus")
+                            Label("New Item", systemImage: "plus")
                         }
                     }
                 }
@@ -43,6 +43,6 @@ struct DemoObjectsView: View {
 @available(iOS 15.0, macOS 12.0, watchOS 8.0, tvOS 15.0, *)
 struct DemoObjectsView_Previews: PreviewProvider {
     static var previews: some View {
-        DemoObjectsView()
+        ItemsView()
     }
 }

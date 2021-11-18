@@ -5,15 +5,11 @@
 //  Created by Bri on 10/22/21.
 //
 
-//#if os(WASI)
-//import SwiftWebUI
-//#else
 import SwiftUI
-//#endif
 
 public struct StyledRootView<Content: View, AppState: FireState>: View {
     
-    @ObservedObject private var state: AppState
+    @EnvironmentObject fileprivate var state: AppState
     
     public let label: String
     public let systemImage: String
@@ -22,13 +18,12 @@ public struct StyledRootView<Content: View, AppState: FireState>: View {
     @ViewBuilder public var content: () -> Content
     
     public init(
-        state: AppState,
+        state: AppState.Type,
         label: String,
         systemImage: String,
         tag: String,
         @ViewBuilder content: @escaping () -> Content
     ) {
-        self.state = state
         self.label = label
         self.systemImage = systemImage
         self.tag = tag
@@ -37,10 +32,10 @@ public struct StyledRootView<Content: View, AppState: FireState>: View {
     
     public var body: some View {
         
-        let content = content()
+        let content = StyledView<Content, AppState>(state: AppState.self, content: content)
         
-        let label = Label(label, systemImage: state.selectedViewIdentifier == tag ? systemImage + ".fill" : systemImage)
-        let tabItem = content.tabItem { label }
+        let label = Label(label, systemImage: state.selectedViewIdentifier == tag ? systemImage + ".fill" : systemImage).tag(tag)
+        let tabItem = NavigationView { content.navigationTitle(Text(self.label)) }.tabItem { label }.tag(tag)
         let navigationLink = NavigationLink(destination: content, tag: tag, selection: $state.selectedViewIdentifier) {
             label
         }
@@ -50,7 +45,16 @@ public struct StyledRootView<Content: View, AppState: FireState>: View {
         case .carPlay:
             Text("FireUI does not yet support CarPlay")
         case .mac:
-            Text("FireUI does not support macOS Catalyst. Run the native app instead.")
+            switch state.appStyle.macStyle {
+            case .sidebar:
+                navigationLink
+            case .tabbed:
+                tabItem
+            case .plain:
+                content
+                    .tag(tag)
+                    .id(tag)
+            }
         case .pad:
             switch state.appStyle.ipadStyle {
                 case .tabbed:

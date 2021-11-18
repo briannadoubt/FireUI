@@ -9,7 +9,7 @@ import Firebase
 
 public protocol FirestoreCodable: Identifiable, Codable, Hashable, Timestamped {
     var id: String? { get set }
-    func basePath() -> String
+    static func basePath() -> String
 }
 
 extension FirestoreCodable {
@@ -17,7 +17,7 @@ extension FirestoreCodable {
     /// Save the current state of `self` to Firestore with the path `self.basePath() + "/" + self.id`
     public func save() throws {
         guard let path = defaultPath() else {
-            try Firestore.firestore().collection(basePath()).document().setData(from: self, merge: true)
+            try Firestore.firestore().collection(Self.basePath()).document().setData(from: self, merge: true)
             return
         }
         try Firestore.firestore().document(path).setData(from: self, merge: true)
@@ -64,6 +64,6 @@ extension FirestoreCodable {
         guard let id = id else {
             return nil
         }
-        return basePath() + "/" + id
+        return Self.basePath() + "/" + id
     }
 }

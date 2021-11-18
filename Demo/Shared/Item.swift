@@ -1,5 +1,5 @@
 //
-//  DemoObject.swift
+//  Item.swift
 //  FireUI Demo
 //
 //  Created by Bri on 11/16/21.

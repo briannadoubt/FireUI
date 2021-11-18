@@ -7,25 +7,55 @@
 
 import SwiftUI
 
-public struct StyledScene<Content: View, AppState: FireState>: Scene {
+public struct StyledScene<Logo: View, Content: View, Settings: View, AppState: FireState>: Scene {
     
-    @Binding public var selection: String?
-    @ObservedObject public var state: AppState
-    @ViewBuilder public var logo: () -> Image
-    @ViewBuilder public var content: Content
+    @ViewBuilder public var logo: () -> Logo?
+    @ViewBuilder public var settings: () -> Settings
+    @ViewBuilder public var content: () -> Content
+    
+    @ObservedObject private var state: AppState
+    @ObservedObject private var user: FirebaseUser
+    
+    public init(
+        selectedViewIdentifier: Binding<String?>,
+        state: AppState,
+        user: FirebaseUser,
+        @ViewBuilder logo: @escaping () -> Logo?,
+        @ViewBuilder settings: @escaping () -> Settings,
+        @ViewBuilder content: @escaping () -> Content
+    ) {
+        self._selectedViewIdentifier = selectedViewIdentifier
+        self.state = state
+        self.user = user
+        self.logo = logo
+        self.settings = settings
+        self.content = content
+    }
+    
+    @Binding private var selectedViewIdentifier: String?
     
     public var body: some Scene {
         WindowGroup {
-            let tabView = TabView(selection: $selection) {
+            let content = content()
+                .environmentObject(state)
+                .environmentObject(user)
+            
+            let settings = settings()
+                .environmentObject(state)
+                .environmentObject(user)
+            
+            let tabView = TabView(selection: $selectedViewIdentifier) {
                 content
+                settings
             }
             
             #if !os(macOS)
             let paged = tabView.tabViewStyle(PageTabViewStyle())
             #endif
             
-            let list = List(selection: $selection) {
+            let list = List(selection: $selectedViewIdentifier) {
                 content
+                settings
             }
             
             let navigation = NavigationView {
@@ -37,7 +67,9 @@ public struct StyledScene<Content: View, AppState: FireState>: Scene {
                     HStack {
                         Spacer()
                         VStack {
-                            logo().resizable().scaledToFit().frame(width: 88, height: 88, alignment: .center)
+                            if let logo = logo() {
+                                logo.scaledToFit().frame(width: 88, height: 88, alignment: .center)
+                            }
                             Text(state.appName).font(.largeTitle).bold()
                             Spacer()
                         }
@@ -45,6 +77,7 @@ public struct StyledScene<Content: View, AppState: FireState>: Scene {
                     }
                     
                     content
+                    settings
                 }
                 .listStyle(SidebarListStyle())
                 .navigationTitle(state.appName)
@@ -92,13 +125,17 @@ public struct StyledScene<Content: View, AppState: FireState>: Scene {
                 Text("What is happening??")
             }
             #elseif os(macOS)
-            switch state.appStyle.macStyle {
-            case .sidebar:
-                sidebar
-            case .tabbed:
-                tabView
-            case .plain:
-                content
+            if !user.isAuthenticated {
+                content.padding().fixedSize()
+            } else {
+                switch state.appStyle.macStyle {
+                case .sidebar:
+                    sidebar
+                case .tabbed:
+                    tabView
+                case .plain:
+                    content
+                }
             }
             #elseif os(watchOS)
             switch state.appStyle.watchStyle {
