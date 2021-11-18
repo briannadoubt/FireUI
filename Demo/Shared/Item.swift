@@ -5,9 +5,7 @@
 //  Created by Bri on 11/16/21.
 //
 
-import Foundation
 import FireUI
-import FirebaseFirestoreSwift
 
 struct Item: FirestoreCodable {
     

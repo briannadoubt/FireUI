@@ -5,7 +5,7 @@
 //  Created by Bri on 10/22/21.
 //
 
-import SwiftUI
+@_exported import SwiftUI
 
 public struct StyledRootView<Content: View, AppState: FireState>: View {
     

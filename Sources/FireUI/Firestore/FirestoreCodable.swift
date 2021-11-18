@@ -5,7 +5,7 @@
 //  Created by Brianna Doubt on 9/7/20.
 //
 
-import Firebase
+@_exported import Firebase
 
 public protocol FirestoreCodable: Identifiable, Codable, Hashable, Timestamped {
     var id: String? { get set }

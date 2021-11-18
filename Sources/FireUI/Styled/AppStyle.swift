@@ -5,7 +5,7 @@
 //  Created by Bri on 10/22/21.
 //
 
-import Foundation
+@_exported import Foundation
 
 public struct AppStyle {
     

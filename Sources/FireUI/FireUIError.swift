@@ -5,7 +5,7 @@
 //  Created by Brianna Lee on 10/15/20.
 //
 
-import Foundation
+@_exported import Foundation
 
 enum FireUIError: Error {
 

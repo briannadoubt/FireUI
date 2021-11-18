@@ -5,7 +5,7 @@
 //  Created by Bri on 10/20/21.
 //
 
-import SwiftUI
+@_exported import SwiftUI
 
 public protocol FireState: ObservableObject {
     

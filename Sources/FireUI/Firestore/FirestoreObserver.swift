@@ -5,9 +5,9 @@
 //  Created by Brianna Lee on 4/27/21.
 //
 
-import SwiftUI
-import Combine
-import Firebase
+@_exported import SwiftUI
+@_exported import Combine
+@_exported import Firebase
 
 public protocol FirestoreObservable {
     var listener: ListenerRegistration? { get set }

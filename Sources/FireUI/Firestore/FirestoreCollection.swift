@@ -5,9 +5,9 @@
 //  Created by Brianna Lee on 10/15/20.
 //
 
-import Foundation
-import Firebase
-import FirebaseFirestoreSwift
+@_exported import Foundation
+@_exported import Firebase
+@_exported import FirebaseFirestoreSwift
 
 public typealias CollectionPath = String
 

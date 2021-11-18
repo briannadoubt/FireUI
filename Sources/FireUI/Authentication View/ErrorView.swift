@@ -5,8 +5,8 @@
 //  Created by Brianna Lee on 10/9/20.
 //
 
-import SwiftUI
-import Firebase
+@_exported import SwiftUI
+@_exported import Firebase
 
 enum ErrorType {
     case error

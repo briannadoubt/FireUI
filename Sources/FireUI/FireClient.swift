@@ -5,9 +5,9 @@
 //  Created by Brianna Doubt on 10/9/21.
 //
 
-import Firebase
-import FirebaseFirestoreSwift
-import SwiftUI
+@_exported import Firebase
+@_exported import FirebaseFirestoreSwift
+@_exported import SwiftUI
 
 public struct FireClient<Human: Person, Logo: View, Footer: View, Content: View, AppState: FireState>: View {
     

@@ -5,7 +5,6 @@
 //  Created by Bri on 11/16/21.
 //
 
-import SwiftUI
 import FireUI
 
 struct SettingsView: View {

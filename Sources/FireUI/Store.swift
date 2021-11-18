@@ -5,8 +5,8 @@
 //  Created by Bri on 10/20/21.
 //
 
-import FirebaseCrashlytics
-import StoreKit
+@_exported import FirebaseCrashlytics
+@_exported import StoreKit
 
 public enum StoreProduct: String, Identifiable, CaseIterable, Codable {
     

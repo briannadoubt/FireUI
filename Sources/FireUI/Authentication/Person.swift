@@ -5,8 +5,8 @@
 //  Created by Brianna Doubt on 10/11/21.
 //
 
-import Foundation
-import FirebaseFirestoreSwift
+@_exported import Foundation
+@_exported import FirebaseFirestoreSwift
 
 public typealias PersonID = String
 

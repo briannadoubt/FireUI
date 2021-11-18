@@ -5,9 +5,9 @@
 //  Created by Brianna Doubt on 8/30/20.
 //
 
-import Foundation
-import Firebase
-import SwiftUI
+@_exported import Foundation
+@_exported import Firebase
+@_exported import SwiftUI
 
 public class FirebaseUser: ObservableObject, FirestoreObservable {
 

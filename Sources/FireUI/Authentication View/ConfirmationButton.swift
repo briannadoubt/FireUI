@@ -5,7 +5,7 @@
 //  Created by Brianna Lee on 10/9/20.
 //
 
-import SwiftUI
+@_exported import SwiftUI
 
 #if os(macOS)
 struct ConfirmationButton: View {

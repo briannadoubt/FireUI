@@ -5,8 +5,8 @@
 //  Created by Brianna Lee on 8/29/20.
 //
 
-import SwiftUI
-import Firebase
+@_exported import SwiftUI
+@_exported import Firebase
 
 public struct AuthenticationView<Logo: View, Footer: View, Human: Person>: View  {
     

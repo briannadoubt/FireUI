@@ -5,7 +5,7 @@
 //  Created by Brianna Doubt on 10/15/21.
 //
 
-import SwiftUI
+@_exported import SwiftUI
 
 public struct FireContentView<Human: Person, Content: View>: View {
     

@@ -5,8 +5,8 @@
 //  Created by Brianna Lee on 10/27/20.
 //
 
-import Foundation
-import SwiftUI
+@_exported import Foundation
+@_exported import SwiftUI
 
 enum AuthenticationViewState: String, CaseIterable, Identifiable {
 

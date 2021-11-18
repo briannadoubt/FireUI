@@ -5,9 +5,9 @@
 //  Created by Bri on 10/20/21.
 //
 
-import SwiftUI
-import Firebase
-import StoreKit
+@_exported import SwiftUI
+@_exported import Firebase
+@_exported import StoreKit
 
 #if !os(watchOS)
 import FirebaseAppCheck

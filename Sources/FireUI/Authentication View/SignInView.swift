@@ -5,9 +5,9 @@
 //  Created by Brianna Lee on 8/29/20.
 //
 
-import SwiftUI
-import AuthenticationServices
-import Firebase
+@_exported import SwiftUI
+@_exported import AuthenticationServices
+@_exported import Firebase
 
 struct SignInView: View {
 

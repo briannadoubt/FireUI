@@ -5,8 +5,8 @@
 //  Created by Bri on 10/20/21.
 //
 
-import Firebase
-import FirebaseAppCheck
+@_exported import Firebase
+@_exported import FirebaseAppCheck
 
 #if !os(watchOS)
 class FireAppChackProviderFactory: NSObject, AppCheckProviderFactory {

@@ -5,7 +5,7 @@
 //  Created by Bri on 10/21/21.
 //
 
-import SwiftUI
+@_exported import SwiftUI
 
 public struct StyledScene<Logo: View, Content: View, Settings: View, AppState: FireState>: Scene {
     
