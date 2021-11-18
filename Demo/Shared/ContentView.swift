@@ -46,6 +46,10 @@ struct ContentView: View {
                 }
             }
         )
+        
+        #if os(macOS)
+        SettingsView()
+        #endif
     }
 }
 

@@ -44,9 +44,15 @@ public struct StyledScene<Logo: View, Content: View, Settings: View, AppState: F
                 .environmentObject(state)
                 .environmentObject(user)
             
-            let tabView = TabView(selection: $selectedViewIdentifier) {
+            let group = Group {
                 content
+                #if !os(macOS)
                 settings
+                #endif
+            }
+            
+            let tabView = TabView(selection: $selectedViewIdentifier) {
+                group
             }
             
             #if !os(macOS)
@@ -54,8 +60,7 @@ public struct StyledScene<Logo: View, Content: View, Settings: View, AppState: F
             #endif
             
             let list = List(selection: $selectedViewIdentifier) {
-                content
-                settings
+                group
             }
             
             let navigation = NavigationView {
