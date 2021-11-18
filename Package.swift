@@ -63,20 +63,6 @@ let package = Package(
                     package: "Firebase",
                     condition: .when(platforms: [.iOS, .macOS, .watchOS, .tvOS])
                 )
-            ],
-            linkerSettings: [
-                .linkedFramework(
-                    "SwiftUI",
-                    .when(platforms: [.iOS, .tvOS, .macOS, .watchOS])
-                ),
-                .linkedFramework(
-                    "Foundation",
-                    .when(platforms: [.iOS, .tvOS, .macOS, .watchOS])
-                ),
-                .linkedFramework(
-                    "Combine",
-                    .when(platforms: [.iOS, .tvOS, .macOS, .watchOS])
-                )
             ]
         ),
         .testTarget(
