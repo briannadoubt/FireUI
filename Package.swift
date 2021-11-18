@@ -12,14 +12,12 @@ let package = Package(
     name: "FireUI",
     platforms: [.iOS(.v14), .macOS(.v11)],
     products: [
-        // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "FireUI",
             targets: ["FireUI"]
         )
     ],
     dependencies: [
-        // Dependencies declare other packages that this package depends on.
         .package(
             name: "Firebase",
             url: "https://github.com/firebase/firebase-ios-sdk.git",
@@ -42,7 +40,8 @@ let package = Package(
             dependencies: [
                 .product(
                     name: "AdMobUI",
-                    package: "AdMobUI"
+                    package: "AdMobUI",
+                    condition: .when(platforms: [.iOS])
                 ),
                 .product(
                     name: "FirebaseAuth",
@@ -85,7 +84,13 @@ let package = Package(
                     condition: .when(platforms: [.wasi])
                 )
             ]
-        )
+        ),
+        .target(
+            name: "FireUIDemo",
+            dependencies: [
+                .product(name: "FireUI", package: "FireUI")
+            ]
+        )//,
 //        .testTarget(
 //            name: "FireUITests",
 //            dependencies: [
