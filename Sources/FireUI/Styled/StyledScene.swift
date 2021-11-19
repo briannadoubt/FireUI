@@ -7,10 +7,9 @@
 
 @_exported import SwiftUI
 
-public struct StyledScene<Logo: View, Content: View, Settings: View, AppState: FireState>: Scene {
+public struct StyledScene<Logo: View, Content: View, AppState: FireState>: Scene {
     
     @ViewBuilder public var logo: () -> Logo?
-    @ViewBuilder public var settings: () -> Settings
     @ViewBuilder public var content: () -> Content
     
     @ObservedObject private var state: AppState
@@ -21,14 +20,12 @@ public struct StyledScene<Logo: View, Content: View, Settings: View, AppState: F
         state: AppState,
         user: FirebaseUser,
         @ViewBuilder logo: @escaping () -> Logo?,
-        @ViewBuilder settings: @escaping () -> Settings,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self._selectedViewIdentifier = selectedViewIdentifier
         self.state = state
         self.user = user
         self.logo = logo
-        self.settings = settings
         self.content = content
     }
     
@@ -40,15 +37,8 @@ public struct StyledScene<Logo: View, Content: View, Settings: View, AppState: F
                 .environmentObject(state)
                 .environmentObject(user)
             
-            let settings = settings()
-                .environmentObject(state)
-                .environmentObject(user)
-            
             let group = Group {
                 content
-                #if !os(macOS)
-                settings
-                #endif
             }
             
             let tabView = TabView(selection: $selectedViewIdentifier) {
@@ -82,7 +72,6 @@ public struct StyledScene<Logo: View, Content: View, Settings: View, AppState: F
                     }
                     
                     content
-                    settings
                 }
                 .listStyle(SidebarListStyle())
                 .navigationTitle(state.appName)
