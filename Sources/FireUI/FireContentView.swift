@@ -22,8 +22,8 @@ public struct FireContentView<Human: Person, Content: View>: View {
     public var body: some View {
         AnyView {
             content()
+                .observe(person)
+                .environmentObject(person)
         }
-        .observe(person)
-        .environmentObject(person)
     }
 }
