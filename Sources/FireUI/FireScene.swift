@@ -13,7 +13,7 @@
 import FirebaseAppCheck
 #endif
 
-public struct FireScene<Logo: View, Settings: View, Footer: View, Content: View, AppState: FireState, Human: Person>: Scene {
+public struct FireScene<Logo: View, Settings: View, Footer: View, Content: View, AppState: FireState, Merch: ProductRepresentable, Human: Person>: Scene {
     
     @ViewBuilder fileprivate var content: () -> Content
     @ViewBuilder fileprivate var logo: () -> Logo?
@@ -23,7 +23,7 @@ public struct FireScene<Logo: View, Settings: View, Footer: View, Content: View,
     fileprivate let newPerson: Human.New
     
     @StateObject public var user = FirebaseUser(basePath: Human.basePath())
-    @StateObject public var store = Store()
+    @StateObject public var store = Store<Merch>()
     @StateObject public var state = AppState.shared
     
     @Environment(\.scenePhase) private var scenePhase
@@ -31,7 +31,8 @@ public struct FireScene<Logo: View, Settings: View, Footer: View, Content: View,
     @State private var showingWelcomeScreen = false
     
     public init(
-        stateType: AppState.Type,
+        state: AppState.Type,
+        product: Merch.Type,
         newPerson: @escaping Human.New = Human.new(uid:email:nickname:),
         @ViewBuilder content: @escaping () -> Content,
         @ViewBuilder logo: @escaping () -> Logo? = { nil },
@@ -39,7 +40,6 @@ public struct FireScene<Logo: View, Settings: View, Footer: View, Content: View,
         @ViewBuilder footer: @escaping () -> Footer? = { nil }
     ) {
         self.newPerson = newPerson
-        
         self.content = content
         self.logo = logo
         self.settings = settings
@@ -70,12 +70,11 @@ public struct FireScene<Logo: View, Settings: View, Footer: View, Content: View,
             selectedViewIdentifier: $state.selectedViewIdentifier,
             state: state,
             user: user,
-            logo: logo,
-            settings: settings
+            logo: logo
         ) {
             FireClient(
-                state: state,
-                personType: Human.self,
+                state: AppState.self,
+                person: Human.self,
                 authenticationView: {
                     AuthenticationView(
                         newPerson: newPerson,
@@ -83,7 +82,8 @@ public struct FireScene<Logo: View, Settings: View, Footer: View, Content: View,
                         footer: footer
                     )
                 },
-                content: content
+                content: content,
+                settings: settings
             )
             .environmentObject(state)
             .environmentObject(store)
