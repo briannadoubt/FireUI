@@ -139,10 +139,9 @@ public struct AuthenticationView<Logo: View, Footer: View, Human: Person>: View 
                     }
                 }
             }
-            .accentColor(Color("AccentColor"))
         }
         .onAppear {
-            withAnimation(Animation.linear.delay(0.5)) {
+            withAnimation(Animation.linear.delay(0.3)) {
                 isShowingForm = true
             }
         }
