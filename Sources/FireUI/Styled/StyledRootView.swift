@@ -7,7 +7,7 @@
 
 @_exported import SwiftUI
 
-public struct StyledRootView<Content: View, AppState: FireState>: View {
+public struct StyledRootView<Content: View, AppState: FireState, Human: Person>: View {
     
     @EnvironmentObject fileprivate var state: AppState
     
@@ -19,6 +19,7 @@ public struct StyledRootView<Content: View, AppState: FireState>: View {
     
     public init(
         state: AppState.Type,
+        person: Human.Type,
         label: String,
         systemImage: String,
         tag: String,
