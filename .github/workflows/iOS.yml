@@ -1,5 +1,5 @@
 
-name: Run XCTests on iOS, iPadOS, macOS, watchOS, and tvOS
+name: iOS XCTests
 on:
   push:
     branches:
@@ -8,12 +8,12 @@ on:
     branches:
       - master
 jobs:
-  build:
-    name: iOS Tests
+  test-ios-14:
     runs-on: macos-latest
+    name: Test iOS 14
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+        name: Checkout
       - name: Setup iOS 14.0 build
         run: >-
           xcodebuild test -workspace TestApp.xcodeproj/project.xcworkspace
@@ -43,7 +43,7 @@ jobs:
         run: >-
           xcodebuild test -workspace TestApp.xcodeproj/project.xcworkspace
           -scheme Tests_iOS -destination 'platform=iOS Simulator,name=iPad Pro (12.9-inch) (4th generation),OS=14.0'
-  build:
+  test-ios-15:
     name: iOS 15.0 Tests
     runs-on: macos-latest
     steps:
