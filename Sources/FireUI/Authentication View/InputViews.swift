@@ -31,57 +31,6 @@ public struct SignOutButton: View {
     }
 }
 
-public struct DeleteUserButton<Human: Person>: View {
-    
-    @Binding public var error: Error?
-    
-    public init(error: Binding<Error?>) {
-        self._error = error
-    }
-    
-    @EnvironmentObject fileprivate var user: FirebaseUser
-    @EnvironmentObject fileprivate var person: FirestoreDocument<Human>
-    
-    public var body: some View {
-        Button {
-            do {
-                guard let personDocument = person.document else {
-                    throw FireUIError.userNotFound
-                }
-                try user.delete(person: personDocument)
-            } catch {
-                print(error)
-                self.error = error
-            }
-        } label: {
-            Label("Delete Account", systemImage: "person.fill.xmark")
-        }
-    }
-}
-
-public struct SignInButton: View {
-    
-    public var label: String
-    @Binding public var error: Error?
-    
-    public init(label: String, error: Binding<Error?>) {
-        self.label = label
-        self._error = error
-    }
-    
-    @EnvironmentObject fileprivate var user: FirebaseUser
-    
-    public var body: some View {
-        ConfirmationButton(label: label) {
-            do {
-                try user.signIn()
-            } catch {
-                self.error = error
-            }
-        }
-    }
-}
-
 public struct SignUpButton<Human: Person>: View {
     
     public var label: String
