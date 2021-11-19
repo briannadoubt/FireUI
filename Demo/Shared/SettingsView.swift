@@ -18,6 +18,7 @@ struct SettingsView: View {
     var body: some View {
         StyledRootView(
             state: FireUIAppState.self,
+            person: Human.self,
             label: "Settings",
             systemImage: "gear",
             tag: "settings"
