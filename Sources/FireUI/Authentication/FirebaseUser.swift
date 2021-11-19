@@ -23,8 +23,14 @@ public class FirebaseUser: ObservableObject, FirestoreObservable {
     
     public init(basePath: String) {
         self.basePath = basePath
-        if FirebaseApp.app() != nil && Auth.auth().currentUser != nil {
-            self.isAuthenticated = true
+    }
+    
+    private func setAuthentication(_ authenticated: Bool, uid: String?) {
+        DispatchQueue.main.async {
+            withAnimation {
+                self.isAuthenticated = authenticated
+                self.uid = uid
+            }
         }
     }
     
@@ -35,12 +41,10 @@ public class FirebaseUser: ObservableObject, FirestoreObservable {
         DispatchQueue.main.async {
             withAnimation {
                 guard let newUser = newUser else {
-                    self.uid = nil
-                    self.isAuthenticated = false
+                    self.setAuthentication(false, uid: nil)
                     return
                 }
-                self.uid = newUser.uid
-                self.isAuthenticated = true
+                self.setAuthentication(true, uid: newUser.uid)
             }
         }
     }
@@ -76,6 +80,7 @@ public class FirebaseUser: ObservableObject, FirestoreObservable {
         let user = try await Auth.auth().createUser(withEmail: email, password: password).user
 
         try await user.sendEmailVerification()
+        
         let changeRequest = user.createProfileChangeRequest()
         changeRequest.displayName = nickname
 
@@ -87,53 +92,58 @@ public class FirebaseUser: ObservableObject, FirestoreObservable {
     
     public func signUp<Human: Person>(
         newPerson: @escaping (_ uid: PersonID, _ email: String, _ nickname: String) -> Human = Human.new,
-        complete: ((_ person: Human?, _ error: Error?) -> ())? = nil
+        complete: @escaping (_ person: Human?, _ error: Error?) -> ()
     ) {
         if listener == nil {
             setListener()
         }
         
         guard nickname != "" else {
-            complete?(nil, FireUIError.missingNickname)
+            complete(nil, FireUIError.missingNickname)
             return
         }
         guard email != "" else {
-            complete?(nil, FireUIError.missingEmailAddress)
+            complete(nil, FireUIError.missingEmailAddress)
             return
         }
         guard password != "" else {
-            complete?(nil, FireUIError.missingPassword)
+            complete(nil, FireUIError.missingPassword)
             return
         }
         guard verifyPassword != "" else {
-            complete?(nil, FireUIError.missingPasswordVerification)
+            complete(nil, FireUIError.missingPasswordVerification)
             return
         }
         guard password == verifyPassword else {
-            complete?(nil, FireUIError.failedPasswordVerification)
+            complete(nil, FireUIError.failedPasswordVerification)
             return
         }
         
         Auth.auth().createUser(withEmail: email, password: password) { snapshot, error in
             if let error = error {
-                complete?(nil, error)
-                Crashlytics.crashlytics().record(error: error)
+                complete(nil, error)
                 return
             }
-            guard let uid = snapshot?.user.uid else {
-                complete?(nil, FireUIError.userNotFound)
-                Crashlytics.crashlytics().record(error: FireUIError.userNotFound)
+            guard let user = snapshot?.user else {
+                complete(nil, FireUIError.userNotFound)
                 return
             }
-
-            let person = newPerson(uid, self.email, self.nickname)
 
             do {
+                user.sendEmailVerification { error in
+                    if let error = error {
+                        complete(nil, error)
+                        return
+                    }
+                }
+
+                let person = newPerson(user.uid, self.email, self.nickname)
+                
                 try person.save()
-                complete?(person, nil)
+                
+                complete(person, nil)
             } catch {
-                complete?(nil, error)
-                Crashlytics.crashlytics().record(error: error)
+                complete(nil, error)
             }
         }
     }
@@ -146,14 +156,15 @@ public class FirebaseUser: ObservableObject, FirestoreObservable {
         try await Auth.auth().currentUser?.updateEmail(to: email)
     }
     
-    public func updateEmail(email: String) {
+    public func updateEmail(email: String, _ complete: @escaping (_ error: Error?) -> ()) {
         if listener == nil {
             setListener()
         }
         Auth.auth().currentUser?.updateEmail(to: email) { error in
             if let error = error {
-                Crashlytics.crashlytics().record(error: error)
+                complete(error)
             }
+            complete(nil)
         }
     }
 
@@ -181,20 +192,26 @@ public class FirebaseUser: ObservableObject, FirestoreObservable {
         try await Auth.auth().signIn(withEmail: email, password: password)
     }
     
-    func signIn() throws {
+    func signIn(_ complete: @escaping (_ error: Error?) -> ()) {
         if listener == nil {
             setListener()
         }
         
         if email.isEmpty {
-            throw FireUIError.missingEmailAddress
+            complete(FireUIError.missingEmailAddress)
         }
 
         if password.isEmpty {
-            throw FireUIError.missingPassword
+            complete(FireUIError.missingPassword)
         }
         
-        Auth.auth().signIn(withEmail: email, password: password)
+        Auth.auth().signIn(withEmail: email, password: password) { snapshot, error in
+            if let error = error {
+                complete(error)
+                return
+            }
+            complete(nil)
+        }
     }
 
     @available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *)
@@ -209,15 +226,26 @@ public class FirebaseUser: ObservableObject, FirestoreObservable {
         try await person.delete()
     }
     
-    func delete<Human: Person>(person: Human) throws {
+    func delete<Human: Person>(person: Human, _ complete: @escaping (_ error: Error?) -> ()) {
         if listener == nil {
             setListener()
         }
         guard let user = Auth.auth().currentUser else {
-            throw FireUIError.userNotFound
+            complete(FireUIError.userNotFound)
+            return
         }
-        user.delete()
-        try person.delete()
+        user.delete { error in
+            if let error = error {
+                complete(error)
+                return
+            }
+        }
+        do {
+            try person.delete()
+            complete(nil)
+        } catch {
+            complete(error)
+        }
     }
 
     @available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *)
@@ -235,17 +263,26 @@ public class FirebaseUser: ObservableObject, FirestoreObservable {
         try await changeRequest.commitChanges()
     }
     
-    private func updateUserProfile(displayName: String?) throws {
+    private func updateUserProfile(
+        displayName: String?,
+        _ complete: @escaping (_ error: Error?) -> ()
+    ) {
         if listener == nil {
             setListener()
         }
         guard let user = Auth.auth().currentUser else {
-            throw FireUIError.userNotFound
+            complete(FireUIError.userNotFound)
+            return
         }
         let changeRequest = user.createProfileChangeRequest()
         if let displayName = displayName {
             changeRequest.displayName = displayName
         }
-        changeRequest.commitChanges()
+        changeRequest.commitChanges { error in
+            if let error = error {
+                complete(error)
+            }
+        }
+        complete(nil)
     }
 }
