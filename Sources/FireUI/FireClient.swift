@@ -9,33 +9,36 @@
 @_exported import FirebaseFirestoreSwift
 @_exported import SwiftUI
 
-public struct FireClient<Human: Person, Logo: View, Footer: View, Content: View, AppState: FireState>: View {
+public struct FireClient<Human: Person, Logo: View, Footer: View, Content: View, Settings: View, AppState: FireState>: View {
     
-    private let contentView: (_ uid: String) -> FireContentView<Human, Content>
-    private let authenticationView: AuthenticationView<Logo, Footer, Human>
+    @ViewBuilder fileprivate let authenticationView: AuthenticationView<Logo, Footer, Human>
+    @ViewBuilder fileprivate let content: (_ uid: String) -> FireContentView<Human, Content>
+    @ViewBuilder fileprivate let settings: (_ uid: String) -> FireSettingsView<Human, Settings>
     
-    @ObservedObject private var state: AppState
-    
-    @EnvironmentObject var user: FirebaseUser
+    @EnvironmentObject fileprivate var state: AppState
+    @EnvironmentObject fileprivate var user: FirebaseUser
     
     public init(
-        state: AppState,
-        personType: Human.Type,
+        state: AppState.Type,
+        person: Human.Type,
         @ViewBuilder authenticationView: @escaping () -> AuthenticationView<Logo, Footer, Human> = {
             AuthenticationView<Logo, Footer, Human>()
         },
-        @ViewBuilder content: @escaping () -> Content
+        @ViewBuilder content: @escaping () -> Content,
+        @ViewBuilder settings: @escaping () -> Settings
     ) {
-        self.state = state
-        self.contentView = { uid in
+        self.authenticationView = authenticationView()
+        self.content = { uid in
             FireContentView<Human, Content>(uid: uid, content: content)
         }
-        self.authenticationView = authenticationView()
+        self.settings = { uid in
+            FireSettingsView<Human, Settings>(uid: uid, settings: settings)
+        }
     }
 
     public var body: some View {
-        if user.isAuthenticated, let uid = user.uid {
-            contentView(uid)
+        if let uid = user.uid, user.isAuthenticated {
+            content(uid)
                 .environmentObject(state)
                 .accentColor(.accentColor)
         } else {
