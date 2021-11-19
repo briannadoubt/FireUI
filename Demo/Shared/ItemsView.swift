@@ -14,12 +14,12 @@ struct ItemsView: View {
     var body: some View {
         StyledRootView(
             state: FireUIAppState.self,
+            person: Human.self,
             label: "Objects",
             systemImage: "1.circle",
-            tag: "objects",
+            tag: Item.basePath(),
             content: {
                 List {
-                    Text("Something")
                     ForEach(items) { item in
                         NavigationLink(item.text, destination: ItemView(item: item))
                     }
@@ -27,7 +27,17 @@ struct ItemsView: View {
                 .toolbar {
                     ToolbarItem(placement: .primaryAction) {
                         Button {
-                            try! Item(text: "New Item: \(UUID().uuidString)", created: Date(), updated: Date()).save()
+                            let newItem = Item(
+                                text: "New Item with ID \(UUID().uuidString)",
+                                created: Date(),
+                                updated: Date()
+                            )
+                            do {
+                                try newItem.save()
+                            } catch {
+                                // TODO: - Fix me
+                                fatalError("Failed to save new Item with error: " + error.localizedDescription)
+                            }
                         } label: {
                             Label("New Item", systemImage: "plus")
                         }
