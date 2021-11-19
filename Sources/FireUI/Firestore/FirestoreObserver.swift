@@ -15,40 +15,33 @@ public protocol FirestoreObservable {
 }
 
 extension View {
-    public func observe(_ observers: [FirestoreObservable], _ firebaseEnabled: Bool = true) -> some View {
+    public func observe(_ observers: [FirestoreObservable]) -> some View {
         modifier(FirestoreObserver(observers: observers))
     }
-    public func observe(_ observer: FirestoreObservable, _ firebaseEnabled: Bool = true) -> some View {
+    public func observe(_ observer: FirestoreObservable) -> some View {
         modifier(FirestoreObserver(observer: observer))
     }
 }
 
 public struct FirestoreObserver: ViewModifier {
-
-    private var firebaseEnabled = false
     
     private var observers: [FirestoreObservable]?
     private var observer: FirestoreObservable?
     
-    public init(observers: [FirestoreObservable], _ firebaseEnabled: Bool = true) {
+    public init(observers: [FirestoreObservable]) {
         self.observers = observers
-        self.firebaseEnabled = firebaseEnabled
     }
     
-    public init(observer: FirestoreObservable, _ firebaseEnabled: Bool = true) {
+    public init(observer: FirestoreObservable) {
         self.observer = observer
-        self.firebaseEnabled = firebaseEnabled
     }
     
     public func body(content: Content) -> some View {
         content.onAppear {
-            guard firebaseEnabled else {
-                return
-            }
             do {
                 try setObservers()
             } catch {
-                print(error)
+                fatalError(error.localizedDescription)
             }
         }
     }
