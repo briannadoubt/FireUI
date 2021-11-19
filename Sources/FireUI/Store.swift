@@ -8,23 +8,18 @@
 @_exported import FirebaseCrashlytics
 @_exported import StoreKit
 
-public enum StoreProduct: String, Identifiable, CaseIterable, Codable {
+public protocol ProductRepresentable: RawRepresentable, CaseIterable, Identifiable, Codable, Equatable {
     
-    case noAds
+    /// Conform to `Identifiable`
+    var id: String { get }
     
-    public var id: String { rawValue }
-    
-    public var icon: String {
-        switch self {
-        case .noAds:
-            return "circle"
-        }
-    }
+    /// The `systemImage` name for a SF Symbols icon
+    var icon: String { get }
 }
 
-public class Store: NSObject, ObservableObject, SKProductsRequestDelegate, SKPaymentTransactionObserver {
+public class Store<ProductType: ProductRepresentable>: NSObject, ObservableObject, SKProductsRequestDelegate, SKPaymentTransactionObserver {
     
-    @Published public var purchasedProducts: [StoreProduct] = []
+    @Published public var purchasedProducts: [ProductType] = []
     @Published public var error: Error?
     
     var onReceiveProductsHandler: ((Result<[SKProduct], PurchaseError>) -> Void)?
@@ -45,7 +40,7 @@ public class Store: NSObject, ObservableObject, SKProductsRequestDelegate, SKPay
     }
     
     public func getProducts() {
-        let productIdentifiers = Set(StoreProduct.allCases.map { $0.id })
+        let productIdentifiers = Set(ProductType.allCases.map { $0.id })
         let request = SKProductsRequest(productIdentifiers: productIdentifiers)
         request.delegate = self
         request.start()
@@ -160,7 +155,10 @@ public class Store: NSObject, ObservableObject, SKProductsRequestDelegate, SKPay
             switch transactions {
             case .success(let transactions):
                 for transaction in transactions {
-                    if let product = StoreProduct(rawValue: transaction.payment.productIdentifier) {
+                    if
+                        let rawValue = transaction.payment.productIdentifier as? ProductType.RawValue,
+                            let product = ProductType(rawValue: rawValue
+                            ) {
                         if self.purchasedProducts.contains(product), let index = self.purchasedProducts.firstIndex(of: product) {
                             self.purchasedProducts[index] = product
                         } else {
