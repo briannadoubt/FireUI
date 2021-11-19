@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import FireUI
 
 class Tests_iOSLaunchTests: XCTestCase {
 
