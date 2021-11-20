@@ -31,7 +31,7 @@ jobs:
 
       - name: Test iPhone 8 Plus
         run: >-
-          xcodebuild \
+          xcodebuild
           -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
           -scheme Tests\ iOS
           -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=15.0'
