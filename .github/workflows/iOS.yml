@@ -15,11 +15,11 @@ jobs:
     steps:
       - name: Checkout latest commit
         uses: actions/checkout@v2
-        
+
       - name: Build for testing
         run: >-
           xcodebuild build-for-testing \
-          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace \
+          -project Demo/FireUI\ Demo.xcodeproj \
           -scheme Tests\ iOS
 
   ios:
