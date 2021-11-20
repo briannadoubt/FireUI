@@ -59,6 +59,7 @@ public struct PasswordInput: View {
 
     public var body: some View {
         SecureField("Password", text: $password)
+            .textContentType(.password)
             .padding(8)
             .tag("password")
             .matchedGeometryEffect(id: "password", in: namespace)
@@ -73,6 +74,7 @@ public struct VerifyPasswordInput: View {
 
     public var body: some View {
         SecureField("Verify Password", text: $password)
+            .textContentType(.newPassword)
             .padding(8)
             .tag("verifyPassword")
             .matchedGeometryEffect(id: "verifyPassword", in: namespace)
@@ -120,7 +122,7 @@ public struct NicknameInput: View {
             #endif
             #if os(iOS)
             .keyboardType(.emailAddress)
-            .textContentType(.emailAddress)
+            .textContentType(.nickname)
             .ignoresSafeArea(.keyboard, edges: .bottom)
             .tag(tag)
             .accessibility(identifier: accessibilityIdentifier)

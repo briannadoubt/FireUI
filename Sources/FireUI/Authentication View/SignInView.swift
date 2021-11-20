@@ -20,15 +20,33 @@ struct SignInView: View {
     @Binding var authViewState: AuthenticationViewState
 
     var changeAuthMethod: (_ state: AuthenticationViewState) -> ()
+    
+    @EnvironmentObject fileprivate var user: FirebaseUser
+    
+    @FocusState var focus: String?
 
     var body: some View {
         VStack(spacing: 8) {
             EmailInput(email: $email, label: "Email")
-                .onChange(of: email, perform: { (newEmail) in
-                    email = newEmail.lowercased()
-                })
+                .focused($focus, equals: "emailInput")
+                .onSubmit {
+                    focus = "passwordInput"
+                }
+                .onAppear {
+                    focus = "emailInput"
+                }
 
             PasswordInput(password: $password, namespace: namespace)
+                .focused($focus, equals: "passwordInput")
+                .onSubmit {
+                    focus = nil
+                    guard email != "", password != "" else {
+                        return
+                    }
+                    user.signIn() { error in
+                        self.error = error
+                    }
+                }
             
             SignInButton(label: "Sign in with Email", error: $error)
         }

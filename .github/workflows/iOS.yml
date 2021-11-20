@@ -9,20 +9,12 @@ on:
 
 jobs:
 
-  ios:
-    name: iOS / iPadOS
+  tests:
+    name: Run XCTests on iOS and iPadOS
     runs-on: macos-latest
     steps:
       - name: Checkout latest commit
         uses: actions/checkout@v2
-        
-      - name: Build
-        run: >-
-          xcodebuild
-          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
-          -scheme Tests\ iOS
-          
-          build
 
       - name: Test iPhone 8
         run: >-
