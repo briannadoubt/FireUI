@@ -21,6 +21,7 @@
 		036B124C27487ACA00229794 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 036B124A27487ACA00229794 /* GoogleService-Info.plist */; };
 		036B124D27487ACA00229794 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 036B124A27487ACA00229794 /* GoogleService-Info.plist */; };
 		036B124E27487ACA00229794 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 036B124A27487ACA00229794 /* GoogleService-Info.plist */; };
+		0370D4032749A6960027C6BE /* FireUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0370D4022749A6960027C6BE /* FireUI */; };
 		0394C30F27483F7A0080BBC1 /* FireUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0394C30E27483F7A0080BBC1 /* FireUI */; };
 		0394C31127483F7E0080BBC1 /* FireUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0394C31027483F7E0080BBC1 /* FireUI */; };
 		0394C31327484C2A0080BBC1 /* FireUIProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0394C31227484C2A0080BBC1 /* FireUIProduct.swift */; };
@@ -38,7 +39,6 @@
 		03A0D1CF2745E87100379A96 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03A0D1CE2745E87100379A96 /* Launch Screen.storyboard */; };
 		03A87A8827249CF500D6569C /* Human.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A87A8727249CF500D6569C /* Human.swift */; };
 		03A87A8927249CF500D6569C /* Human.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A87A8727249CF500D6569C /* Human.swift */; };
-		03A87A8C27249D4800D6569C /* FireUI in Frameworks */ = {isa = PBXBuildFile; productRef = 03A87A8B27249D4800D6569C /* FireUI */; };
 		03E639542724BC1200883DEA /* FireUI in Frameworks */ = {isa = PBXBuildFile; productRef = 03E639532724BC1200883DEA /* FireUI */; };
 /* End PBXBuildFile section */
 
@@ -94,7 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				03A87A8C27249D4800D6569C /* FireUI in Frameworks */,
+				0370D4032749A6960027C6BE /* FireUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,7 +240,7 @@
 			);
 			name = iOS;
 			packageProductDependencies = (
-				03A87A8B27249D4800D6569C /* FireUI */,
+				0370D4022749A6960027C6BE /* FireUI */,
 			);
 			productName = "Demo (iOS)";
 			productReference = 031D8F2227249B7000D2C7C4 /* FireUI Demo.app */;
@@ -879,17 +879,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0370D4022749A6960027C6BE /* FireUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FireUI;
+		};
 		0394C30E27483F7A0080BBC1 /* FireUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FireUI;
 		};
 		0394C31027483F7E0080BBC1 /* FireUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = FireUI;
-		};
-		03A87A8B27249D4800D6569C /* FireUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 03A87A8A27249D4800D6569C /* XCRemoteSwiftPackageReference "." */;
 			productName = FireUI;
 		};
 		03E639532724BC1200883DEA /* FireUI */ = {
