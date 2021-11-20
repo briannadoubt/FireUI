@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>501834001924-bdrc22v3b242ju9hfuursvojveakcmb1.apps.googleusercontent.com</string>
+	<string>501834001924-coefhfogtufu2juhv1p1m913n0is8c5l.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.501834001924-bdrc22v3b242ju9hfuursvojveakcmb1</string>
+	<string>com.googleusercontent.apps.501834001924-coefhfogtufu2juhv1p1m913n0is8c5l</string>
 	<key>API_KEY</key>
 	<string>AIzaSyAls2v2gRa-GIsrZfTJd0V0ORcjEeu8ArU</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.briannadoubt.FireUIDemo</string>
+	<string>com.briannadoubt.FireUI</string>
 	<key>PROJECT_ID</key>
 	<string>fireui-demo</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:501834001924:ios:4d9f6cabb7e2c2bdcdcf51</string>
+	<string>1:501834001924:ios:27b165e6bcbe3c48cdcf51</string>
 	<key>DATABASE_URL</key>
 	<string>https://fireui-demo-default-rtdb.firebaseio.com</string>
 </dict>
