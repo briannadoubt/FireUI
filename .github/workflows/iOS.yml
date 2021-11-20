@@ -21,7 +21,7 @@ jobs:
           xcodebuild
           -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
           -scheme Tests\ iOS
-          build-for-testing
+          build
 
   ios:
     name: iOS
