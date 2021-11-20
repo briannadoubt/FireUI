@@ -1,4 +1,9 @@
-# Xcode
+
+## Firebase test data
+Tests/DerivedData/*
+Tests/DerivedData/*/Index/*
+Tests/DerivedData/*/Index/Build/*
+!Tests/DerivedData/*/Index/Build/Products/
 
 ## User settings
 xcuserdata/
