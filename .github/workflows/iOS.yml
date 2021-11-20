@@ -13,6 +13,10 @@ jobs:
     name: Run Tests
     runs-on: macos-latest
     steps:
+      - name: Install utilities
+        run: >-
+          gem install xcpretty
+
       - name: Checkout latest commit
         uses: actions/checkout@v2
 
@@ -23,6 +27,7 @@ jobs:
           -scheme Tests\ iOS
           -destination 'platform=iOS Simulator,name=iPhone 8,OS=15.0'
           test
+          | xcpretty && exit ${PIPESTATUS[0]}
 
       - name: Test iPhone 8 Plus
         run: >-
@@ -31,6 +36,7 @@ jobs:
           -scheme Tests\ iOS
           -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=15.0'
           test
+          | xcpretty && exit ${PIPESTATUS[0]}
 
       - name: Test iPhone 11
         run: >-
@@ -39,6 +45,7 @@ jobs:
           -scheme Tests\ iOS
           -destination 'platform=iOS Simulator,name=iPhone 11,OS=15.0'
           test
+          | xcpretty && exit ${PIPESTATUS[0]}
 
       - name: Test iPhone 11 Pro
         run: >-
@@ -47,6 +54,7 @@ jobs:
           -scheme Tests\ iOS 
           -destination 'platform=iOS Simulator,name=iPhone 11 Pro,OS=15.0
           test
+          | xcpretty && exit ${PIPESTATUS[0]}
 
       - name: Test iPhone 11 Pro Max
         run: >-
@@ -55,6 +63,7 @@ jobs:
           -scheme Tests\ iOS
           -destination 'platform=iOS Simulator,name=iPhone 11 Pro Max,OS=15.0'
           test
+          | xcpretty && exit ${PIPESTATUS[0]}
 
       - name: Test iPhone 12
         run: >-
@@ -63,6 +72,7 @@ jobs:
           -scheme Tests\ iOS
           -destination 'platform=iOS Simulator,name=iPhone 12,OS=15.0'
           test
+          | xcpretty && exit ${PIPESTATUS[0]}
 
       - name: Test iPhone 12 Pro
         run: >-
@@ -71,6 +81,7 @@ jobs:
           -scheme Tests\ iOS
           -destination 'platform=iOS Simulator,name=iPhone 12 Pro,OS=15.0'
           test
+          | xcpretty && exit ${PIPESTATUS[0]}
 
       - name: Test iPhone 12 Pro Max
         run: >-
@@ -79,6 +90,7 @@ jobs:
           -scheme Tests\ iOS
           -destination 'platform=iOS Simulator,name=iPhone 12 Pro Max,OS=15.0'
           test
+          | xcpretty && exit ${PIPESTATUS[0]}
 
       - name: Test iPhone 12 mini
         run: >-
@@ -87,6 +99,7 @@ jobs:
           -scheme Tests\ iOS
           -destination 'platform=iOS Simulator,name=iPhone 13 mini,OS=15.0'
           test
+          | xcpretty && exit ${PIPESTATUS[0]}
 
       - name: Test iPhone 13
         run: >-
@@ -95,6 +108,7 @@ jobs:
           -scheme Tests\ iOS
           -destination 'platform=iOS Simulator,name=iPhone 13,OS=15.0'
           test
+          | xcpretty && exit ${PIPESTATUS[0]}
 
       - name: Test iPhone 13 Pro
         run: >-
@@ -103,6 +117,7 @@ jobs:
           -scheme Tests\ iOS
           -destination 'platform=iOS Simulator,name=iPhone 13 Pro,OS=15.0'
           test
+          | xcpretty && exit ${PIPESTATUS[0]}
 
       - name: Test iPhone 13 Pro Max
         run: >-
@@ -111,6 +126,7 @@ jobs:
           -scheme Tests\ iOS
           -destination 'platform=iOS Simulator,name=iPhone 13 Pro Max,OS=15.0'
           test
+          | xcpretty && exit ${PIPESTATUS[0]}
 
       - name: Test iPhone 13 mini
         run: >-
@@ -119,6 +135,7 @@ jobs:
           -scheme Tests\ iOS
           -destination 'platform=iOS Simulator,name=iPhone 13 mini,OS=15.0'
           test
+          | xcpretty && exit ${PIPESTATUS[0]}
 
       - name: Test iPhone SE (2nd generation)
         run: >-
@@ -127,6 +144,7 @@ jobs:
           -scheme Tests\ iOS
           -destination 'platform=iOS Simulator,name=iPhone SE (2nd generation),OS=15.0'
           test
+          | xcpretty && exit ${PIPESTATUS[0]}
 
       - name: Test iPod Touch (7th generation)
         run: >-
@@ -135,6 +153,7 @@ jobs:
           -scheme Tests\ iOS
           -destination 'platform=iOS Simulator,name=iPod Touch (7th generation),OS=15.0'
           test
+          | xcpretty && exit ${PIPESTATUS[0]}
           
       - name: Test iPad (7th generation)
         run: >-
@@ -143,6 +162,7 @@ jobs:
           -scheme Tests\ iOS
           -destination 'platform=iOS Simulator,name=iPad (7th generation),OS=15.0'
           test
+          | xcpretty && exit ${PIPESTATUS[0]}
 
       - name: Test iPad (8th generation)
         run: >-
@@ -151,6 +171,7 @@ jobs:
           -scheme Tests\ iOS
           -destination 'platform=iOS Simulator,name=iPad (8th generation),OS=15.0'
           test
+          | xcpretty && exit ${PIPESTATUS[0]}
 
       - name: Test iPad (9th generation)
         run: >-
@@ -159,6 +180,7 @@ jobs:
           -scheme Tests\ iOS
           -destination 'platform=iOS Simulator,name=iPad (9th generation),OS=15.0'
           test
+          | xcpretty && exit ${PIPESTATUS[0]}
 
       - name: Test iPad Air (3th generation)
         run: >-
@@ -167,6 +189,7 @@ jobs:
           -scheme Tests\ iOS
           -destination 'platform=iOS Simulator,name=iPad Air (3th generation),OS=15.0'
           test
+          | xcpretty && exit ${PIPESTATUS[0]}
 
       - name: Test iPad Air (4th generation)
         run: >-
@@ -175,6 +198,7 @@ jobs:
           -scheme Tests\ iOS
           -destination 'platform=iOS Simulator,name=iPad Air (4th generation),OS=15.0'
           test
+          | xcpretty && exit ${PIPESTATUS[0]}
 
       - name: Test iPad Pro (9.7-inch)
         run: >-
@@ -183,6 +207,7 @@ jobs:
           -scheme Tests\ iOS
           -destination 'platform=iOS Simulator,name=iPad Pro (9.7-inch),OS=15.0'
           test
+          | xcpretty && exit ${PIPESTATUS[0]}
 
       - name: Test iPad Pro (11-inch) (2nd generation)
         run: >-
@@ -191,6 +216,7 @@ jobs:
           -scheme Tests\ iOS
           -destination 'platform=iOS Simulator,name=iPad Pro (11-inch) (2nd generation),OS=15.0'
           test
+          | xcpretty && exit ${PIPESTATUS[0]}
 
       - name: Test iPad Pro (11-inch) (3rd generation)
         run: >-
@@ -199,6 +225,7 @@ jobs:
           -scheme Tests\ iOS
           -destination 'platform=iOS Simulator,name=iPad Pro (11-inch) (3rd generation),OS=15.0'
           test
+          | xcpretty && exit ${PIPESTATUS[0]}
 
       - name: Test iPad Pro (12.9-inch) (4th generation)
         run: >-
@@ -207,6 +234,7 @@ jobs:
           -scheme Tests\ iOS
           -destination 'platform=iOS Simulator,name=iPad Pro (12.9-inch) (4th generation),OS=15.0'
           test
+          | xcpretty && exit ${PIPESTATUS[0]}
 
       - name: Test iPad Pro (12.9-inch) (5th generation)
         run: >-
@@ -215,6 +243,7 @@ jobs:
           -scheme Tests\ iOS
           -destination 'platform=iOS Simulator,name=iPad Pro (12.9-inch) (5th generation),OS=15.0'
           test
+          | xcpretty && exit ${PIPESTATUS[0]}
 
       - name: Test iPad mini (6th generation)
         run: >-
@@ -223,3 +252,4 @@ jobs:
           -scheme Tests\ iOS
           -destination 'platform=iOS Simulator,name=iPad mini (6th generation),OS=15.0'
           test
+          | xcpretty && exit ${PIPESTATUS[0]}
