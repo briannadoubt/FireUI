@@ -17,34 +17,34 @@ jobs:
       - name: Setup iOS 14.0 build
         run: >-
           xcodebuild test -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
-          -scheme Tests_iOS -destination 'platform=iOS Simulator,name=iPod Touch (7th generation),OS=14.0'
+          -scheme Tests\ iOS -destination 'platform=iOS Simulator,name=iPod Touch (7th generation),OS=14.0'
 
       - name: testing ... iPod Touch (7th generation) running iOS 14.0
         run: >-
             xcodebuild test -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
-            -scheme Tests_iOS -destination 'platform=iOS Simulator,name=iPod Touch (7th generation),OS=14.0'
+            -scheme Tests\ iOS -destination 'platform=iOS Simulator,name=iPod Touch (7th generation),OS=14.0'
 
       - name: testing ... iPhone 13 mini running iOS 14.0
         run: >-
           xcodebuild test -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
-          -scheme Tests_iOS -destination 'platform=iOS Simulator,name=iPhone 13 mini,OS=14.0'
+          -scheme Tests\ iOS -destination 'platform=iOS Simulator,name=iPhone 13 mini,OS=14.0'
 
       - name: testing ... iPhone 11 Pro Max running iOS 14.0
         run: >-
           xcodebuild test -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
-          -scheme Tests_iOS -destination 'platform=iOS Simulator,name=iPhone 13 Pro Max,OS=14.0'
+          -scheme Tests\ iOS -destination 'platform=iOS Simulator,name=iPhone 13 Pro Max,OS=14.0'
 
       - name: testing ... iPad Air (4th generation) running iOS 14.0
         run: >-
           xcodebuild test -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
-          -scheme Tests_iOS -destination 'platform=iOS Simulator,name=iPad Air (4th generation),OS=14.0'
+          -scheme Tests\ iOS -destination 'platform=iOS Simulator,name=iPad Air (4th generation),OS=14.0'
 
       - name: testing ... iPad Pro (12.9-inch) (5th generation) running iOS 14.0
         run: >-
           xcodebuild test -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
-          -scheme Tests_iOS -destination 'platform=iOS Simulator,name=iPad Pro (12.9-inch) (4th generation),OS=14.0'
+          -scheme Tests\ iOS -destination 'platform=iOS Simulator,name=iPad Pro (12.9-inch) (4th generation),OS=14.0'
   test-ios-15:
-    name: iOS 15.0 Tests
+    name: Test iOS 15
     runs-on: macos-latest
     steps:
       - name: Checkout
@@ -52,29 +52,29 @@ jobs:
       - name: Setup iOS 15.0 build
         run: >-
           xcodebuild test -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
-          -scheme Tests_iOS -destination 'platform=iOS Simulator,name=iPod Touch (7th generation),OS=15.0'
+          -scheme Tests\ iOS -destination 'platform=iOS Simulator,name=iPod Touch (7th generation),OS=15.0'
 
       - name: testing ... iPod Touch (7th generation) running iOS 15.0
         run: >-
             xcodebuild test -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
-            -scheme Tests_iOS -destination 'platform=iOS Simulator,name=iPod Touch (7th generation),OS=15.0'
+            -scheme Tests\ iOS -destination 'platform=iOS Simulator,name=iPod Touch (7th generation),OS=15.0'
 
       - name: testing ... iPhone 13 mini running iOS 15.0
         run: >-
           xcodebuild test -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
-          -scheme Tests_iOS -destination 'platform=iOS Simulator,name=iPhone 13 mini,OS=15.0'
+          -scheme Tests\ iOS -destination 'platform=iOS Simulator,name=iPhone 13 mini,OS=15.0'
 
       - name: testing ... iPhone 11 Pro Max running iOS 15.0
         run: >-
           xcodebuild test -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
-          -scheme Tests_iOS -destination 'platform=iOS Simulator,name=iPhone 13 Pro Max,OS=15.0'
+          -scheme Tests\ iOS -destination 'platform=iOS Simulator,name=iPhone 13 Pro Max,OS=15.0'
 
       - name: testing ... iPad Air (4th generation) running iOS 15.0
         run: >-
           xcodebuild test -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
-          -scheme Tests_iOS -destination 'platform=iOS Simulator,name=iPad Air (4th generation),OS=15.0'
+          -scheme Tests\ iOS -destination 'platform=iOS Simulator,name=iPad Air (4th generation),OS=15.0'
 
       - name: testing ... iPad Pro (12.9-inch) (5th generation) running iOS 15.0
         run: >-
           xcodebuild test -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
-          -scheme Tests_iOS -destination 'platform=iOS Simulator,name=iPad Pro (12.9-inch) (5th generation),OS=15.0'
+          -scheme Tests\ iOS -destination 'platform=iOS Simulator,name=iPad Pro (12.9-inch) (5th generation),OS=15.0'
