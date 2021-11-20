@@ -1,9 +1,22 @@
 
 ## Firebase test data
-Tests/DerivedData/*
-Tests/DerivedData/*/Index/*
-Tests/DerivedData/*/Index/Build/*
-!Tests/DerivedData/*/Index/Build/Products/
+
+# Ignore all data under `./DerivedData/` except the build products used for `xcodebuild build-for-testing`
+Demo/DerivedData/*
+# Demo/DerivedData/ModuleCache.noindex/*
+Demo/DerivedData/FireUI\ Demo/*
+Demo/DerivedData/FireUI\ Demo/Index/*
+Demo/DerivedData/FireUI\ Demo/Index/Build/*
+# Demo/DerivedData/FireUI\ Demo/Index/Build/Products/
+
+!Demo/DerivedData/
+!Demo/DerivedData/FireUI\ Demo/
+!Demo/DerivedData/FireUI\ Demo/Index/
+!Demo/DerivedData/FireUI\ Demo/Index/Build/
+!Demo/DerivedData/FireUI\ Demo/Index/Build/Products/
+!Demo/DerivedData/FireUI\ Demo/Index/Build/Products/Debug/
+!Demo/DerivedData/FireUI\ Demo/Index/Build/Products/Debug-iphoneos/
+!Demo/DerivedData/FireUI\ Demo/Index/Build/Products/Debug-iphonesimulator/
 
 ## User settings
 xcuserdata/

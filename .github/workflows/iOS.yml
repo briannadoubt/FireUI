@@ -52,7 +52,7 @@ jobs:
           xcodebuild
           -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
           -scheme Tests\ iOS 
-          -destination 'platform=iOS Simulator,name=iPhone 11 Pro,OS=15.0
+          -destination 'platform=iOS Simulator,name=iPhone 11 Pro,OS=15.0'
           test
           | xcpretty && exit ${PIPESTATUS[0]}
 

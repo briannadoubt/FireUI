@@ -79,7 +79,7 @@
 		0394C3072746E44F0080BBC1 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		0394C31227484C2A0080BBC1 /* FireUIProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireUIProduct.swift; sourceTree = "<group>"; };
 		0399D0522724AA87008925AA /* FireUIAppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireUIAppState.swift; sourceTree = "<group>"; };
-		0399D0552724AFF1008925AA /* FireUI */ = {isa = PBXFileReference; lastKnownFileType = folder; name = FireUI; path = ..; sourceTree = "<group>"; };
+		0399D0552724AFF1008925AA /* FireUI */ = {isa = PBXFileReference; lastKnownFileType = folder; name = FireUI; path = ".."; sourceTree = "<group>"; };
 		03A0D1C227448D2D00379A96 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		03A0D1C527448DCF00379A96 /* ItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsView.swift; sourceTree = "<group>"; };
 		03A0D1C827448E4300379A96 /* ItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemView.swift; sourceTree = "<group>"; };
@@ -870,7 +870,7 @@
 /* Begin XCRemoteSwiftPackageReference section */
 		03A87A8A27249D4800D6569C /* XCRemoteSwiftPackageReference "." */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = ../;
+			repositoryURL = "../";
 			requirement = {
 				branch = main;
 				kind = branch;
