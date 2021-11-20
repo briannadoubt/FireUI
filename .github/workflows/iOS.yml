@@ -8,38 +8,38 @@ on:
     branches: [ main ]
 
 jobs:
-  test-ios-15:
+  tests:
     name: iOS 15
     runs-on: macos-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Setup build
+      - name: Build app
         run: >-
           xcodebuild test -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
           -scheme Tests\ iOS -destination 'platform=iOS Simulator,name=iPod Touch (7th generation),OS=15.0'
 
-      - name: testing ... iPod Touch (7th generation) running iOS 15.0
+      - name: Test iPod Touch (7th generation)
         run: >-
           xcodebuild test -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
           -scheme Tests\ iOS -destination 'platform=iOS Simulator,name=iPod Touch (7th generation),OS=15.0'
 
-      - name: testing ... iPhone 13 mini running iOS 15.0
+      - name: Test iPhone 13 mini
         run: >-
           xcodebuild test -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
           -scheme Tests\ iOS -destination 'platform=iOS Simulator,name=iPhone 13 mini,OS=15.0'
 
-      - name: testing ... iPhone 11 Pro Max running iOS 15.0
+      - name: Test iPhone 11 Pro Max
         run: >-
           xcodebuild test -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
           -scheme Tests\ iOS -destination 'platform=iOS Simulator,name=iPhone 13 Pro Max,OS=15.0'
 
-      - name: testing ... iPad Air (4th generation) running iOS 15.0
+      - name: Test iPad Air (4th generation)
         run: >-
           xcodebuild test -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
           -scheme Tests\ iOS -destination 'platform=iOS Simulator,name=iPad Air (4th generation),OS=15.0'
 
-      - name: testing ... iPad Pro (12.9-inch) (5th generation) running iOS 15.0
+      - name: Test iPad Pro (12.9-inch) (5th generation)
         run: >-
           xcodebuild test -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
           -scheme Tests\ iOS -destination 'platform=iOS Simulator,name=iPad Pro (12.9-inch) (5th generation),OS=15.0'
