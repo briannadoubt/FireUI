@@ -18,9 +18,9 @@ jobs:
         
       - name: Build for testing
         run: >-
-          xcodebuild \
-          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace \
-          -scheme Tests\ iOS \
+          xcodebuild
+          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
+          -scheme Tests\ iOS
           build-for-testing
 
   ios:
@@ -30,111 +30,111 @@ jobs:
 
       - name: Test iPhone 8
         run: >-
-          xcodebuild \
-          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace \
-          -scheme Tests\ iOS \
-          -destination 'platform=iOS Simulator,name=iPhone 8,OS=15.0' \
+          xcodebuild
+          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
+          -scheme Tests\ iOS
+          -destination 'platform=iOS Simulator,name=iPhone 8,OS=15.0'
           test
 
       - name: Test iPhone 8 Plus
         run: >-
           xcodebuild \
-          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace \
-          -scheme Tests\ iOS \
-          -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=15.0' \
+          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
+          -scheme Tests\ iOS
+          -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=15.0'
           test
 
       - name: Test iPhone 11
         run: >-
-          xcodebuild \
-          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace \
-          -scheme Tests\ iOS \
-          -destination 'platform=iOS Simulator,name=iPhone 11,OS=15.0' \
+          xcodebuild
+          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
+          -scheme Tests\ iOS
+          -destination 'platform=iOS Simulator,name=iPhone 11,OS=15.0'
           test
 
       - name: Test iPhone 11 Pro
         run: >-
-          xcodebuild \
-          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace \
-          -scheme Tests\ iOS \
-          -destination 'platform=iOS Simulator,name=iPhone 11 Pro,OS=15.0' \
+          xcodebuild
+          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
+          -scheme Tests\ iOS 
+          -destination 'platform=iOS Simulator,name=iPhone 11 Pro,OS=15.0
           test
 
       - name: Test iPhone 11 Pro Max
         run: >-
-          xcodebuild \
-          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace \
-          -scheme Tests\ iOS \
-          -destination 'platform=iOS Simulator,name=iPhone 11 Pro Max,OS=15.0' \
+          xcodebuild
+          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
+          -scheme Tests\ iOS
+          -destination 'platform=iOS Simulator,name=iPhone 11 Pro Max,OS=15.0'
           test
 
       - name: Test iPhone 12
         run: >-
-          xcodebuild \
-          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace \
-          -scheme Tests\ iOS \
-          -destination 'platform=iOS Simulator,name=iPhone 12,OS=15.0' \
+          xcodebuild
+          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
+          -scheme Tests\ iOS
+          -destination 'platform=iOS Simulator,name=iPhone 12,OS=15.0'
           test
 
       - name: Test iPhone 12 Pro
         run: >-
-          xcodebuild \
-          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace \
-          -scheme Tests\ iOS \
-          -destination 'platform=iOS Simulator,name=iPhone 12 Pro,OS=15.0' \
+          xcodebuild
+          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
+          -scheme Tests\ iOS
+          -destination 'platform=iOS Simulator,name=iPhone 12 Pro,OS=15.0'
           test
 
       - name: Test iPhone 12 Pro Max
         run: >-
-          xcodebuild \
-          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace \
-          -scheme Tests\ iOS \
-          -destination 'platform=iOS Simulator,name=iPhone 12 Pro Max,OS=15.0' \
+          xcodebuild
+          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
+          -scheme Tests\ iOS
+          -destination 'platform=iOS Simulator,name=iPhone 12 Pro Max,OS=15.0'
           test
 
       - name: Test iPhone 12 mini
         run: >-
-          xcodebuild \
-          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace \
-          -scheme Tests\ iOS \
-          -destination 'platform=iOS Simulator,name=iPhone 13 mini,OS=15.0' \
+          xcodebuild 
+          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
+          -scheme Tests\ iOS
+          -destination 'platform=iOS Simulator,name=iPhone 13 mini,OS=15.0'
           test
 
       - name: Test iPhone 13
         run: >-
-          xcodebuild \
-          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace \
-          -scheme Tests\ iOS \
-          -destination 'platform=iOS Simulator,name=iPhone 13,OS=15.0' \
+          xcodebuild 
+          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
+          -scheme Tests\ iOS
+          -destination 'platform=iOS Simulator,name=iPhone 13,OS=15.0'
           test
 
       - name: Test iPhone 13 Pro
         run: >-
-          xcodebuild \
-          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace \
-          -scheme Tests\ iOS \
-          -destination 'platform=iOS Simulator,name=iPhone 13 Pro,OS=15.0' \
+          xcodebuild
+          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
+          -scheme Tests\ iOS
+          -destination 'platform=iOS Simulator,name=iPhone 13 Pro,OS=15.0'
           test
 
       - name: Test iPhone 13 Pro Max
         run: >-
-          xcodebuild \
-          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace \
-          -scheme Tests\ iOS \
-          -destination 'platform=iOS Simulator,name=iPhone 13 Pro Max,OS=15.0' \
+          xcodebuild
+          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
+          -scheme Tests\ iOS
+          -destination 'platform=iOS Simulator,name=iPhone 13 Pro Max,OS=15.0'
           test
 
       - name: Test iPhone 13 mini
         run: >-
-          xcodebuild \
-          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace \
-          -scheme Tests\ iOS \
-          -destination 'platform=iOS Simulator,name=iPhone 13 mini,OS=15.0' \
+          xcodebuild 
+          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
+          -scheme Tests\ iOS
+          -destination 'platform=iOS Simulator,name=iPhone 13 mini,OS=15.0'
           test
 
       - name: Test iPhone SE (2nd generation)
         run: >-
-          xcodebuild \
+          xcodebuild
           -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace \
           -scheme Tests\ iOS \
           -destination 'platform=iOS Simulator,name=iPhone SE (2nd generation),OS=15.0' \
