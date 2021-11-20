@@ -139,9 +139,8 @@ jobs:
       - name: Test iPad (7th generation)
         run: >-
           xcodebuild test \
-          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace \
-          -scheme Tests\ iOS \
-          -destination 'platform=iOS Simulator,name=iPad (7th generation),OS=15.0'
+          -project Demo/FireUI\ Demo.xcodeproj \
+          -scheme Tests\ iOS 
 
       - name: Test iPad (8th generation)
         run: >-
