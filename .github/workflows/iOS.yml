@@ -10,7 +10,7 @@ on:
 jobs:
 
   tests:
-    name: Run XCTests on iOS and iPadOS
+    name: Run Tests
     runs-on: macos-latest
     steps:
       - name: Checkout latest commit
