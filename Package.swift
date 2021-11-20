@@ -1,9 +1,9 @@
-// swift-tools-version:5.3
+//  swift-tools-version:5.5
 //
-// Package.swift
-// FireUI
+//  Package.swift
+//  FireUI
 //
-// Created by Brianna Doubt on 10/15/21.
+//  Created by Brianna Doubt on 10/15/21.
 //
 
 import PackageDescription
