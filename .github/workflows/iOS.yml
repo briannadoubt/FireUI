@@ -1,5 +1,5 @@
 
-name: iOS
+name: iOS / iPadOS
 
 on:
   push:
@@ -9,24 +9,20 @@ on:
 
 jobs:
 
-  build:
-    name: Build
+  ios:
+    name: iOS / iPadOS
     runs-on: macos-latest
     steps:
       - name: Checkout latest commit
         uses: actions/checkout@v2
         
-      - name: Build for testing
+      - name: Build
         run: >-
           xcodebuild
           -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
           -scheme Tests\ iOS
+          
           build
-
-  ios:
-    name: iOS
-    runs-on: macos-latest
-    steps:
 
       - name: Test iPhone 8
         run: >-
@@ -147,11 +143,7 @@ jobs:
           -scheme Tests\ iOS
           -destination 'platform=iOS Simulator,name=iPod Touch (7th generation),OS=15.0'
           test
-
-  ipados:
-    name: iPadOS
-    runs-on: macos-latest
-    steps:
+          
       - name: Test iPad (7th generation)
         run: >-
           xcodebuild
