@@ -3,9 +3,9 @@ name: iOS / iPadOS
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, dev ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, dev ]
 
 jobs:
 
@@ -182,12 +182,12 @@ jobs:
           test
           | xcpretty && exit ${PIPESTATUS[0]}
 
-      - name: Test iPad Air (3th generation)
+      - name: Test iPad Air (3rd generation)
         run: >-
           xcodebuild
           -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
           -scheme Tests\ iOS
-          -destination 'platform=iOS Simulator,name=iPad Air (3th generation),OS=15.0'
+          -destination 'platform=iOS Simulator,name=iPad Air (3rd generation),OS=15.0'
           test
           | xcpretty && exit ${PIPESTATUS[0]}
 
