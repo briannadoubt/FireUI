@@ -33,6 +33,7 @@ public struct AuthenticationView<Logo: View, Footer: View, Human: Person>: View 
     @EnvironmentObject private var user: FirebaseUser
     @State private var isShowingForm = false
 
+    public typealias ChangeAuthMethod = (_ viewState: AuthenticationViewState) -> ()
     private func changeAuthMethod(to viewState: AuthenticationViewState) {
         withAnimation {
             error = nil
@@ -63,28 +64,32 @@ public struct AuthenticationView<Logo: View, Footer: View, Human: Person>: View 
                             .padding(.top)
                         
                         VStack(spacing: 8) {
-                            switch viewState {
-                            case .signUp:
-                                SignUpView(
-                                    namespace: namespace,
-                                    nickname: $user.nickname,
-                                    email: $user.email,
-                                    password: $user.password,
-                                    verifyPassword: $user.verifyPassword,
-                                    error: $error,
-                                    authViewState: $viewState,
-                                    newPerson: newPerson,
-                                    changeAuthMethod: changeAuthMethod
-                                )
-                            case .signIn:
-                                SignInView(
-                                    namespace: namespace,
-                                    email: $user.email,
-                                    password: $user.password,
-                                    error: $error,
-                                    authViewState: $viewState,
-                                    changeAuthMethod: changeAuthMethod(to:)
-                                )
+                            if #available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *) {
+                                switch viewState {
+                                case .signUp:
+                                    SignUpView(
+                                        namespace: namespace,
+                                        nickname: $user.nickname,
+                                        email: $user.email,
+                                        password: $user.password,
+                                        verifyPassword: $user.verifyPassword,
+                                        error: $error,
+                                        authViewState: $viewState,
+                                        newPerson: newPerson,
+                                        changeAuthMethod: changeAuthMethod
+                                    )
+                                case .signIn:
+                                    SignInView(
+                                        namespace: namespace,
+                                        email: $user.email,
+                                        password: $user.password,
+                                        error: $error,
+                                        authViewState: $viewState,
+                                        changeAuthMethod: changeAuthMethod(to:)
+                                    )
+                                }
+                            } else {
+                                Text("Sorry, this view is only available on macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, and watchOS 8.0.0.")
                             }
                         }
                     }

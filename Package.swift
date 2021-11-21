@@ -10,7 +10,7 @@ import PackageDescription
 
 let package = Package(
     name: "FireUI",
-    platforms: [.iOS(.v15), .macOS(.v11), .watchOS(.v8), .tvOS(.v15)],
+    platforms: [.iOS(.v14), .macOS(.v11), .watchOS(.v8), .tvOS(.v14)],
     products: [
         .library(
             name: "FireUI",

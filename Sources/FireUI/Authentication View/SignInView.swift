@@ -9,6 +9,7 @@
 @_exported import AuthenticationServices
 @_exported import Firebase
 
+@available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *)
 struct SignInView: View {
 
     var namespace: Namespace.ID
@@ -19,7 +20,7 @@ struct SignInView: View {
     @Binding var error: Error?
     @Binding var authViewState: AuthenticationViewState
 
-    var changeAuthMethod: (_ state: AuthenticationViewState) -> ()
+    var changeAuthMethod: AuthenticationView.ChangeAuthMethod
     
     @EnvironmentObject fileprivate var user: FirebaseUser
     

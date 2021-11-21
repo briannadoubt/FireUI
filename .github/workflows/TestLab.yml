@@ -22,14 +22,13 @@ jobs:
       - name: Build for testing
         run: >-
           xcodebuild
-          -allowProvisioningUpdates
           -project "Demo/FireUI Demo.xcodeproj"
           -scheme "iOS"
           -sdk iphoneos build-for-testing
 
       - name: Zip build to "Tests/iOSTests.zip"
         run: >-
-          cd DerivedData/Index/Build/Products : zip -r "Tests/iOSTests.zip" "Debug-iphoneos" "iOS_iphoneos15.0-arm64.xctestrun"
+          cd ~/Library/Developer/Xcode/DerivedData : zip -r ./Build/iOSTests.zip Debug-iphoneos iOS_iphoneos14.7-arm64.xctestrun
 
       - name: Set up gcloud Cloud SDK environment
         uses: google-github-actions/setup-gcloud@v0.2.0

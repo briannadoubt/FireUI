@@ -8,6 +8,7 @@
 @_exported import SwiftUI
 @_exported import Firebase
 
+@available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *)
 struct SignUpView<Human: Person>: View {
     
     var namespace: Namespace.ID
@@ -20,9 +21,8 @@ struct SignUpView<Human: Person>: View {
     @Binding var error: Error?
     @Binding var authViewState: AuthenticationViewState
 
-    var newPerson: (_ uid: String, _ email: String, _ nickname: String) -> Human
-    
-    var changeAuthMethod: (_ viewState: AuthenticationViewState) -> ()
+    var newPerson: Human.New
+    var changeAuthMethod: AuthenticationView.ChangeAuthMethod
     
     @EnvironmentObject fileprivate var user: FirebaseUser
     @FocusState var focus: String?

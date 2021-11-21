@@ -8,12 +8,12 @@
 @_exported import Foundation
 @_exported import SwiftUI
 
-enum AuthenticationViewState: String, CaseIterable, Identifiable {
+public enum AuthenticationViewState: String, CaseIterable, Identifiable {
 
     case signUp
     case signIn
 
-    var title: String {
+    public var title: String {
         switch self {
         case .signUp:
             return "Sign Up"
@@ -22,7 +22,7 @@ enum AuthenticationViewState: String, CaseIterable, Identifiable {
         }
     }
 
-    var id: String {
+    public var id: String {
         return rawValue
     }
 }
