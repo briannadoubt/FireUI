@@ -25,9 +25,7 @@ jobs:
           -allowProvisioningUpdates
           -project "Demo/FireUI Demo.xcodeproj"
           -scheme "Tests iOS"
-          
           -sdk iphoneos build-for-testing
-          
 
       - name: Zip build to "Tests/iOSTests.zip"
         run: >-
