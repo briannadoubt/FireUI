@@ -15,9 +15,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Install xcpretty
-        run: >-
-          gem install xcpretty
+      # - name: Install xcpretty
+      #   run: >-
+      #     gem install xcpretty
 
       - name: Build for testing
         run: >-
@@ -25,9 +25,9 @@ jobs:
           -allowProvisioningUpdates
           -project "Demo/FireUI Demo.xcodeproj"
           -scheme "Tests iOS"
-          -derivedDataPath DerivedData
+          
           -sdk iphoneos build-for-testing
-          | xcpretty && exit ${PIPESTATUS[0]}
+          
 
       - name: Zip build to "Tests/iOSTests.zip"
         run: >-
@@ -40,7 +40,7 @@ jobs:
           service_account_key: ${{ secrets.SA_KEY }}
           export_default_credentials: true
 
-      - name: Run tests on firebase
+      - name: Run tests on Firebase
         run: >-
           if gcloud firebase test ios run --test Tests/iOSTests.zip --timeout 2m
           then
@@ -49,4 +49,4 @@ jobs:
               echo "Test matrix exited abnormally with non-zero exit code: " $?
               exit $?
           fi
-          echo "View test results on Firebase TestLab: https://console.firebase.google.com/project/${{ secrets.PROJECT_ID }}/testlab/histories"
+          echo "View test results on Firebase TestLab: https://console.firebase.google.com/project/${{secrets.PROJECT_ID}}/testlab/histories"
