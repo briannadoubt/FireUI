@@ -1,0 +1,119 @@
+name: iPadOS
+
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main, dev ]
+
+jobs:
+
+  tests:
+    name: Run Tests
+    runs-on: macos-latest
+    steps:
+      - name: Install utilities
+        run: >-
+          gem install xcpretty
+
+      - name: Checkout latest commit
+        uses: actions/checkout@v2
+
+      - name: Test iPad (7th generation)
+        run: >-
+          xcodebuild
+          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
+          -scheme Tests\ iOS
+          -destination 'platform=iOS Simulator,name=iPad (7th generation),OS=15.0'
+          test
+          | xcpretty && exit ${PIPESTATUS[0]}
+
+      - name: Test iPad (8th generation)
+        run: >-
+          xcodebuild
+          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
+          -scheme Tests\ iOS
+          -destination 'platform=iOS Simulator,name=iPad (8th generation),OS=15.0'
+          test
+          | xcpretty && exit ${PIPESTATUS[0]}
+
+      - name: Test iPad (9th generation)
+        run: >-
+          xcodebuild
+          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
+          -scheme Tests\ iOS
+          -destination 'platform=iOS Simulator,name=iPad (9th generation),OS=15.0'
+          test
+          | xcpretty && exit ${PIPESTATUS[0]}
+
+      - name: Test iPad Air (3rd generation)
+        run: >-
+          xcodebuild
+          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
+          -scheme Tests\ iOS
+          -destination 'platform=iOS Simulator,name=iPad Air (3rd generation),OS=15.0'
+          test
+          | xcpretty && exit ${PIPESTATUS[0]}
+
+      - name: Test iPad Air (4th generation)
+        run: >-
+          xcodebuild
+          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
+          -scheme Tests\ iOS
+          -destination 'platform=iOS Simulator,name=iPad Air (4th generation),OS=15.0'
+          test
+          | xcpretty && exit ${PIPESTATUS[0]}
+
+      - name: Test iPad Pro (9.7-inch)
+        run: >-
+          xcodebuild
+          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
+          -scheme Tests\ iOS
+          -destination 'platform=iOS Simulator,name=iPad Pro (9.7-inch),OS=15.0'
+          test
+          | xcpretty && exit ${PIPESTATUS[0]}
+
+      - name: Test iPad Pro (11-inch) (2nd generation)
+        run: >-
+          xcodebuild
+          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
+          -scheme Tests\ iOS
+          -destination 'platform=iOS Simulator,name=iPad Pro (11-inch) (2nd generation),OS=15.0'
+          test
+          | xcpretty && exit ${PIPESTATUS[0]}
+
+      - name: Test iPad Pro (11-inch) (3rd generation)
+        run: >-
+          xcodebuild 
+          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
+          -scheme Tests\ iOS
+          -destination 'platform=iOS Simulator,name=iPad Pro (11-inch) (3rd generation),OS=15.0'
+          test
+          | xcpretty && exit ${PIPESTATUS[0]}
+
+      - name: Test iPad Pro (12.9-inch) (4th generation)
+        run: >-
+          xcodebuild
+          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
+          -scheme Tests\ iOS
+          -destination 'platform=iOS Simulator,name=iPad Pro (12.9-inch) (4th generation),OS=15.0'
+          test
+          | xcpretty && exit ${PIPESTATUS[0]}
+
+      - name: Test iPad Pro (12.9-inch) (5th generation)
+        run: >-
+          xcodebuild
+          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
+          -scheme Tests\ iOS
+          -destination 'platform=iOS Simulator,name=iPad Pro (12.9-inch) (5th generation),OS=15.0'
+          test
+          | xcpretty && exit ${PIPESTATUS[0]}
+
+      - name: Test iPad mini (6th generation)
+        run: >-
+          xcodebuild
+          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
+          -scheme Tests\ iOS
+          -destination 'platform=iOS Simulator,name=iPad mini (6th generation),OS=15.0'
+          test
+          | xcpretty && exit ${PIPESTATUS[0]}

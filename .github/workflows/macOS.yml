@@ -1,0 +1,30 @@
+
+name: macOS
+
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main, dev ]
+
+jobs:
+
+  tests:
+    name: Run Tests
+    runs-on: macos-latest
+    steps:
+      - name: Install utilities
+        run: >-
+          gem install xcpretty
+
+      - name: Checkout latest commit
+        uses: actions/checkout@v2
+
+      - name: Test macOS
+        run: >-
+          xcodebuild
+          -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
+          -scheme Tests\ macOS
+          -destination 'platform=macOS,name=My Mac'
+          test
+          | xcpretty && exit ${PIPESTATUS[0]}
