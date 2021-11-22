@@ -23,6 +23,7 @@ jobs:
       - name: Test macOS
         run: >-
           xcodebuild
+          -allowProvisioningUpdates
           -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
           -scheme Tests\ macOS
           -destination 'platform=macOS'
