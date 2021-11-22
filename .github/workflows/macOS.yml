@@ -25,6 +25,6 @@ jobs:
           xcodebuild
           -workspace Demo/FireUI\ Demo.xcodeproj/project.xcworkspace
           -scheme Tests\ macOS
-          -destination 'platform=macOS,name=My Mac'
+          -destination 'platform=macOS'
           test
           | xcpretty && exit ${PIPESTATUS[0]}
