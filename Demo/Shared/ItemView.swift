@@ -27,7 +27,7 @@ struct ItemView: View {
     }
 }
 
-struct DemoObjectView_Previews: PreviewProvider {
+struct ItemView_Previews: PreviewProvider {
     static var previews: some View {
         ItemView(
             item: Item(

@@ -1,6 +1,6 @@
 //
 //  FireUIAppState.swift
-//  Demo
+//  FireUI Demo
 //
 //  Created by Bri on 10/23/21.
 //
