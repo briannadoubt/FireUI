@@ -2,7 +2,6 @@
 
 [![iOS](https://github.com/briannadoubt/FireUI/actions/workflows/iOS.yml/badge.svg)](https://github.com/briannadoubt/FireUI/actions/workflows/iOS.yml)
 [![iPadOS](https://github.com/briannadoubt/FireUI/actions/workflows/iPadOS.yml/badge.svg)](https://github.com/briannadoubt/FireUI/actions/workflows/iPadOS.yml)
-[![macOS](https://github.com/briannadoubt/FireUI/actions/workflows/macOS.yml/badge.svg)](https://github.com/briannadoubt/FireUI/actions/workflows/macOS.yml)
 
 A Firebase wrapper for SwiftUI
 
