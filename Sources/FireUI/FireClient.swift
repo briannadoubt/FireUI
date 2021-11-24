@@ -12,14 +12,14 @@
 public struct FireClient<Human: Person, Logo: View, Footer: View, Content: View, Settings: View, AppState: FireState>: View {
     
     @ViewBuilder fileprivate let authenticationView: AuthenticationView<Logo, Footer, Human>
-    @ViewBuilder fileprivate let content: (_ uid: String) -> FireContentView<Human, Content>
-    @ViewBuilder fileprivate let settings: (_ uid: String) -> FireSettingsView<Human, Settings>
+    @ViewBuilder fileprivate let content: (_ uid: String) -> FireContentView<Human, Settings, Content>
     
-    @EnvironmentObject fileprivate var state: AppState
-    @EnvironmentObject fileprivate var user: FirebaseUser
+    @ObservedObject fileprivate var state: AppState
+    @ObservedObject fileprivate var user: FirebaseUser
     
     public init(
-        state: AppState.Type,
+        state: AppState,
+        user: FirebaseUser,
         person: Human.Type,
         @ViewBuilder authenticationView: @escaping () -> AuthenticationView<Logo, Footer, Human> = {
             AuthenticationView<Logo, Footer, Human>()
@@ -27,25 +27,34 @@ public struct FireClient<Human: Person, Logo: View, Footer: View, Content: View,
         @ViewBuilder content: @escaping () -> Content,
         @ViewBuilder settings: @escaping () -> Settings
     ) {
+        self.state = state
+        self.user = user
         self.authenticationView = authenticationView()
         self.content = { uid in
-            FireContentView<Human, Content>(uid: uid, content: content)
-        }
-        self.settings = { uid in
-            FireSettingsView<Human, Settings>(uid: uid, settings: settings)
+            FireContentView<Human, Settings, Content>(
+                uid: uid,
+                content: content
+            ) {
+                FireSettingsView<Human, Settings>(
+                    uid: uid,
+                    settings: settings
+                )
+            }
         }
     }
 
     public var body: some View {
-        if let uid = user.uid, user.isAuthenticated {
-            content(uid)
-                .environmentObject(state)
-                .accentColor(.accentColor)
+        if Auth.auth().currentUser != nil {
+            if let uid = Auth.auth().currentUser?.uid {
+                content(uid)
+                    .environmentObject(state)
+                    .accentColor(Color("AccentColor"))
+            }
         } else {
             authenticationView
                 .environmentObject(state)
-                .accentColor(.accentColor)
                 .ignoresSafeArea(.container, edges: .all)
+                .accentColor(Color("AccentColor"))
         }
     }
 }

@@ -39,7 +39,7 @@ struct ConfirmationButton: View {
     var body: some View {
         Button(action: action) {
             ZStack {
-                Color.accentColor
+                Color("AccentColor")
                 HStack {
                     Text(label)
                     Image(systemName: "arrow.right")

@@ -6,16 +6,20 @@
 //
 
 import FireUI
+import SwiftUI
 
 struct ContentView: View {
+    
+    @Binding var selectedViewIdentifier: String?
+    @EnvironmentObject var state: FireUIAppState
+    
     var body: some View {
-        ItemsView()
+        ItemsView(state: state, selectedViewIdentifier: $selectedViewIdentifier)
     }
 }
 
-@available(iOS 15.0, macOS 12.0, watchOS 8.0, tvOS 15.0, *)
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(selectedViewIdentifier: .constant("items"))
     }
 }

@@ -15,6 +15,8 @@ import FirebaseAppCheck
 
 public struct FireScene<Logo: View, Settings: View, Footer: View, Content: View, AppState: FireState, Merch: ProductRepresentable, Human: Person>: Scene {
     
+    @Binding fileprivate var selectedViewIdentifier: String?
+    
     @ViewBuilder fileprivate var content: () -> Content
     @ViewBuilder fileprivate var logo: () -> Logo?
     @ViewBuilder fileprivate var settings: () -> Settings?
@@ -31,6 +33,7 @@ public struct FireScene<Logo: View, Settings: View, Footer: View, Content: View,
     @State private var showingWelcomeScreen = false
     
     public init(
+        selectedViewIdentifier: Binding<String?>,
         state: AppState.Type,
         product: Merch.Type,
         newPerson: @escaping Human.New = Human.new(uid:email:nickname:),
@@ -39,6 +42,7 @@ public struct FireScene<Logo: View, Settings: View, Footer: View, Content: View,
         @ViewBuilder settings: @escaping () -> Settings,
         @ViewBuilder footer: @escaping () -> Footer? = { nil }
     ) {
+        self._selectedViewIdentifier = selectedViewIdentifier
         self.newPerson = newPerson
         self.content = content
         self.logo = logo
@@ -67,13 +71,14 @@ public struct FireScene<Logo: View, Settings: View, Footer: View, Content: View,
     
     public var body: some Scene {
         StyledScene(
-            selectedViewIdentifier: $state.selectedViewIdentifier,
+            selectedViewIdentifier: $selectedViewIdentifier,
             state: state,
             user: user,
             logo: logo
         ) {
             FireClient(
-                state: AppState.self,
+                state: state,
+                user: user,
                 person: Human.self,
                 authenticationView: {
                     AuthenticationView(

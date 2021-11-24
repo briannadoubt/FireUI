@@ -10,9 +10,6 @@ import Combine
 
 final class FireUIAppState: FireState {
     
-    // Set default view
-    @Published var selectedViewIdentifier: String? = "items"
-    
     static var shared: FireUIAppState = FireUIAppState()
     
     var appName: String = "FireUI"

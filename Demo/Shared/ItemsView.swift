@@ -6,14 +6,19 @@
 //
 
 import FireUI
+import SwiftUI
 
 struct ItemsView: View {
+    
+    @ObservedObject var state: FireUIAppState
+    @Binding var selectedViewIdentifier: String?
     
     @FirestoreQuery(collectionPath: Item.basePath()) fileprivate var items: [Item]
     
     var body: some View {
         StyledRootView(
-            state: FireUIAppState.self,
+            selectedViewIdentifier: $selectedViewIdentifier,
+            state: state,
             person: Human.self,
             label: "Objects",
             systemImage: "1.circle",
@@ -34,9 +39,10 @@ struct ItemsView: View {
                             )
                             do {
                                 try newItem.save()
+                            } catch let error as FireUIError {
+                                handleError(error)
                             } catch {
-                                // TODO: - Fix me
-                                fatalError("Failed to save new Item with error: " + error.localizedDescription)
+                                handleError(error)
                             }
                         } label: {
                             Label("New Item", systemImage: "plus")
@@ -51,6 +57,6 @@ struct ItemsView: View {
 @available(iOS 15.0, macOS 12.0, watchOS 8.0, tvOS 15.0, *)
 struct DemoObjectsView_Previews: PreviewProvider {
     static var previews: some View {
-        ItemsView()
+        ItemsView(state: FireUIAppState(), selectedViewIdentifier: .constant("items"))
     }
 }

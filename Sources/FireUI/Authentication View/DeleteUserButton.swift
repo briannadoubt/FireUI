@@ -19,12 +19,32 @@ public struct DeleteUserButton<Human: Person>: View {
     public var body: some View {
         Button {
             guard let personDocument = person.document else {
-                self.error = error
+                let documentNotFound = FireUIError.documentNotFound
+                self.error = documentNotFound
+                handleError(documentNotFound, message: "Couldn't find person document")
                 return
             }
-            user.delete(person: personDocument) { error in
-                if let error = error {
-                    self.error = error
+            if #available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *) {
+                Task {
+                    do {
+                        try await user.delete(person: personDocument)
+                    } catch let error as FireUIError {
+                        self.error = error
+                        handleError(error, message: "Failed to delete user")
+                    } catch {
+                        self.error = error
+                        handleError(error, message: "Failed to delete user")
+                    }
+                }
+            } else {
+                user.delete(person: personDocument) { error in
+                    if let error = error as? FireUIError {
+                        self.error = error
+                        handleError(error, message: "Failed to delete user")
+                    } else if let error = error {
+                        self.error = error
+                        handleError(error, message: "Failed to delete user")
+                    }
                 }
             }
         } label: {

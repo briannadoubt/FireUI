@@ -20,11 +20,9 @@ public struct FireSettingsView<Human: Person, Settings: View>: View {
     }
     
     public var body: some View {
-        AnyView {
-            settings()
-                .observe(person)
-                .environmentObject(person)
-        }
+        settings()
+            .observe(person)
+            .environmentObject(person)
     }
 }
 

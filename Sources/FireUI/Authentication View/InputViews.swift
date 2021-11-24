@@ -21,13 +21,17 @@ public struct SignOutButton: View {
         Button {
             do {
                 try user.signOut()
-            } catch {
-                print(error)
+            } catch let error as FireUIError {
                 self.error = error
+                handleError(error, message: "Failed to sign out")
+            } catch {
+                self.error = error
+                handleError(error, message: "Failed to sign out")
             }
         } label: {
             Label("Sign Out", systemImage: "figure.wave")
         }
+        .accessibility(identifier: "signOutButton")
     }
 }
 
@@ -35,20 +39,42 @@ public struct SignUpButton<Human: Person>: View {
     
     public var label: String
     @Binding public var error: Error?
+    public var namespace: Namespace.ID
     
-    public init(label: String, error: Binding<Error?>) {
-        self.label = label
-        self._error = error
-    }
+    public let tag = "signUp"
+    public let accessibilityIdentifier = "signUpButton"
     
-    @EnvironmentObject public var user: FirebaseUser
+    @EnvironmentObject private var user: FirebaseUser
     
     public var body: some View {
         ConfirmationButton(label: label) {
-            user.signUp(newPerson: Human.new) { human, error in
-                self.error = error
+            if #available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *) {
+                Task {
+                    do {
+                        try await user.signUp(newPerson: Human.new)
+                    } catch let error as FireUIError {
+                        self.error = error
+                        handleError(error, message: "Failed to sign up")
+                    } catch {
+                        self.error = error
+                        handleError(error, message: "Failed to sign up")
+                    }
+                }
+            } else {
+                user.signUp(newPerson: Human.new) { human, error in
+                    if let error = error as? FireUIError {
+                        self.error = error
+                        handleError(error, message: "Failed to sign up")
+                    } else if let error = error {
+                        self.error = error
+                        handleError(error, message: "Failed to sign up")
+                    }
+                }
             }
         }
+        .tag(tag)
+        .matchedGeometryEffect(id: "confirmationButton", in: namespace)
+        .accessibility(identifier: "signUpButton")
     }
 }
 
@@ -56,14 +82,18 @@ public struct PasswordInput: View {
 
     @Binding public var password: String
     public var namespace: Namespace.ID
+    
+    public var label = "Password"
+    public let tag = "password"
+    public let accessibilityIdentifier = "passwordInput"
 
     public var body: some View {
-        SecureField("Password", text: $password)
+        SecureField(label, text: $password)
             .textContentType(.password)
             .padding(8)
-            .tag("password")
-            .matchedGeometryEffect(id: "password", in: namespace)
-            .accessibility(identifier: "passwordInput")
+            .tag(tag)
+            .matchedGeometryEffect(id: tag, in: namespace)
+            .accessibility(identifier: accessibilityIdentifier)
     }
 }
 
@@ -71,52 +101,67 @@ public struct VerifyPasswordInput: View {
 
     @Binding public var password: String
     public var namespace: Namespace.ID
+    
+    public var label = "Verify Password"
+    public let tag = "verifyPassword"
+    public let accessibilityIdentifier = "verifyPasswordInput"
 
     public var body: some View {
-        SecureField("Verify Password", text: $password)
+        SecureField(label, text: $password)
             .textContentType(.newPassword)
             .padding(8)
-            .tag("verifyPassword")
-            .matchedGeometryEffect(id: "verifyPassword", in: namespace)
-            .accessibility(identifier: "verifyPasswordInput")
+            .tag(tag)
+            .matchedGeometryEffect(id: tag, in: namespace)
+            .accessibility(identifier: accessibilityIdentifier)
     }
 }
 
 public struct EmailInput: View {
 
     @Binding public var email: String
+    public var namespace: Namespace.ID
 
-    @State public var label = "Email"
+    public var label = "Email"
     public let tag = "email"
     public let accessibilityIdentifier = "emailInput"
 
     public var body: some View {
-        TextField(label, text: $email)
+        let input = TextField(label, text: $email)
             .padding(8)
+            .accessibility(identifier: accessibilityIdentifier)
+            .tag(tag)
+            .matchedGeometryEffect(id: tag, in: namespace)
             #if !os(macOS)
             .autocapitalization(.none)
             #endif
             #if os(iOS)
             .keyboardType(.emailAddress)
             .textContentType(.emailAddress)
-            .ignoresSafeArea(.keyboard, edges: .bottom)
-            .tag(tag)
-            .accessibility(identifier: accessibilityIdentifier)
             #endif
+        
+        if #available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *) {
+            input.textInputAutocapitalization(.never)
+        } else {
+            input
+        }
     }
 }
 
 public struct NicknameInput: View {
 
     @Binding public var nickname: String
+    public var namespace: Namespace.ID
 
-    @State public var label = "Nickname"
+    public var label = "Nickname"
     public let tag = "nickname"
     public let accessibilityIdentifier = "nicknameInput"
 
     public var body: some View {
-        TextField(label, text: $nickname)
+        let input = TextField(label, text: $nickname)
             .padding(8)
+            .tag(tag)
+            .accessibility(identifier: accessibilityIdentifier)
+            .matchedGeometryEffect(id: tag, in: namespace)
             #if !os(macOS)
             .autocapitalization(.none)
             #endif
@@ -124,8 +169,55 @@ public struct NicknameInput: View {
             .keyboardType(.emailAddress)
             .textContentType(.nickname)
             .ignoresSafeArea(.keyboard, edges: .bottom)
-            .tag(tag)
-            .accessibility(identifier: accessibilityIdentifier)
             #endif
+        
+        if #available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *) {
+            input.textInputAutocapitalization(.never)
+        } else {
+            input
+        }
+    }
+}
+
+struct SignInAnonymouslyButton: View {
+    
+    public var label: String
+    @Binding public var error: Error?
+    public var namespace: Namespace.ID
+    
+    public let tag = "signInAnonymously"
+    public let accessibilityIdentifier = "signInAnonymouslyButton"
+    
+    @EnvironmentObject private var user: FirebaseUser
+    
+    var body: some View {
+        ConfirmationButton(label: "Sign In Anonymously") {
+            if #available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *) {
+                Task {
+                    do {
+                        try await Auth.auth().signInAnonymously()
+                    } catch let error as FireUIError {
+                        self.error = error
+                        handleError(error, message: "Failed to sign in anonymously")
+                    } catch {
+                        self.error = error
+                        handleError(error, message: "Failed to sign in anonymously")
+                    }
+                }
+            } else {
+                Auth.auth().signInAnonymously() { snapshot, error in
+                    if let error = error as? FireUIError {
+                        self.error = error
+                        handleError(error, message: "Failed to sign in anonymously")
+                    } else if let error = error {
+                        self.error = error
+                        handleError(error, message: "Failed to sign in anonymously")
+                    }
+                }
+            }
+        }
+        .tag(tag)
+        .matchedGeometryEffect(id: "confirmationButton", in: namespace)
+        .accessibility(identifier: accessibilityIdentifier)
     }
 }

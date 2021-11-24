@@ -40,8 +40,12 @@ public struct FirestoreObserver: ViewModifier {
         content.onAppear {
             do {
                 try setObservers()
+            } catch let error as FireUIError {
+                assertionFailure(error.localizedDescription)
+                Crashlytics.crashlytics().record(error: error)
             } catch {
-                fatalError(error.localizedDescription)
+                assertionFailure(error.localizedDescription)
+                Crashlytics.crashlytics().record(error: error)
             }
         }
     }

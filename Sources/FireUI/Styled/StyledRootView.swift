@@ -9,7 +9,8 @@
 
 public struct StyledRootView<Content: View, AppState: FireState, Human: Person>: View {
     
-    @EnvironmentObject fileprivate var state: AppState
+    @Binding fileprivate var selectedViewIdentifier: String?
+    @ObservedObject fileprivate var state: AppState
     
     public let label: String
     public let systemImage: String
@@ -18,13 +19,16 @@ public struct StyledRootView<Content: View, AppState: FireState, Human: Person>:
     @ViewBuilder public var content: () -> Content
     
     public init(
-        state: AppState.Type,
+        selectedViewIdentifier: Binding<String?>,
+        state: AppState,
         person: Human.Type,
         label: String,
         systemImage: String,
         tag: String,
         @ViewBuilder content: @escaping () -> Content
     ) {
+        self._selectedViewIdentifier = selectedViewIdentifier
+        self.state = state
         self.label = label
         self.systemImage = systemImage
         self.tag = tag
@@ -35,9 +39,18 @@ public struct StyledRootView<Content: View, AppState: FireState, Human: Person>:
         
         let content = StyledView<Content, AppState>(state: AppState.self, content: content)
         
-        let label = Label(label, systemImage: state.selectedViewIdentifier == tag ? systemImage + ".fill" : systemImage).tag(tag)
-        let tabItem = NavigationView { content.navigationTitle(Text(self.label)) }.tabItem { label }.tag(tag)
-        let navigationLink = NavigationLink(destination: content, tag: tag, selection: $state.selectedViewIdentifier) {
+        let label = Label(label, systemImage: selectedViewIdentifier == tag ? systemImage + ".fill" : systemImage)
+        
+        let tabItem = NavigationView {
+            content
+                .navigationTitle(Text(self.label))
+        }
+        .tag(tag)
+        .tabItem {
+            label
+        }
+        
+        let navigationLink = NavigationLink(destination: content, tag: tag, selection: $selectedViewIdentifier) {
             label
         }
         

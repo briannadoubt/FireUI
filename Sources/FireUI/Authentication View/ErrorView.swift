@@ -48,10 +48,17 @@ struct ErrorView: View {
                         .buttonStyle(PlainButtonStyle())
                         .padding()
                     }
-                    Text(error.localizedDescription)
-                        .foregroundColor(.black)
-                        .padding([.top, .bottom])
-                        .padding(.trailing, 8)
+                    Group {
+                        if let error = error as? FireUIError {
+                            Text(error.description)
+                        } else {
+                            Text(self.error?.localizedDescription ?? "Unknown Error")
+                        }
+                    }
+                    .foregroundColor(.black)
+                    .padding([.top, .bottom])
+                    .padding(.trailing, 8)
+                    
                     Spacer()
                 }
                 .fixedSize(horizontal: false, vertical: true)
@@ -60,6 +67,7 @@ struct ErrorView: View {
             .cornerRadius(floating ? 10 : 0)
             .shadow(radius: shadow ? 5 : 0, x: shadow ? -3 : 0, y: shadow ? 3 : 0)
             .listRowInsets(EdgeInsets())
+            .accessibility(identifier: "error")
         }
     }
 }

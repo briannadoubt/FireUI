@@ -26,7 +26,7 @@ public struct AuthenticationView<Logo: View, Footer: View, Human: Person>: View 
     
     @ViewBuilder private var footer: () -> Footer?
     
-    @State private var viewState: AuthenticationViewState = .signIn
+    @State private var viewState: AuthenticationViewState = .signUp
     @State private var error: Error?
     @Namespace private var namespace
     
@@ -48,107 +48,111 @@ public struct AuthenticationView<Logo: View, Footer: View, Human: Person>: View 
                 if let logo = logo() {
                     logo
                         .aspectRatio(nil, contentMode: .fit)
+                        .accessibility(identifier: "logo")
                 }
                 Spacer()
             }
             .frame(height: 128)
+            
             VStack(spacing: 0) {
-                if isShowingForm {
-                    VStack(spacing: 0) {
-                        Text(viewState.title)
-                            .font(.largeTitle)
-                            .bold()
-                            .transition(.opacity)
-                        
-                        ErrorView(error: $error.animation(), floating: true)
-                            .padding(.top)
-                        
-                        VStack(spacing: 8) {
-                            if #available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *) {
-                                switch viewState {
-                                case .signUp:
-                                    SignUpView(
-                                        namespace: namespace,
-                                        nickname: $user.nickname,
-                                        email: $user.email,
-                                        password: $user.password,
-                                        verifyPassword: $user.verifyPassword,
-                                        error: $error,
-                                        authViewState: $viewState,
-                                        newPerson: newPerson,
-                                        changeAuthMethod: changeAuthMethod
-                                    )
-                                case .signIn:
-                                    SignInView(
-                                        namespace: namespace,
-                                        email: $user.email,
-                                        password: $user.password,
-                                        error: $error,
-                                        authViewState: $viewState,
-                                        changeAuthMethod: changeAuthMethod(to:)
-                                    )
-                                }
-                            } else {
-                                Text("Sorry, this view is only available on macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, and watchOS 8.0.0.")
-                            }
-                        }
-                    }
-                    .padding()
-                    .background(Color("BackgroundColor"))
-                    .cornerRadius(10)
-                    .frame(minWidth: 320, maxWidth: 320)
-                    .lineLimit(nil)
-                    .padding([.bottom, .top], 10)
+                VStack(spacing: 0) {
+                    Text(viewState.title)
+                        .font(.largeTitle)
+                        .bold()
+                        .transition(.opacity)
+                        .accessibility(identifier: "authenticationTitle")
                     
-                    switch viewState {
-                    case .signUp:
-                        VStack {
-                            Text("Already have an account?")
-                            Button(action: { changeAuthMethod(to: .signIn) }) {
-                                HStack {
-                                    Text("Sign In here").bold()
-                                    Image(systemName: "arrow.right")
-                                        .resizable()
-                                        .frame(width: 10, height: 10)
-                                }
+                    ErrorView(error: $error.animation(), floating: true)
+                        .padding(.top)
+                    
+                    VStack(spacing: 8) {
+                        if #available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *) {
+                            switch viewState {
+                            case .signUp:
+                                SignUpView(
+                                    namespace: namespace,
+                                    nickname: $user.nickname,
+                                    email: $user.email,
+                                    password: $user.password,
+                                    verifyPassword: $user.verifyPassword,
+                                    error: $error,
+                                    authViewState: $viewState,
+                                    newPerson: newPerson,
+                                    changeAuthMethod: changeAuthMethod
+                                )
+                            case .signIn:
+                                SignInView(
+                                    namespace: namespace,
+                                    email: $user.email,
+                                    password: $user.password,
+                                    error: $error,
+                                    authViewState: $viewState,
+                                    changeAuthMethod: changeAuthMethod(to:)
+                                )
                             }
+                        } else {
+                            Text("Sorry, this view is only available on macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, and watchOS 8.0.0.")
+                            
                             #if os(macOS)
                             .buttonStyle(LinkButtonStyle())
                             #endif
-                            .accessibility(identifier: "signInHereButton")
-                            .foregroundColor(.accentColor)
+                            .accessibility(identifier: "signInAnonymouslyButton")
                         }
-                    case .signIn:
-                        VStack {
-                            Text("Need an account?")
-                            Button(action: { changeAuthMethod(to: .signUp) }) {
-                                HStack {
-                                    Text("Sign up here").bold()
-                                    Image(systemName: "arrow.right")
-                                        .resizable()
-                                        .frame(width: 10, height: 10)
-                                }
-                            }
-                            #if os(macOS)
-                            .buttonStyle(LinkButtonStyle())
-                            #endif
-                            .accessibility(identifier: "signUpHereButton")
-                            .foregroundColor(.accentColor)
-                        }
-                    }
-                    
-                    Divider().padding()
-                    
-                    if let footer = footer() {
-                        footer.font(.caption)
                     }
                 }
+                .padding()
+                .background(Color("BackgroundColor"))
+                .cornerRadius(10)
+                .frame(minWidth: 320, maxWidth: 320)
+                .lineLimit(nil)
+                .padding([.bottom, .top], 10)
+                .ignoresSafeArea(.keyboard, edges: .bottom)
+                .accessibility(identifier: "authenticationForm")
+                
+                switch viewState {
+                case .signUp:
+                    VStack {
+                        Text("Already have an account?")
+                        Button(action: { changeAuthMethod(to: .signIn) }) {
+                            HStack {
+                                Text("Sign In here").bold()
+                                Image(systemName: "arrow.right")
+                                    .resizable()
+                                    .frame(width: 10, height: 10)
+                            }
+                        }
+                        #if os(macOS)
+                        .buttonStyle(LinkButtonStyle())
+                        #endif
+                        .accessibility(identifier: "signInHereButton")
+                    }
+                case .signIn:
+                    VStack {
+                        Text("Need an account?")
+                        Button(action: { changeAuthMethod(to: .signUp) }) {
+                            HStack {
+                                Text("Sign up here").bold()
+                                Image(systemName: "arrow.right")
+                                    .resizable()
+                                    .frame(width: 10, height: 10)
+                            }
+                        }
+                        #if os(macOS)
+                        .buttonStyle(LinkButtonStyle())
+                        #endif
+                        .accessibility(identifier: "signUpHereButton")
+                    }
+                }
+                
+                if let footer = footer() {
+                    Divider().padding()
+                    footer
+                        .font(.caption)
+                        .accessibility(identifier: "footer")
+                }
             }
+            .accessibility(identifier: "authenticationForm")
         }
-        .onAppear {
-            withAnimation(Animation.linear.delay(0.3)) {
-                isShowingForm = true
-            }
-        }
+        .accessibility(identifier: "authenticationView")
     }
 }

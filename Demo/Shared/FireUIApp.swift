@@ -10,15 +10,18 @@ import FireUI
 @main
 struct FireUIApp: App {
     
+    @State var selectedViewIdentifier: String? = "items"
+    
     var body: some Scene {
         // Wrap FireScene around ContentView
         FireScene(
+            selectedViewIdentifier: $selectedViewIdentifier,
             state: FireUIAppState.self,
             product: FireUIProduct.self,
             newPerson: Human.new
         ) {
             // This is your run of the mill ContentView
-            ContentView()
+            ContentView(selectedViewIdentifier: $selectedViewIdentifier)
             
         } logo: {
             // The logo image is displayed on the AuthenticationView, the SettingsView, and at the top of the Sidebar on macOS.
@@ -29,7 +32,7 @@ struct FireUIApp: App {
                 .foregroundColor(Color("AccentColor"))
             
         } settings: {
-            SettingsView()
+            SettingsView(selectedViewIdentifier: $selectedViewIdentifier)
             
         } footer: {
             // The footer is displayed at the bottom of the AuthenticationView and the SettingsView.

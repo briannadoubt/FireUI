@@ -28,7 +28,7 @@ struct SignInView: View {
 
     var body: some View {
         VStack(spacing: 8) {
-            EmailInput(email: $email, label: "Email")
+            EmailInput(email: $email, namespace: namespace, label: "Email")
                 .focused($focus, equals: "emailInput")
                 .onSubmit {
                     focus = "passwordInput"
@@ -49,8 +49,9 @@ struct SignInView: View {
                     }
                 }
             
-            SignInButton(label: "Sign in with Email", error: $error)
+            SignInButton(label: "Sign in with Email", error: $error, namespace: namespace)
         }
         .padding()
+        .accessibility(identifier: "signInView")
     }
 }

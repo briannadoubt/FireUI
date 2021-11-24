@@ -29,7 +29,7 @@ struct SignUpView<Human: Person>: View {
 
     var body: some View {
         VStack(spacing: 8) {
-            NicknameInput(nickname: $nickname)
+            NicknameInput(nickname: $nickname, namespace: namespace)
                 .focused($focus, equals: "nicknameInput")
                 .onSubmit {
                     focus = "emailInput"
@@ -38,7 +38,7 @@ struct SignUpView<Human: Person>: View {
                     focus = "nicknameInput"
                 }
             
-            EmailInput(email: $email)
+            EmailInput(email: $email, namespace: namespace)
                 .focused($focus, equals: "emailInput")
                 .onSubmit {
                     focus = "passwordInput"
@@ -65,8 +65,9 @@ struct SignUpView<Human: Person>: View {
                     }
                 }
             
-            SignUpButton<Human>(label: "Sign Up", error: $error)
+            SignUpButton<Human>(label: "Sign Up", error: $error, namespace: namespace)
         }
         .padding()
+        .accessibility(identifier: "signUpView")
     }
 }

@@ -7,7 +7,47 @@
 
 @_exported import Foundation
 
-enum FireUIError: Error {
+#if canImport(SwiftUI)
+import SwiftUI
+public extension View {
+    
+    func handleError(_ error: FireUIError, message: String? = nil) {
+        // These assertions only run on DEBUG
+//        if let message = message {
+//            assertionFailure(message + ": " + error.description)
+//        } else {
+//            assertionFailure(error.description)
+//        }
+        #if canImport(FirebaseCrashlytics)
+        record(error: error)
+        #endif
+    }
+    
+    func handleError(_ error: Error, message: String? = nil) {
+        // These assertions only run on DEBUG
+        if let message = message {
+            assertionFailure(message + ": " + error.localizedDescription)
+        } else {
+            assertionFailure(error.localizedDescription)
+        }
+        #if canImport(FirebaseCrashlytics)
+        record(error: error)
+        #endif
+    }
+}
+#endif
+
+#if canImport(FirebaseCrashlytics)
+import FirebaseCrashlytics
+public extension View {
+    /// Use Crashlytics to report errors
+    func record(error: Error) {
+        Crashlytics.crashlytics().record(error: error)
+    }
+}
+#endif
+
+public enum FireUIError: Error {
 
     case IdNotFound
     case dataNotFound
@@ -23,8 +63,8 @@ enum FireUIError: Error {
     case missingPasswordVerification
     case failedPasswordVerification
     case badInput
-
-    var localizedDescription: String {
+    
+    public var description: String {
         switch self {
         case .IdNotFound:
             return "ID Not found"

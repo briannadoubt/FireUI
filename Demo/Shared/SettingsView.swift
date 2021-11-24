@@ -6,29 +6,30 @@
 //
 
 import FireUI
+import SwiftUI
 
 struct SettingsView: View {
     
-    private enum Tabs: Hashable {
-        case general, advanced
-    }
+    @EnvironmentObject var state: FireUIAppState
+    @Binding var selectedViewIdentifier: String?
     
     @State private var error: Error?
     
     var body: some View {
         StyledRootView(
-            state: FireUIAppState.self,
+            selectedViewIdentifier: $selectedViewIdentifier,
+            state: state,
             person: Human.self,
             label: "Settings",
             systemImage: "gear",
             tag: "settings"
         ) {
             Form {
-                Section {
-                    SignOutButton(error: $error)
-                }
-                Section {
-                    DeleteUserButton<Human>(error: $error)
+                if #available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *) {
+                    Section {
+                        SignOutButton(error: $error)
+                        DeleteUserButton<Human>(error: $error)
+                    }
                 }
             }
         }
@@ -37,6 +38,6 @@ struct SettingsView: View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView()
+        SettingsView(selectedViewIdentifier: .constant("settings"))
     }
 }

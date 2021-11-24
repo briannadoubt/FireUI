@@ -20,7 +20,6 @@ public protocol ProductRepresentable: RawRepresentable, CaseIterable, Identifiab
 public class Store<ProductType: ProductRepresentable>: NSObject, ObservableObject, SKProductsRequestDelegate, SKPaymentTransactionObserver {
     
     @Published public var purchasedProducts: [ProductType] = []
-    @Published public var error: Error?
     
     var onReceiveProductsHandler: ((Result<[SKProduct], PurchaseError>) -> Void)?
     var onBuyProductHandler: ((Result<[SKPaymentTransaction], Error>) -> Void)?

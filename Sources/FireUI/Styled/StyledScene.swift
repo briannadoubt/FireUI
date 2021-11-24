@@ -9,11 +9,12 @@
 
 public struct StyledScene<Logo: View, Content: View, AppState: FireState>: Scene {
     
-    @ViewBuilder public var logo: () -> Logo?
-    @ViewBuilder public var content: () -> Content
+    @Binding fileprivate var selectedViewIdentifier: String?
+    @ViewBuilder fileprivate var logo: () -> Logo?
+    @ViewBuilder fileprivate var content: () -> Content
     
-    @ObservedObject private var state: AppState
-    @ObservedObject private var user: FirebaseUser
+    @ObservedObject fileprivate var state: AppState
+    @ObservedObject fileprivate var user: FirebaseUser
     
     public init(
         selectedViewIdentifier: Binding<String?>,
@@ -29,20 +30,14 @@ public struct StyledScene<Logo: View, Content: View, AppState: FireState>: Scene
         self.content = content
     }
     
-    @Binding private var selectedViewIdentifier: String?
-    
     public var body: some Scene {
         WindowGroup {
             let content = content()
                 .environmentObject(state)
                 .environmentObject(user)
             
-            let group = Group {
-                content
-            }
-            
             let tabView = TabView(selection: $selectedViewIdentifier) {
-                group
+                content
             }
             
             #if !os(macOS)
@@ -50,7 +45,7 @@ public struct StyledScene<Logo: View, Content: View, AppState: FireState>: Scene
             #endif
             
             let list = List(selection: $selectedViewIdentifier) {
-                group
+                content
             }
             
             let navigation = NavigationView {
