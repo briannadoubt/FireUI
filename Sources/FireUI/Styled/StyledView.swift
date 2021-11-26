@@ -9,7 +9,6 @@
 
 public struct StyledView<Content: View, AppState: FireState>: View {
 
-    @EnvironmentObject private var state: AppState
     @ViewBuilder public var content: () -> Content
     
     public init(state: AppState.Type, @ViewBuilder content: @escaping () -> Content) {
@@ -27,7 +26,7 @@ public struct StyledView<Content: View, AppState: FireState>: View {
         case .mac:
             Text("FireUI does not support macOS Catalyst. Run the native app instead.")
         case .pad:
-            switch state.appStyle.ipadStyle {
+            switch AppState.appStyle.ipadStyle {
                 case .tabbed:
                     content
                 case .sidebar:
@@ -40,7 +39,7 @@ public struct StyledView<Content: View, AppState: FireState>: View {
                     content
             }
         case .phone:
-            switch state.appStyle.iphoneStyle {
+            switch AppState.appStyle.iphoneStyle {
             case .tabbed:
                 content
             case .navigation:
