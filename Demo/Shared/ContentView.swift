@@ -14,7 +14,7 @@ struct ContentView: View {
     @EnvironmentObject var state: FireUIAppState
     
     var body: some View {
-        ItemsView(state: state, selectedViewIdentifier: $selectedViewIdentifier)
+        ItemsView(selectedViewIdentifier: $selectedViewIdentifier)
     }
 }
 

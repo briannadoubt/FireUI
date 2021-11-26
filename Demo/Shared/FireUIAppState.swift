@@ -12,6 +12,7 @@ final class FireUIAppState: FireState {
     
     static var shared: FireUIAppState = FireUIAppState()
     
-    var appName: String = "FireUI"
-    var appStyle = AppStyle.default
+    static var appName: String = "FireUI"
+    var appId: String = "fireui"
+    static var appStyle = AppStyle.default
 }

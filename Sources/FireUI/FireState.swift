@@ -11,8 +11,16 @@ public protocol FireState: ObservableObject {
     
     static var shared: Self { get set }
     
-    var appName: String { get }
-    var appStyle: AppStyle { get }
+    static var appName: String { get }
+    static var appStyle: AppStyle { get }
+    
+    var appId: String { get }
     
     init()
+}
+
+public extension FireState {
+    var baseUrl: URL {
+        URL(string: appId + "://")!
+    }
 }

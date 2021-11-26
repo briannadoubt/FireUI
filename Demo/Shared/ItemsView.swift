@@ -10,7 +10,6 @@ import SwiftUI
 
 struct ItemsView: View {
     
-    @ObservedObject var state: FireUIAppState
     @Binding var selectedViewIdentifier: String?
     
     @FirestoreQuery(collectionPath: Item.basePath()) fileprivate var items: [Item]
@@ -18,10 +17,10 @@ struct ItemsView: View {
     var body: some View {
         StyledRootView(
             selectedViewIdentifier: $selectedViewIdentifier,
-            state: state,
+            state: FireUIAppState.self,
             person: Human.self,
-            label: "Objects",
-            systemImage: "1.circle",
+            label: "Items",
+            systemImage: "cube",
             tag: Item.basePath(),
             content: {
                 List {
@@ -57,6 +56,6 @@ struct ItemsView: View {
 @available(iOS 15.0, macOS 12.0, watchOS 8.0, tvOS 15.0, *)
 struct DemoObjectsView_Previews: PreviewProvider {
     static var previews: some View {
-        ItemsView(state: FireUIAppState(), selectedViewIdentifier: .constant("items"))
+        ItemsView(selectedViewIdentifier: .constant("items"))
     }
 }
