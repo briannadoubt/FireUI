@@ -57,6 +57,7 @@ public struct ErrorView: View {
                                     .foregroundColor(Color.black)
                             }
                         }
+                        .accessibility(identifier: "closeErrorDialogueButton")
                         .buttonStyle(PlainButtonStyle())
                         .padding()
                     }
