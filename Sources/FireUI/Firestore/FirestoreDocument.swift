@@ -28,9 +28,9 @@ public class FirestoreDocument<T: FirestoreCodable>: ObservableObject, Firestore
     
     @Published public var document: T? = nil
     @Published public var error: Error? = nil
+    @Published public var id: String?
 
     private var collection: String
-    private var id: String?
     private var database = Firestore.firestore()
     
     public var listener: ListenerRegistration? = nil

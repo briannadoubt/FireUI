@@ -8,7 +8,7 @@
 @_exported import SwiftUI
 @_exported import Firebase
 
-public struct AuthenticationView<Logo: View, Footer: View, Human: Person>: View  {
+public struct AuthenticationView<Logo: View, Footer: View, Human: Person, AppState: FireState>: View  {
     
     public init(
         newPerson: @escaping Human.New = Human.new,
@@ -30,7 +30,7 @@ public struct AuthenticationView<Logo: View, Footer: View, Human: Person>: View 
     @State private var error: Error?
     @Namespace private var namespace
     
-    @EnvironmentObject private var user: FirebaseUser
+    @EnvironmentObject private var user: FirebaseUser<AppState>
     @State private var isShowingForm = false
 
     public typealias ChangeAuthMethod = (_ viewState: AuthenticationViewState) -> ()
@@ -40,9 +40,17 @@ public struct AuthenticationView<Logo: View, Footer: View, Human: Person>: View 
             self.viewState = viewState
         }
     }
+    
+    fileprivate var spacing: CGFloat {
+        #if os(macOS)
+        return 0
+        #else
+        return 8
+        #endif
+    }
 
     public var body: some View {
-        ScrollView([.horizontal, .vertical]) {
+        let authView = Group {
             HStack {
                 Spacer()
                 if let logo = logo() {
@@ -65,12 +73,13 @@ public struct AuthenticationView<Logo: View, Footer: View, Human: Person>: View 
                     ErrorView(error: $error.animation(), floating: true)
                         .padding(.top)
                     
-                    VStack(spacing: 8) {
+                    VStack(spacing: spacing) {
                         if #available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *) {
                             switch viewState {
                             case .signUp:
                                 SignUpView(
                                     namespace: namespace,
+                                    state: AppState.self,
                                     nickname: $user.nickname,
                                     email: $user.email,
                                     password: $user.password,
@@ -83,6 +92,7 @@ public struct AuthenticationView<Logo: View, Footer: View, Human: Person>: View 
                             case .signIn:
                                 SignInView(
                                     namespace: namespace,
+                                    state: AppState.self,
                                     email: $user.email,
                                     password: $user.password,
                                     error: $error,
@@ -123,6 +133,7 @@ public struct AuthenticationView<Logo: View, Footer: View, Human: Person>: View 
                         }
                         #if os(macOS)
                         .buttonStyle(LinkButtonStyle())
+                        .foregroundColor(Color("AccentColor"))
                         #endif
                         .accessibility(identifier: "signInHereButton")
                     }
@@ -139,6 +150,7 @@ public struct AuthenticationView<Logo: View, Footer: View, Human: Person>: View 
                         }
                         #if os(macOS)
                         .buttonStyle(LinkButtonStyle())
+                        .foregroundColor(Color("AccentColor"))
                         #endif
                         .accessibility(identifier: "signUpHereButton")
                     }
@@ -154,5 +166,18 @@ public struct AuthenticationView<Logo: View, Footer: View, Human: Person>: View 
             .accessibility(identifier: "authenticationForm")
         }
         .accessibility(identifier: "authenticationView")
+        
+        let scrollView = ScrollView([.horizontal, .vertical]) {
+            authView
+        }
+        .accessibility(identifier: "authenticationScrollView")
+        
+        #if !os(macOS)
+        scrollView
+        #else
+        authView
+            .frame(minWidth: 320)
+            .fixedSize(horizontal: true, vertical: false)
+        #endif
     }
 }

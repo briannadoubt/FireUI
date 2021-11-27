@@ -10,9 +10,10 @@
 @_exported import Firebase
 
 @available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *)
-struct SignInView: View {
+struct SignInView<AppState: FireState>: View {
 
     var namespace: Namespace.ID
+    var state: AppState.Type
 
     @Binding var email: String
     @Binding var password: String
@@ -22,7 +23,7 @@ struct SignInView: View {
 
     var changeAuthMethod: AuthenticationView.ChangeAuthMethod
     
-    @EnvironmentObject fileprivate var user: FirebaseUser
+    @EnvironmentObject fileprivate var user: FirebaseUser<AppState>
     
     @FocusState var focus: String?
 
@@ -49,7 +50,7 @@ struct SignInView: View {
                     }
                 }
             
-            SignInButton(label: "Sign in with Email", error: $error, namespace: namespace)
+            SignInButton<AppState>(label: "Sign in with Email", error: $error, namespace: namespace)
         }
         .padding()
         .accessibility(identifier: "signInView")

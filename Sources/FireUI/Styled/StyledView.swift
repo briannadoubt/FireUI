@@ -57,7 +57,7 @@ public struct StyledView<Content: View, AppState: FireState>: View {
             Text("What is happening??")
         }
         #elseif os(macOS)
-        switch state.appStyle.macStyle {
+        switch AppState.appStyle.macStyle {
         case .sidebar:
             NavigationView {
                 content
@@ -70,7 +70,7 @@ public struct StyledView<Content: View, AppState: FireState>: View {
             content
         }
         #elseif os(watchOS)
-        switch state.appStyle.watchStyle {
+        switch AppState.appStyle.watchStyle {
         case .paged:
             content
         case .navigation:

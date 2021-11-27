@@ -10,7 +10,6 @@
 public struct StyledRootView<Content: View, AppState: FireState, Human: Person>: View {
     
     @Binding fileprivate var selectedViewIdentifier: String?
-    @ObservedObject fileprivate var state: AppState
     
     public let label: String
     public let systemImage: String
@@ -20,7 +19,7 @@ public struct StyledRootView<Content: View, AppState: FireState, Human: Person>:
     
     public init(
         selectedViewIdentifier: Binding<String?>,
-        state: AppState,
+        state: AppState.Type,
         person: Human.Type,
         label: String,
         systemImage: String,
@@ -28,7 +27,6 @@ public struct StyledRootView<Content: View, AppState: FireState, Human: Person>:
         @ViewBuilder content: @escaping () -> Content
     ) {
         self._selectedViewIdentifier = selectedViewIdentifier
-        self.state = state
         self.label = label
         self.systemImage = systemImage
         self.tag = tag
@@ -38,6 +36,13 @@ public struct StyledRootView<Content: View, AppState: FireState, Human: Person>:
     public var body: some View {
         
         let content = StyledView<Content, AppState>(state: AppState.self, content: content)
+            #if os(macOS)
+            .frame(minWidth: 320, maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+            .background(VStack {
+                Divider()
+                Spacer()
+            })
+            #endif
         
         let label = Label(label, systemImage: selectedViewIdentifier == tag ? systemImage + ".fill" : systemImage)
         
@@ -59,7 +64,7 @@ public struct StyledRootView<Content: View, AppState: FireState, Human: Person>:
         case .carPlay:
             Text("FireUI does not yet support CarPlay")
         case .mac:
-            switch state.appStyle.macStyle {
+            switch AppState.appStyle.macStyle {
             case .sidebar:
                 navigationLink
             case .tabbed:
@@ -70,7 +75,7 @@ public struct StyledRootView<Content: View, AppState: FireState, Human: Person>:
                     .id(tag)
             }
         case .pad:
-            switch state.appStyle.ipadStyle {
+            switch AppState.appStyle.ipadStyle {
                 case .tabbed:
                     tabItem
                 case .sidebar:
@@ -83,7 +88,7 @@ public struct StyledRootView<Content: View, AppState: FireState, Human: Person>:
                     content
             }
         case .phone:
-            switch state.appStyle.iphoneStyle {
+            switch AppState.appStyle.iphoneStyle {
             case .tabbed:
                 tabItem
             case .navigation:
@@ -103,7 +108,7 @@ public struct StyledRootView<Content: View, AppState: FireState, Human: Person>:
             Text("What is happening??")
         }
         #elseif os(macOS)
-        switch state.appStyle.macStyle {
+        switch AppState.appStyle.macStyle {
         case .sidebar:
             navigationLink
         case .tabbed:
@@ -114,7 +119,7 @@ public struct StyledRootView<Content: View, AppState: FireState, Human: Person>:
                 .id(tag)
         }
         #elseif os(watchOS)
-        switch state.appStyle.watchStyle {
+        switch AppState.appStyle.watchStyle {
         case .paged:
             tabItem
         case .navigation:

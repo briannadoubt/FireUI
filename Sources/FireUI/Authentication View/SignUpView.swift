@@ -9,9 +9,10 @@
 @_exported import Firebase
 
 @available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *)
-struct SignUpView<Human: Person>: View {
+struct SignUpView<Human: Person, AppState: FireState>: View {
     
     var namespace: Namespace.ID
+    var state: AppState.Type
     
     @Binding var nickname: String
     @Binding var email: String
@@ -24,7 +25,7 @@ struct SignUpView<Human: Person>: View {
     var newPerson: Human.New
     var changeAuthMethod: AuthenticationView.ChangeAuthMethod
     
-    @EnvironmentObject fileprivate var user: FirebaseUser
+    @EnvironmentObject fileprivate var user: FirebaseUser<AppState>
     @FocusState var focus: String?
 
     var body: some View {
@@ -41,12 +42,11 @@ struct SignUpView<Human: Person>: View {
             EmailInput(email: $email, namespace: namespace)
                 .focused($focus, equals: "emailInput")
                 .onSubmit {
-                    focus = "passwordInput"
+                    focus = "newPasswordInput"
                 }
             
-            
-            PasswordInput(password: $password, namespace: namespace)
-                .focused($focus, equals: "passwordInput")
+            NewPasswordInput(password: $password, namespace: namespace)
+                .focused($focus, equals: "newPasswordInput")
                 .onSubmit {
                     focus = "verifyPasswordInput"
                 }
@@ -55,9 +55,6 @@ struct SignUpView<Human: Person>: View {
                 .focused($focus, equals: "verifyPasswordInput")
                 .onSubmit {
                     focus = nil
-                    guard nickname != "", email != "" , password != "", verifyPassword != "" else {
-                        return
-                    }
                     user.signUp(newPerson: Human.new) { person, error in
                         if let error = error {
                             self.error = error
@@ -65,7 +62,7 @@ struct SignUpView<Human: Person>: View {
                     }
                 }
             
-            SignUpButton<Human>(label: "Sign Up", error: $error, namespace: namespace)
+            SignUpButton<Human, AppState>(label: "Sign Up", error: $error, namespace: namespace)
         }
         .padding()
         .accessibility(identifier: "signUpView")

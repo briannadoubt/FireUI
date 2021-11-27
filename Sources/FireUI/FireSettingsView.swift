@@ -7,20 +7,31 @@
 
 @_exported import SwiftUI
 
-public struct FireSettingsView<Human: Person, Settings: View>: View {
+public struct FireSettingsView<Human: Person, AppState: FireState, Settings: View>: View {
     
-    @EnvironmentObject private var user: FirebaseUser
+    @EnvironmentObject private var user: FirebaseUser<AppState>
     @StateObject private var person: FirestoreDocument<Human>
+    private let uid: String
     
-    @ViewBuilder private let settings: () -> Settings
+    @ViewBuilder private let settings: (_ person: FirestoreDocument<Human>) -> Settings
     
-    public init(uid: PersonID, @ViewBuilder settings: @escaping () -> Settings) {
-        self._person = StateObject(wrappedValue: FirestoreDocument<Human>(collection: Human.basePath(), id: uid))
-        self.settings = settings
+    public init(
+        uid: PersonID,
+        @ViewBuilder settings: @escaping (_ uid: String?) -> Settings
+    ) {
+        self.uid = uid
+        let personDocument = FirestoreDocument<Human>(
+            collection: Human.basePath(),
+            id: uid
+        )
+        self._person = StateObject(wrappedValue: personDocument)
+        self.settings = { person in
+            settings(person.id)
+        }
     }
     
     public var body: some View {
-        settings()
+        settings(person)
             .observe(person)
             .environmentObject(person)
     }

@@ -25,11 +25,11 @@ public extension View {
     
     func handleError(_ error: Error, message: String? = nil) {
         // These assertions only run on DEBUG
-        if let message = message {
-            assertionFailure(message + ": " + error.localizedDescription)
-        } else {
-            assertionFailure(error.localizedDescription)
-        }
+//        if let message = message {
+//            assertionFailure(message + ": " + error.localizedDescription)
+//        } else {
+//            assertionFailure(error.localizedDescription)
+//        }
         #if canImport(FirebaseCrashlytics)
         record(error: error)
         #endif

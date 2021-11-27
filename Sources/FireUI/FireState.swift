@@ -20,7 +20,7 @@ public protocol FireState: ObservableObject {
 }
 
 public extension FireState {
-    var baseUrl: URL {
-        URL(string: appId + "://")!
+    var baseComponents: URLComponents {
+        URLComponents(string: appId + "://")!
     }
 }

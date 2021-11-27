@@ -13,16 +13,28 @@ enum ErrorType {
     case warning
 }
 
-struct ErrorView: View {
+public struct ErrorView: View {
 
     @Binding var error: Error?
 
-    var floating = false
-    var shadow = false
+    var floating: Bool
+    var shadow: Bool
 
-    var type: ErrorType = .warning
+    var type: ErrorType
     
-    var body: some View {
+    init(
+        error: Binding<Error?>,
+        floating: Bool = false,
+        shadow: Bool = false,
+        type: ErrorType = .warning
+    ) {
+        self._error = error
+        self.floating = floating
+        self.shadow = shadow
+        self.type = type
+    }
+    
+    public var body: some View {
         if let error = error {
             ZStack {
                 switch type {

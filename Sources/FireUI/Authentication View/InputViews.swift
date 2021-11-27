@@ -7,7 +7,7 @@
 
 @_exported import SwiftUI
 
-public struct SignOutButton: View {
+public struct SignOutButton<AppState: FireState>: View {
     
     @Binding public var error: Error?
     
@@ -15,12 +15,15 @@ public struct SignOutButton: View {
         self._error = error
     }
     
-    @EnvironmentObject var user: FirebaseUser
+    @EnvironmentObject var user: FirebaseUser<AppState>
     
     public var body: some View {
         Button {
             do {
-                try user.signOut()
+                try Auth.auth().signOut()
+                #if os(macOS)
+                NSApplication.shared.keyWindow?.close()
+                #endif
             } catch let error as FireUIError {
                 self.error = error
                 handleError(error, message: "Failed to sign out")
@@ -35,7 +38,7 @@ public struct SignOutButton: View {
     }
 }
 
-public struct SignUpButton<Human: Person>: View {
+public struct SignUpButton<Human: Person, AppState: FireState>: View {
     
     public var label: String
     @Binding public var error: Error?
@@ -44,7 +47,7 @@ public struct SignUpButton<Human: Person>: View {
     public let tag = "signUp"
     public let accessibilityIdentifier = "signUpButton"
     
-    @EnvironmentObject private var user: FirebaseUser
+    @EnvironmentObject private var user: FirebaseUser<AppState>
     
     public var body: some View {
         ConfirmationButton(label: label) {
@@ -90,9 +93,36 @@ public struct PasswordInput: View {
     public var body: some View {
         SecureField(label, text: $password)
             .textContentType(.password)
+            #if os(macOS)
+            .textFieldStyle(.plain)
+            #endif
             .padding(8)
             .tag(tag)
             .matchedGeometryEffect(id: tag, in: namespace)
+            .accessibility(identifier: accessibilityIdentifier)
+    }
+}
+
+public struct NewPasswordInput: View {
+
+    @Binding public var password: String
+    public var namespace: Namespace.ID
+    
+    public var label = "New Password"
+    public let tag = "newPassword"
+    public let accessibilityIdentifier = "newPasswordInput"
+
+    public var body: some View {
+        SecureField(label, text: $password)
+            #if os(macOS)
+            .textContentType(.password)
+            .textFieldStyle(.plain)
+            #else
+            .textContentType(.newPassword)
+            #endif
+            .padding(8)
+            .tag(tag)
+            .matchedGeometryEffect(id: "password", in: namespace)
             .accessibility(identifier: accessibilityIdentifier)
     }
 }
@@ -108,7 +138,12 @@ public struct VerifyPasswordInput: View {
 
     public var body: some View {
         SecureField(label, text: $password)
+            #if os(macOS)
+            .textContentType(.password)
+            .textFieldStyle(.plain)
+            #else
             .textContentType(.newPassword)
+            #endif
             .padding(8)
             .tag(tag)
             .matchedGeometryEffect(id: tag, in: namespace)
@@ -127,23 +162,29 @@ public struct EmailInput: View {
 
     public var body: some View {
         let input = TextField(label, text: $email)
+            .textContentType(.username)
             .padding(8)
             .accessibility(identifier: accessibilityIdentifier)
             .tag(tag)
             .matchedGeometryEffect(id: tag, in: namespace)
+            .disableAutocorrection(true)
             #if !os(macOS)
             .autocapitalization(.none)
             #endif
             #if os(iOS)
             .keyboardType(.emailAddress)
-            .textContentType(.emailAddress)
+            #elseif os(macOS)
+            .textFieldStyle(.plain)
             #endif
-        
-        if #available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *) {
-            input.textInputAutocapitalization(.never)
-        } else {
+    
+        #if os(macOS)
+        input
+        #else
+        if #available(iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *) {
             input
+                .textInputAutocapitalization(.never)
         }
+        #endif
     }
 }
 
@@ -164,22 +205,27 @@ public struct NicknameInput: View {
             .matchedGeometryEffect(id: tag, in: namespace)
             #if !os(macOS)
             .autocapitalization(.none)
-            #endif
-            #if os(iOS)
             .keyboardType(.emailAddress)
             .textContentType(.nickname)
+            #endif
+            #if os(iOS)
             .ignoresSafeArea(.keyboard, edges: .bottom)
+            #elseif os(macOS)
+            .textFieldStyle(.plain)
             #endif
         
-        if #available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *) {
-            input.textInputAutocapitalization(.never)
-        } else {
+        #if !os(macOS)
+        if #available(iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *) {
             input
+                .textInputAutocapitalization(.never)
         }
+        #else
+        input
+        #endif
     }
 }
 
-struct SignInAnonymouslyButton: View {
+struct SignInAnonymouslyButton<AppState: FireState>: View {
     
     public var label: String
     @Binding public var error: Error?
@@ -188,7 +234,7 @@ struct SignInAnonymouslyButton: View {
     public let tag = "signInAnonymously"
     public let accessibilityIdentifier = "signInAnonymouslyButton"
     
-    @EnvironmentObject private var user: FirebaseUser
+    @EnvironmentObject private var user: FirebaseUser<AppState>
     
     var body: some View {
         ConfirmationButton(label: "Sign In Anonymously") {

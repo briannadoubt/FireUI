@@ -9,9 +9,17 @@
 @_exported import Firebase
 @_exported import SwiftUI
 
-public class FirebaseUser: ObservableObject, FirestoreObservable {
+public enum Routes: String, CaseIterable, Identifiable, Codable {
+    
+    case logo
+    case content
+    case auth
+    
+    public var id: String { rawValue }
+}
 
-    @Published public var isAuthenticated: Bool = false
+public class FirebaseUser<AppState: FireState>: ObservableObject, FirestoreObservable {
+    
     @Published public var uid: String?
     
     @Published public var nickname = ""
@@ -25,26 +33,24 @@ public class FirebaseUser: ObservableObject, FirestoreObservable {
         self.basePath = basePath
     }
     
-    private func setAuthentication(_ authenticated: Bool, uid: String?) {
-        DispatchQueue.main.async {
-            withAnimation {
-                self.isAuthenticated = authenticated
-                self.uid = uid
-            }
-        }
-    }
-    
     private var basePath: String
     private var authHandler: AuthStateDidChangeListenerHandle?
     
     private func stateDidChangeListener(auth: Auth, newUser: User?) {
-        DispatchQueue.main.async {
-            withAnimation {
-                guard let newUser = newUser else {
-                    self.setAuthentication(false, uid: nil)
-                    return
+        if let user = newUser {
+            print("User is authenticated")
+            print(user.uid)
+            DispatchQueue.main.async {
+                withAnimation {
+                    self.uid = user.uid
                 }
-                self.setAuthentication(true, uid: newUser.uid)
+            }
+        } else {
+            print("User is not authenticated")
+            DispatchQueue.main.async {
+                withAnimation {
+                    self.uid = nil
+                }
             }
         }
     }
@@ -215,18 +221,22 @@ public class FirebaseUser: ObservableObject, FirestoreObservable {
     }
 
     @available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *)
-    func delete<Human: Person>(person: Human) async throws {
+    func delete<Human: Person>(_ human: Human.Type = Human.self) async throws {
         if listener == nil {
             setListener()
         }
         guard let user = Auth.auth().currentUser else {
             throw FireUIError.userNotFound
         }
+        guard let uid = uid else {
+            throw FireUIError.userNotFound
+        }
+        let person = FirestoreDocument<Human>(collection: Human.basePath(), id: uid)
         try await user.delete()
-        try await person.delete()
+        try await person.document?.delete()
     }
     
-    func delete<Human: Person>(person: Human, _ complete: @escaping (_ error: Error?) -> ()) {
+    func delete<Human: Person>(_ human: Human.Type = Human.self, _ complete: @escaping (_ error: Error?) -> ()) {
         if listener == nil {
             setListener()
         }
@@ -234,6 +244,11 @@ public class FirebaseUser: ObservableObject, FirestoreObservable {
             complete(FireUIError.userNotFound)
             return
         }
+        guard let uid = uid else {
+            complete(FireUIError.userNotFound)
+            return
+        }
+        let person = FirestoreDocument<Human>(collection: Human.basePath(), id: uid)
         user.delete { error in
             if let error = error {
                 complete(error)
@@ -241,7 +256,7 @@ public class FirebaseUser: ObservableObject, FirestoreObservable {
             }
         }
         do {
-            try person.delete()
+            try person.document?.delete()
             complete(nil)
         } catch {
             complete(error)

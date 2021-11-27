@@ -10,29 +10,31 @@ import SwiftUI
 
 struct SettingsView: View {
     
-    @EnvironmentObject var state: FireUIAppState
     @Binding var selectedViewIdentifier: String?
     
     @State private var error: Error?
     
     var body: some View {
-        StyledRootView(
-            selectedViewIdentifier: $selectedViewIdentifier,
-            state: state,
-            person: Human.self,
-            label: "Settings",
-            systemImage: "gear",
-            tag: "settings"
-        ) {
-            Form {
-                if #available(macOS 12.0.0, iOS 15.0.0, tvOS 15.0.0, watchOS 8.0.0, *) {
-                    Section {
-                        SignOutButton(error: $error)
-                        DeleteUserButton<Human>(error: $error)
-                    }
-                }
+        let form = Form {
+            Section {
+                SignOutButton<FireUIAppState>(error: $error)
+                DeleteUserButton<Human, FireUIAppState>(error: $error)
             }
         }
+        #if os(macOS)
+        form
+        #else
+        StyledRootView(
+            selectedViewIdentifier: $selectedViewIdentifier,
+            state: FireUIAppState.self,
+            person: Human.self,
+            label: "Settings",
+            systemImage: "gearshape",
+            tag: "settings"
+        ) {
+            form
+        }
+        #endif
     }
 }
 

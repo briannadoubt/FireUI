@@ -8,7 +8,7 @@
 import SwiftUI
 import simd
 
-public struct SignInButton: View {
+public struct SignInButton<AppState: FireState>: View {
     
     public var label: String
     @Binding public var error: Error?
@@ -24,7 +24,7 @@ public struct SignInButton: View {
         self.namespace = namespace
     }
     
-    @EnvironmentObject fileprivate var user: FirebaseUser
+    @EnvironmentObject fileprivate var user: FirebaseUser<AppState>
     
     public var body: some View {
         ConfirmationButton(label: label) {
@@ -49,6 +49,7 @@ public struct SignInButton: View {
                         self.error = error
                         handleError(error, message: "Failed to sign in")
                     }
+                    
                 }
             }
         }
@@ -58,8 +59,8 @@ public struct SignInButton: View {
     }
 }
 
-struct SignInButton_Previews: PreviewProvider {
-    static var previews: some View {
-        SignInButton(label: "Sign In", error: .constant(nil), namespace: Namespace().wrappedValue)
-    }
-}
+//struct SignInButton_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SignInButton<<#AppState: FireState#>>(label: "Sign In", error: .constant(nil), namespace: Namespace().wrappedValue)
+//    }
+//}
