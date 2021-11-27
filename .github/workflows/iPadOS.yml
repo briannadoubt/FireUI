@@ -1,4 +1,5 @@
-name: iPadOS
+
+name: iPadOS UITests
 
 on:
   push:

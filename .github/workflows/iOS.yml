@@ -1,5 +1,5 @@
 
-name: iOS
+name: iOS UITests
 
 on:
   push:
