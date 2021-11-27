@@ -31,13 +31,22 @@ struct FireUIApp: App {
                 .resizable()
                 .foregroundColor(Color("AccentColor"))
             
-        } settings: {
+        } settings: { uid in
             SettingsView(selectedViewIdentifier: $selectedViewIdentifier)
             
         } footer: {
-            // The footer is displayed at the bottom of the AuthenticationView and the SettingsView.
+            // The footer is displayed at the bottom of the AuthenticationView
             // Delete this parameter to remove the footer from your app.
             Text("Proudly built with FireUI 🔥")
+            
+        } commands: {
+            // Add custom commands here
+            SidebarCommands()
+            ToolbarCommands()
+            CommandGroup(replacing: .newItem) {
+                NewItemButton()
+                    .keyboardShortcut("n")
+            }
         }
     }
 }
