@@ -30,26 +30,32 @@ struct ItemsView: View {
                 }
                 .toolbar {
                     ToolbarItem(placement: .primaryAction) {
-                        Button {
-                            let newItem = Item(
-                                text: "New Item with ID \(UUID().uuidString)",
-                                created: Date(),
-                                updated: Date()
-                            )
-                            do {
-                                try newItem.save()
-                            } catch let error as FireUIError {
-                                handleError(error)
-                            } catch {
-                                handleError(error)
-                            }
-                        } label: {
-                            Label("New Item", systemImage: "plus")
-                        }
+                        NewItemButton()
                     }
                 }
             }
         )
+    }
+}
+
+struct NewItemButton: View {
+    var body: some View {
+        Button {
+            let newItem = Item(
+                text: "New Item",
+                created: Date(),
+                updated: Date()
+            )
+            do {
+                try newItem.save()
+            } catch let error as FireUIError {
+                handleError(error)
+            } catch {
+                handleError(error)
+            }
+        } label: {
+            Label("New Item", systemImage: "plus")
+        }
     }
 }
 
