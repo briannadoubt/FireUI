@@ -48,11 +48,8 @@ fastlane/test_output
 
 iOSInjectionProject/
 
-<<<<<<< HEAD
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-=======
 ## Next.js
->>>>>>> 597d381bca9c8d123d16c53211d32b65c96253ef
 
 # dependencies
 /node_modules
